@@ -61,8 +61,8 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.3.*",
-            "public_dir": "html"
-        }
+            "require": "6.3.*"
+        },
+        "public_dir": "html"
     }
 }
