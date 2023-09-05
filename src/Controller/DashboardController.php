@@ -13,8 +13,13 @@ class DashboardController extends AbstractController
     public function index(): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        return $this->render('dashboard/index.html.twig', [
-            'controller_name' => 'DashboardController',
-        ]);
+        if (!$this->getUser()->isVerified()) {
+            return $this->redirectToRoute('app_logout');
+        }
+        else {
+            return $this->render('dashboard/index.html.twig', [
+                'controller_name' => 'DashboardController',
+            ]);    
+        }
     }
 }

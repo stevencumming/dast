@@ -54,12 +54,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            $this->addFlash('verify_email_error', 'A verification email has been sent to your email.');
         }
 
         return $this->render('registration/register.html.twig', [
