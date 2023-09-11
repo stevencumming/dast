@@ -7,7 +7,7 @@ use Symfony\Component\Clock\ClockInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\TrafficMonitor;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 // DAST test feature
 class TrafficMonitorService
@@ -21,19 +21,20 @@ class TrafficMonitorService
         private ClockInterface $clock,
         private Security $security,
     ) {
-        $this->user = $this->security->getUser();
-        if(!empty($user)) {
-            $this->userId = $user->getId();
-        }
-        else {
-            $this->userId = 'Not Logged In';
-        }
     }
 
     public function persistTraffic(): void
     {
         $traffic = new TrafficMonitor();
         $request = $this->requestStack->getCurrentRequest();
+
+        $this->user = $this->security->getUser();
+        if(!empty($this->user)) {
+            $this->userId = $this->user->getId();
+        }
+        else {
+            $this->userId = 'Not Logged In';
+        }
 
         $em = $this->entityManager;
         $time = $this->clock->now();
