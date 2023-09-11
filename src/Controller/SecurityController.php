@@ -7,17 +7,24 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Psr\Log\LoggerInterface;
 
 class SecurityController extends AbstractController
 {
     #[Route(path: '/', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, LoggerInterface $logger): Response
     {
         // checks if user is logged in and redirects to dashboard
         if ($this->getUser() and $this->getUser()->isVerified()) {
+            $logger->info('User {userId} is verified and has logged in.', [
+                'userId' => $this->getUser()->getId(),
+            ]);
             return $this->redirectToRoute('app_dashboard');
         }
         elseif ($this->getUser() and !$this->getUser()->isVerified()) {
+            $logger->info('User {userId} has attempted to login, but is not verified. They have been automatically logged out.', [
+                'userId' => $this->getUser()->getId(),
+            ]);
             return $this->redirectToRoute('app_logout');
         }
 
@@ -29,10 +36,10 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(Security $security): Response
+    public function logout(Security $security, LoggerInterface $logger): Response
     {
         $response = $security->logout(false);
-
+        $logger->info('User has logged out.');
         return $this->redirectToRoute('app_login');
         // throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
