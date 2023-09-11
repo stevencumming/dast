@@ -62,8 +62,6 @@ class RegistrationController extends AbstractController
             ]);
         }
 
-        //$tms->persistTraffic();
-
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
@@ -82,7 +80,6 @@ class RegistrationController extends AbstractController
             $logger->error('A newly registered user has attempted to verify their account, but it has failed. IP Address: {ip}', [
                 'ip' => $request->getClientIp(),
             ]);
-            //$tms->persistTraffic();
             return $this->redirectToRoute('app_register');
         }
 
@@ -91,7 +88,6 @@ class RegistrationController extends AbstractController
         $logger->info('A newly registered user has successfully verified their account. IP Address: {ip}', [
             'ip' => $request->getClientIp(),
         ]);
-        //$tms->persistTraffic();
         return $this->redirectToRoute('app_dashboard');
     }
 }
