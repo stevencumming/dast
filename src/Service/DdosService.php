@@ -5,8 +5,9 @@ namespace App\Service;
 // DAST test feature
 class DdosService
 {
-    public function default()
+    public function checkDns($url)
     {
-        return null;
+        $array = dns_get_record($url);
+        return $array;
     }
 }
