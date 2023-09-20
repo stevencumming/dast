@@ -14,7 +14,7 @@ class DdosService
     
     public function cdnCheck()
     {
-        $target = this->process->getScan()->getTarget();
+        $target = $this->process->getScan()->getTarget();
         $arr = get_headers($target);
         $result = array_filter($arr, function ($element) {
             return strpos($element, "Server: ") !== false;
@@ -41,6 +41,4 @@ class DdosService
 
         return $cdnOutput;
     }
-
-
 }
