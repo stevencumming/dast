@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ScanRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,6 +34,18 @@ class Scan
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $time_completed = null;
+
+    #[ORM\OneToMany(mappedBy: 'scan_id', targetEntity: Tool::class)]
+    private Collection $tools;
+
+    #[ORM\OneToMany(mappedBy: 'scan_id', targetEntity: Vulnerability::class)]
+    private Collection $vulnerabilities;
+
+    public function __construct()
+    {
+        $this->tools = new ArrayCollection();
+        $this->vulnerabilities = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,6 +120,66 @@ class Scan
     public function setTimeCompleted(\DateTimeInterface $time_completed): static
     {
         $this->time_completed = $time_completed;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tool>
+     */
+    public function getTools(): Collection
+    {
+        return $this->tools;
+    }
+
+    public function addTool(Tool $tool): static
+    {
+        if (!$this->tools->contains($tool)) {
+            $this->tools->add($tool);
+            $tool->setScanId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTool(Tool $tool): static
+    {
+        if ($this->tools->removeElement($tool)) {
+            // set the owning side to null (unless already changed)
+            if ($tool->getScanId() === $this) {
+                $tool->setScanId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vulnerability>
+     */
+    public function getVulnerabilities(): Collection
+    {
+        return $this->vulnerabilities;
+    }
+
+    public function addVulnerability(Vulnerability $vulnerability): static
+    {
+        if (!$this->vulnerabilities->contains($vulnerability)) {
+            $this->vulnerabilities->add($vulnerability);
+            $vulnerability->setScanId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVulnerability(Vulnerability $vulnerability): static
+    {
+        if ($this->vulnerabilities->removeElement($vulnerability)) {
+            // set the owning side to null (unless already changed)
+            if ($vulnerability->getScanId() === $this) {
+                $vulnerability->setScanId(null);
+            }
+        }
 
         return $this;
     }
