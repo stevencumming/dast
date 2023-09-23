@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,6 +33,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Scan::class)]
+    private Collection $scans;
+
+    public function __construct()
+    {
+        $this->scans = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -110,6 +120,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scan>
+     */
+    public function getScans(): Collection
+    {
+        return $this->scans;
+    }
+
+    public function addScan(Scan $scan): static
+    {
+        if (!$this->scans->contains($scan)) {
+            $this->scans->add($scan);
+            $scan->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScan(Scan $scan): static
+    {
+        if ($this->scans->removeElement($scan)) {
+            // set the owning side to null (unless already changed)
+            if ($scan->getUser() === $this) {
+                $scan->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -35,6 +35,9 @@ security:
                 path: /
                 always_remember_me: false
 
+            login_throttling:
+                max_attempts: 3
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -45,7 +48,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/, requires_channel: https }
+        # - { path: ^/, requires_channel: https }
 
 when@test:
     security:

@@ -30,6 +30,7 @@ use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RequestContextAwareInterface;
+use App\Service\TrafficMonitorService; // CUSTOM ADD IN FOR TRAFFIC MONITORING
 
 /**
  * Initializes the context from the request and sets request attributes based on a matching route.
@@ -85,6 +86,7 @@ class RouterListener implements EventSubscriberInterface
     public function onKernelFinishRequest(): void
     {
         $this->setCurrentRequest($this->requestStack->getParentRequest());
+
     }
 
     public function onKernelRequest(RequestEvent $event): void

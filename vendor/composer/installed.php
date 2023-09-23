@@ -163,6 +163,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'monolog/monolog' => array(
+            'pretty_version' => '3.4.0',
+            'version' => '3.4.0.0',
+            'reference' => 'e2392369686d420ca32df3803de28b5d6f76867d',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../monolog/monolog',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'nikic/php-parser' => array(
             'pretty_version' => 'v4.16.0',
             'version' => '4.16.0.0',
@@ -244,7 +253,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache-implementation' => array(
@@ -463,6 +473,24 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'symfony/monolog-bridge' => array(
+            'pretty_version' => 'v6.3.1',
+            'version' => '6.3.1.0',
+            'reference' => '04b04b8e465e0fa84940e5609b6796a8b4e51bf1',
+            'type' => 'symfony-bridge',
+            'install_path' => __DIR__ . '/../symfony/monolog-bridge',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/monolog-bundle' => array(
+            'pretty_version' => 'v3.8.0',
+            'version' => '3.8.0.0',
+            'reference' => 'a41bbcdc1105603b6d73a7d9a43a3788f8e0fb7d',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../symfony/monolog-bundle',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/options-resolver' => array(
             'pretty_version' => 'v6.3.0',
             'version' => '6.3.0.0',
@@ -601,6 +629,15 @@
             'reference' => '7f3a03716112269741fe2a809f8f791a371d1fcd',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/property-info',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/rate-limiter' => array(
+            'pretty_version' => 'v6.3.2',
+            'version' => '6.3.2.0',
+            'reference' => '5223387e4017f26c8c61c46d8e39c11fe4d504b7',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/rate-limiter',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -744,6 +781,15 @@
             'install_path' => __DIR__ . '/../symfony/var-exporter',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'symfony/web-profiler-bundle' => array(
+            'pretty_version' => 'v6.3.2',
+            'version' => '6.3.2.0',
+            'reference' => '6101b5ab7857c373d237e121f9060c68b32e1373',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../symfony/web-profiler-bundle',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'symfony/yaml' => array(
             'pretty_version' => 'v6.3.3',
