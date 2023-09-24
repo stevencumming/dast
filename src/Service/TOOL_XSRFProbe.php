@@ -40,7 +40,7 @@ class TOOL_XSRFProbe {
         // Example: nslookup of Swinburne
         //$this->process = new Process(['nslookup', 'swin.edu.au']);
 
-        $this->process = new Process(['xsrfprobe', '-u' $tool->getScanId()->getTarget()]); // idk if getScanId actually returns the scan object...
+        $this->process = new Process(['xsrfprobe', '-u', $tool->getScanId()->getTarget()]); // idk if getScanId actually returns the scan object...
 
         // ... where there are multiple processes, name them '$process_nslookup' and '$process_namp' for example.
 

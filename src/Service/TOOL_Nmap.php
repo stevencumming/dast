@@ -30,7 +30,7 @@ class TOOL_Nmap {
     private Process $process;
     private array $ports;
     private array $hostInfo;
-    private array $cves
+    private array $cves;
     // where required, you may have more complex data structures here!!
     //   (which is why we are returning this object JSON encoded)
 
