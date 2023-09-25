@@ -2,19 +2,20 @@
 
 namespace App\Service;
 
-use App\Entity\Process;
+//use App\Entity\Process;
+use App\Entity\Tool;
 
 // DAST test feature
-class DdosService
+class TOOL_cdnCheck
 {
     public function __construct(
-        private Process $process,
+        private Tool $tool,
     ) {
     }
     
-    public function cdnCheck()
+    public function Output()
     {
-        $target = $this->process->getScan()->getTarget();
+        $target = $this->tool->getScan()->getTarget();
         $arr = get_headers($target);
         $result = array_filter($arr, function ($element) {
             return strpos($element, "Server: ") !== false;

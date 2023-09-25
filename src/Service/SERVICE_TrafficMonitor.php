@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Bundle\SecurityBundle\Security;
 
 // DAST test feature
-class TrafficMonitorService
+class SERVICE_TrafficMonitor
 {
     private $user;
     private $userId;
