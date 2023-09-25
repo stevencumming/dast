@@ -26,25 +26,25 @@ use Doctrine\ORM\Query\Expr;
 // currently rigged up for one process as of moment
 class ScanProcessor
 {
+    // Class Members 
+    //      Tools
+    private Tool $Tdummy;
+    private Tool $Tsomething;
+    private Tool $Tsomethingelse;
+
+    //      Vulnerabilities
+    private Vulnerability $Vdummy;
+    private Vulnerability $Vanother;
+
+
+
+
     public function __construct(
         private EntityManagerInterface $entityManager,
         private ClockInterface $clock,
         private Security $security,
 
         private Scan $scan,
-
-        // Tools
-        // private Process $ddosProcess,        (replaced by Tool)
-        
-        private Tool $Tdummy,
-        private Tool $Tsomething,
-        private Tool $Tsomethingelse,
-
-        // Vulnerabilities
-        private Vulnerability $Vdummy,
-
-
-
     ) {
     }
 
@@ -151,6 +151,8 @@ class ScanProcessor
 
         // Set the name of the tool
         $this->Vdummy->setName("Some vulnerability");
+
+
 
         // Analyse
         $VdummyProcess = new VULN_DummyVulnerability($this->Vdummy);
