@@ -114,9 +114,6 @@ class TOOL_Nmap {
 
     // I have added a few getters here that are for specific arrays like ports and cves etc, it might be helpful to have for when the vulnerabilities need to be called they can just check relevant output 
     
-    public function FuckoFF() {
-
-    }
 
     public function GetPorts() {
         
