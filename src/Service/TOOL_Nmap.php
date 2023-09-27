@@ -89,7 +89,7 @@ class TOOL_Nmap {
         $patternPorts = '\d{1,5}[/](tcp|udp)';
         // regex looking for CVE followed by -, then 4 numbers, another - and then 4 to 5 numbers then white space
         $patternCves = 'CVE-\d{4}-\d{4,5}\s';
-        
+        // regex wil need to check for multiple things so can't just use one pattern
         $patternHostOS = 'TODO';
         
         $patternServerVersion = 'TODO';
