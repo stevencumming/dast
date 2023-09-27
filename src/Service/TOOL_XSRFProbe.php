@@ -82,14 +82,24 @@ class TOOL_XSRFProbe {
         // use https://regex101.com/ or something similar and use their generation tool
         
         // will need to work out proper regex but this is the phrase that flags a potential vuln
-        $pattern = 'Possible Vulnerability Type:';
-        preg_match_all($pattern, $CLI, $matches, PREG_SET_ORDER, 0);
+        // have changed the argument of preg_match to take in the vulnTypes array
+        $patternTypes = 'Possible Vulnerability Type:';
+        preg_match_all($patternTypes, $CLI, $vulnTypes, PREG_SET_ORDER, 0);
 
+        // not really sure if we will need the below statements if we can just push straight to the vulnTypes array
         // normally, I'm not a fan of ternary or single-line if statements.. but it makes sense here.
         if (isset($matches[0])) array_push($this->vulnTypes, $matches[0]);
         if (isset($matches[1])) array_push($this->vulnTypes, $matches[1]);
         // might be worth implementing a for each loop to just push any finding to the arrray         
     
+    }
+
+    // Getter for vulnTypes array
+
+    public function getVulnTypes() {
+
+        return $this->vulnTypes;
+
     }
 
 
