@@ -14,7 +14,6 @@ use App\Service\DdosService;
 use App\Service\TOOL as ServiceTOOL;
 use App\Service\TOOL_cURL;
 // Tools
-use App\Service\TOOL;
 use App\Service\TOOL_DummyTool;
 use App\Service\TOOL_Nmap;
 use App\Service\TOOL_Sitemap;
