@@ -7,16 +7,18 @@ use Symfony\Component\Clock\ClockInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use App\Entity\Tool;
 use App\Entity\Vulnerability;
 use App\Entity\Scan;
 
 use App\Service\DdosService;
-
+use App\Service\TOOL as ServiceTOOL;
+use App\Service\TOOL_cURL;
 // Tools
+use App\Service\TOOL;
 use App\Service\TOOL_DummyTool;
-
-
+use App\Service\TOOL_Nmap;
+use App\Service\TOOL_Sitemap;
+use App\Service\TOOL_XSRFProbe;
 // Vulnerabilities
 use App\Service\VULN_DummyVulnerability;
 use Doctrine\ORM\Query\Expr;
@@ -27,16 +29,33 @@ use Doctrine\ORM\Query\Expr;
 class ScanProcessor
 {
     // Class Members 
-    //      Tools
-    private Tool $Tdummy;
-    private Tool $Tsomething;
-    private Tool $Tsomethingelse;
+    //      Tools Processes
+    /*          [DELETEME] REFACTOR SEP28: Removing database persistence for the 'Tool' entity. For the execution flow,
+                the tool process (so the actual TOOL_XX service for each tool we implement) will be easier to access as
+                an object rather than converting to JSON as an intermediary step - just to read back as an object in
+                the VULN_xx services.
+                Refactoring to have the TOOL_xxx services (instances of the TOOL_xxx class) stored against this ScanProcessor
+                (for this particular scan) as a class member (variable); we can pass around as an OBJECT instead.
+                This saves an unnessary persistance to the database.
+
+                Alright, so this is where it gets a little confusing.
+                So I've redefined the TOOL type to be a parent (abstract) class of the TOOL_xxx classes that we implement.
+                This is so that we can pass them around as TOOL objects, and extend (override) the implementations in their
+                respective TOOL_xxx classes we each create.
+    */
+    private TOOL_DummyTool $Tdummy;
+    private TOOL_cURL $TcUrl;
+    private TOOL_Nmap $Tnmap;
+    private TOOL_Sitemap $Tsitemap;
+    private TOOL_XSRFProbe $Txsrfprobe;
+
 
     //      Vulnerabilities
+    /*          [DELETEME] REFACTOR SEP28: Vulnerabilities stay as Vulnerability typed entities (for now) as they ARE
+                persisted to the database.
+    */
     private Vulnerability $Vdummy;
     private Vulnerability $Vanother;
-
-
 
 
     public function __construct(
@@ -94,22 +113,12 @@ class ScanProcessor
         // Tool Name:       Dummy Tool
         // Responsible:     AA
 
-        // Set the scan ID for the tool
-        $this->Tdummy->setScanId($this->scan);
-
-        // Set the name of the tool
-        $this->Tdummy->setName("nslookup");
-
         // Declare the process (service)
-        $TdummyProcess = new TOOL_DummyTool($this->Tdummy);
+        // naming it, and passing it a reference to this scan (so it can grab the target)
+        $this->Tdummy = new TOOL_DummyTool("DummyTool", $this->scan);
 
         // Start the tool process execution
-        $TdummyProcess->Execute();
-
-        // Error handling is done in the tool service... persist the output to database
-        $this->Tdummy->setResults($TdummyProcess->Output());
-        $em->persist($Tdummy);
-        $em->flush();  
+        $this->Tdummy->Execute();
 
         // DONE
         // Move on to the next tool...
@@ -117,23 +126,27 @@ class ScanProcessor
         // ...
         // ...
 
-        // =============== TOOL ===============
-        // Tool Name:       Another Tool
-        // Responsible:     AA
-        $this->Tanother->setScanId($this->scan);
-        $this->Tanother->setName("nslookup");
-        $TanotherProcess = new TOOL_DummyTool($this->Tanother);
-        $TanotherProcess->Execute();
-        $this->Tanother->setResults($TanotherProcess->Output());
-        $em->persist($Tanother);
-        $em->flush(); 
 
+        // =============== TOOL ===============
+        // Tool Name:       Nmap
+        // Responsible:     AA
+
+        // Declare the process (service)
+        // naming it, and passing it a reference to this scan (so it can grab the target)
+        $this->Tnmap = new TOOL_Nmap("Nmap", $this->scan);
+
+        // Start the tool process execution
+        $this->Tnmap->Execute();
+
+
+        // DONE
+        // Move on to the next tool...
+    
         // ...
         // ...
 
-        // =============== TOOL ===============
-        // Tool Name:       The next tool
-        // Responsible:     AA
+
+        
 
 
     }
@@ -149,13 +162,13 @@ class ScanProcessor
         // Set the scan ID for the vulnerability
         $this->Vdummy->setScanId($this->scan);
 
-        // Set the name of the tool
+        // Set the name of the vulnerability
         $this->Vdummy->setName("Some vulnerability");
 
 
-
-        // Analyse
-        $VdummyProcess = new VULN_DummyVulnerability($this->Vdummy);
+        // Instantiate vulnerability process and pass it the required tools
+        // Also pass this Scan object
+        $VdummyProcess = new VULN_DummyVulnerability($this->scan, [$this->Tdummy, $this->Tnmap]);
 
         // Persist Results
         $this->Vdummy->setSeverity($VdummyProcess->getSeverity());
@@ -205,7 +218,6 @@ class ScanProcessor
 
 
 
-
     
 
     public function scanComplete() {
@@ -215,43 +227,6 @@ class ScanProcessor
         $em->persist($this->scan);
         $em->flush(); 
     }
-
-
-
-
-
-
-
-
-
-
-
-    // public function processCompute() {
-    //     // mark the scan commenced
-    //     $this->scan->scanCommenced();
-        
-
-    //     // ddos process, repeat this for all scan processes
-    //     $this->ddosProcess->setStatus('waiting');
-    //     $ddosService = new DdosService($ddosProcess);
-    //     $ddosResults = $ddosService->cdnCheck();
-    //     if (!$ddosResults == null) {
-    //         $this->ddosProcess->setResults($ddosService->cdnCheck());
-    //         $this->ddosProcess->setStatus('completed');
-    //         $em->persist($ddosProcess);
-    //         $em->flush();    
-    //     } else {
-    //         $this->ddosProcess->setStatus('error');  
-    //     }
-    //     $em->persist($ddosProcess);
-    //     $em->flush();
-
-    //     // mark scan complete
-    //     $this->scan->scanComplete();
-    // }
-
-
-
 
 
 
