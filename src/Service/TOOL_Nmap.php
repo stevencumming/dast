@@ -45,6 +45,7 @@ class TOOL_Nmap {
         $this->process = new Process(['nmap', '-T4', '-A', '--script vulners', $tool->getScanId()->getTarget()]); // idk if getScanId actually returns the scan object...
 
         // ... where there are multiple processes, name them '$process_nslookup' and '$process_namp' for example.
+        // nmap -T4 -A --script vulners 192.168.5.134
 
 
         // TODO Process timeout
