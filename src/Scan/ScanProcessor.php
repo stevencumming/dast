@@ -55,6 +55,8 @@ class ScanProcessor
     */
     private Vulnerability $Vdummy;
     private Vulnerability $Vanother;
+    private Vulnerability $Vsecuritymscfg;
+    private Vulnerability $Vcsrf;
 
 
     public function __construct(
@@ -128,7 +130,7 @@ class ScanProcessor
 
         // =============== TOOL ===============
         // Tool Name:       Nmap
-        // Responsible:     AA
+        // Responsible:     MG + others
 
         // Declare the process (service)
         // naming it, and passing it a reference to this scan (so it can grab the target)
@@ -136,6 +138,21 @@ class ScanProcessor
 
         // Start the tool process execution
         $this->Tnmap->Execute();
+
+
+        // DONE
+        // Move on to the next tool...
+
+        // =============== TOOL ===============
+        // Tool Name:       XSRFProbe
+        // Responsible:     MG
+
+        // Declare the process (service)
+        // naming it, and passing it a reference to this scan (so it can grab the target)
+        $this->Txsrfprobe = new TOOL_XSRFProbe("XSRFProbe", $this->scan);
+
+        // Start the tool process execution
+        $this->Txsrfprobe->Execute();
 
 
         // DONE
@@ -197,8 +214,33 @@ class ScanProcessor
         // ...
 
         // =============== VULNERABILITY ===============
-        // Vulnerability:       
-        // Responsible: 
+        // Vulnerability: Security Misconfiguration       
+        // Responsible: MG
+        $this->Vsecuritymscfg->setScanId($this->scan);
+        $this->Vsecuritymscfg->setName("Security Misconfiguration");
+        // Tdummy will be replaced by the dirbuster tool Steve will be using
+        $SecurityMscfgProcess = new VULN_SecurityMscfg($this->scan, [$this->tNmap, $this->Tdummy]);
+        // the analyse function for the process will need be called I believe
+        $this->Vsecuritymscfg->setSeverity($SecurityMscfgProcess->getSeverity());
+        $this->Vsecuritymscfg->setHtml($SecurityMscfgProcess->getHTML());
+
+        $em->persist($Vsecuritymscfg);
+        $em->flush()
+
+        // =============== VULNERABILITY ===============
+        // Vulnerability: Cross Site Request Forgery   
+        // Responsible: MG
+        $this->Vcsrf->setScanId($this->scan);
+        $this->Vcsrf->setName("Cross Site Request Forgery");
+        
+        $CsrfProcess = new VULN_CSRF($this->scan, [$this->Txsrfprobe]);
+        // the analyse function for the process will need be called I believe
+        $this->Vcsrf->setSeverity($CsrfProcess->getSeverity());
+        $this->Vcsrf->setHtml($CsrfProcess->getHTML());
+
+        $em->persist($Vcsrf);
+        $em->flush()
+        
 
     }
 
