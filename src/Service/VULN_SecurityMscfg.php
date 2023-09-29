@@ -2,10 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Vulnerability;
-use App\Entity\Tool;
-
-use App\Repository\ToolRepository;
+use App\Entity\Scan;
 
 class VULN_SecurityMscfg {
     /*
@@ -24,8 +21,8 @@ class VULN_SecurityMscfg {
             HTML formatted output to go straight into the Report.
     */
 
-    private ToolRepository $ToolsRepository;
-    private Tool $TNmap;
+    private array $tools;
+    private Scan $scan;
     // private Tool $TDirBustingTool;
     private $Severity;
     private $HTML;
@@ -35,42 +32,59 @@ class VULN_SecurityMscfg {
     // I think it's something like: ??
     // have added another tool construction for the directory busting (if implemented)
 
-    public function __construct(private Vulnerability $vulnerability){
-        $this->ToolsRepository = $entityManager->getRepository(Tool::class);
-        $this->TNmap = $this->ToolsRepository->findOneBy([
-            'name' => 'nmap',
-            'scan' => $vulnerability->getScanId(),
-        ]);
-        //$this->TDirBustingTool = $this->ToolsRepository->findOneBy([
-            //'name' => 'dirbuster',
-            //'scan' => $vulnerability->getScanId(),
-        //]);
-
+   public function __construct(Scan $aScan, array $aTools){
+        $this->tools = $aTools;
+        $this->scan = $aScan;
     }
     
     
     // Now that I have the tool, analyse the output of it
 
     // Information output
-    public function Analyse() {
-        // process the data from the tool
+   public function Analyse() {
+        // Analyse your vulnerability
+
+        // Local variables here for using when analysing the tools
+        // xxxx
+        $nmapOutput = "";
+        $dirbusterOutput = "";
+
+        // Start by reading the data from your tool(s)
+        foreach ($this->tools as $tool) {
+            // Loop through each of the tools that were passed to this vulnerability
+            // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
+            switch ($tool->name) {
+                
+                case "Nmap":
+                    // Do other stuff with nmap
+                    // Analyse the output inside the Nmap object
+                    //  ... which at this point in code would simply be accessed with $tool
+                    //  ... this $tool object would be of type TOOL_Nmap
+                    // because it is the CURRENT tool index in the foreach loop
+
+                    $nmapOutput = "Something related to nmap results";
+                    break;
+                case "Dirbuster":
+                    // Do more stuff
+                    $dirbusterOutput = "Something related to dirbuster results";
+                    break;  // don't forget to break
+                // we don't really need a default case, the condition should never occur.
+            }
+        }
+
+        // ++ All tools have been analysed at this point
+
+
         
-        // fetch the data and decode the JSON (not sure if this is done by Symfony...?)
-        //$output = json_decode($this->TNmap->getResults(), true);
-        $output = $this->TNmap->getResults();
-        //$output = $this->TDirBustingTool->getResults();
-
-        // analyse it somehow TODO
-        // will need to essentially go through the Nmap scan and see what vulners came up with for potential cves against each port
-        // plus analyse the results of the directory busting to see if /admin was reachable 
-
         // calculate the severities and store
-        // this will be informational since the results of the scans will be "this looks interesting" so leaving it at zero should be fine
-        $this->Severity = 0;
+        // this should only be set and returned if there is something vulnerable found
+        $this->severity = 0;
 
-        // and the HTML:
-        $this->HTML = "<p>The results are: " . $output . ". Yes, this will need more formatting and extraction
-        of $output...";
+        // do we still want to have output for vulnerabilities that aren't found?
+        // remember to construct the HTML used within the report:
+        //   (the final report generated, that includes ALL vulnerabilities, will consist of all of these html segments displayed together)
+        //   (We'll standardise this later!)
+        $this->html = "<p>The results are: " . $nmapOutput . ", " . $dirbusterOutput;
 
     }
 
@@ -78,7 +92,7 @@ class VULN_SecurityMscfg {
     {
         return $this->Severity;
     }
-    public function getHTML(): ?int
+    public function getHTML(): ?string
     {
         return $this->HTML;
     }
