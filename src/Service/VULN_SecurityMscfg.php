@@ -35,6 +35,8 @@ class VULN_SecurityMscfg {
    public function __construct(Scan $aScan, array $aTools){
         $this->tools = $aTools;
         $this->scan = $aScan;
+        // set the initial severity level to  -1 so that if another class calls the GetSeverity function it will know nothing was found if the severity is less than zero
+        $this->severity = -1;
     }
     
     
@@ -56,30 +58,29 @@ class VULN_SecurityMscfg {
             switch ($tool->name) {
                 
                 case "Nmap":
-                    // Do other stuff with nmap
-                    // Analyse the output inside the Nmap object
-                    //  ... which at this point in code would simply be accessed with $tool
-                    //  ... this $tool object would be of type TOOL_Nmap
-                    // because it is the CURRENT tool index in the foreach loop
-
-                    $nmapOutput = "Something related to nmap results";
+                    // if the array of cves returned by nmap tool isn't empty then we know something was found
+                    if (sizeof($tool->getCVEs() > 0) {
+                        // kind of a place holder output here but you get the idea
+                        $nmapOutput = "Potential CVEs found during port scanning: " . $tool->getCVEs();
+                        // if something was found then set the severity
+                        $this->severity = 0;
+                    }
                     break;
                 case "Dirbuster":
-                    // Do more stuff
-                    $dirbusterOutput = "Something related to dirbuster results";
+                    // I think we should implement an 'admin page found' boolean in the directory busting tool with its own getter so that other classes can just call that rather than sift through all entries
+                    // then check if the getter returns a true value
+                    if ($tool->GetAdminPage()) {
+                        // kind of a place holder output here but you get the idea
+                        $dirbusterOutput = "Admin page was found amongst application directories";
+                        // need to set the severity every time a tool is checked so even in case one doesn't return any results
+                        $this->severity = 0;
+                    }
                     break;  // don't forget to break
                 // we don't really need a default case, the condition should never occur.
             }
         }
 
-        // ++ All tools have been analysed at this point
-
-
-        
-        // calculate the severities and store
-        // this should only be set and returned if there is something vulnerable found
-        $this->severity = 0;
-
+       
         // do we still want to have output for vulnerabilities that aren't found?
         // remember to construct the HTML used within the report:
         //   (the final report generated, that includes ALL vulnerabilities, will consist of all of these html segments displayed together)

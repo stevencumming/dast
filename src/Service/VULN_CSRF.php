@@ -31,6 +31,8 @@ class VULN_CSRF {
     public function __construct(Scan $aScan, array $aTools){
         $this->tools = $aTools;
         $this->scan = $aScan;
+        // set the initial severity level to  -1 so that if another class calls the GetSeverity function it will know nothing was found if the severity is less than zero
+        $this->severity = -1;
     }
     
     
@@ -46,8 +48,14 @@ class VULN_CSRF {
             // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
             switch ($tool->getName()) {
                 case "XSRFProbe":
-                // TODO actually figure out the ouput in relation to the array that will be returned.
-                $output = "something here that relates to the output";
+                // if the array returned by the xsrfprobe tool isn't empty then we know something was found
+                    if (sizeof($tool->getVulnTypes() > 0) {
+                        // kind of a place holder output here but you get the idea
+                        $output = "Application is potentially vulnerable to " . $tool->getVulnTypes();
+                        // if something was found then set the severity
+                        $this->severity = 0;
+                    }
+            
                     break;  // don't forget to break
                 // we don't really need a default case, the condition should never occur.
             }

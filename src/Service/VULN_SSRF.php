@@ -2,10 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\Vulnerability;
-use App\Entity\Tool;
+use App\Entity\Scan;
 
-use App\Repository\ToolRepository;
 
 class VULN_SSRF {
     /*
@@ -25,22 +23,18 @@ class VULN_SSRF {
             HTML formatted output to go straight into the Report.
     */
 
-    private ToolRepository $ToolsRepository;
-    private Tool $TCURL;
+    private array $tools;
+    private Scan $scan;   
     private $Severity;
     private $HTML;
 
     
-    // TODO look up the results of a Tool entity from the database
-    // I think it's something like: ??
-
-    public function __construct(private Vulnerability $vulnerability){
-        $this->ToolsRepository = $entityManager->getRepository(Tool::class);
-        $this->$TCURL = $this->ToolsRepository->findOneBy([
-            'name' => 'curl',
-            'scan' => $vulnerability->getScanId(),
-        ]);
-
+    // May as well pass in the scan object too, so that the Scan entity members are available here if needed (like target etc)
+    public function __construct(Scan $aScan, array $aTools){
+        $this->tools = $aTools;
+        $this->scan = $aScan;
+        // set the initial severity level to  -1 so that if another class calls the GetSeverity function it will know nothing was found if the severity is less than zero
+        $this->severity = -1;
     }
     
     
@@ -48,21 +42,26 @@ class VULN_SSRF {
 
     // Information output
     public function Analyse() {
-        // process the data from the tool
-        
-        // fetch the data and decode the JSON (not sure if this is done by Symfony...?)
-        //$output = json_decode($this->$TCURL->getResults(), true);
-        $output = $this->$TCURL->getResults();
+        $output = "";
 
-        // analyse it somehow TODO
-        // will need to analyse the results of curl to see whether or not contents of etc/passwd were discovered
-        // and/or whether the admin page was able to be reached (will just have to rely on the reply codes for both I think)
+        // Start by reading the data from your tool(s)
+        foreach ($this->tools as $tool) {
+            // Loop through each of the tools that were passed to this vulnerability
+            // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
+            switch ($tool->getName()) {
+                case "cURL":
+                // check the value of the curl tool's reply flag to see if etc/passwd was returned
+                    if ($tool->getReply = true){
+                        $output = "Contents of /etc/passwd discovered using Server Side Request Forgery";
+                        $this->severity = 2;
+                    }
+               
+                    break;  // don't forget to break
+                // we don't really need a default case, the condition should never occur.
+            }
 
-        // calculate the severities and store
-        // this shou;d be a moderate severity vulnerability I think, as either of the two things that are being tested
-        // can become significant attack vectors if they are not enough to compromise a system on their own
-        $this->Severity = 2;
 
+        // this might have to go into the above if statement if we don't want to return anything if nothing is found
         // and the HTML:
         $this->HTML = "<p>The results are: " . $output . ". Yes, this will need more formatting and extraction
         of $output...";
@@ -73,11 +72,9 @@ class VULN_SSRF {
     {
         return $this->Severity;
     }
-    public function getHTML(): ?int
+    public function getHTML(): ?string
     {
         return $this->HTML;
     }
 
 }
-
-
