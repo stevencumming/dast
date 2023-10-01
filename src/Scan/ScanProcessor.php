@@ -20,6 +20,9 @@ use App\Service\TOOL_Sitemap;
 use App\Service\TOOL_XSRFProbe;
 // Vulnerabilities
 use App\Service\VULN_DummyVulnerability;
+use App\Service\VULN_SSRF;
+use App\Service\VULN_CSRF;
+use App\Service\VULN_SecurityMscfg;
 use Doctrine\ORM\Query\Expr;
 
 // ========================================================================
@@ -57,6 +60,7 @@ class ScanProcessor
     private Vulnerability $Vanother;
     private Vulnerability $Vsecuritymscfg;
     private Vulnerability $Vcsrf;
+    private Vulnerability $Vssrf;
 
 
     public function __construct(
@@ -157,6 +161,21 @@ class ScanProcessor
 
         // DONE
         // Move on to the next tool...
+
+        // =============== TOOL ===============
+        // Tool Name:       cURL
+        // Responsible:     MG (and whoever else wants to use)
+
+        // Declare the process (service)
+        // naming it, and passing it a reference to this scan (so it can grab the target)
+        $this->TcUrl = new TOOL_cURL("cURL", $this->scan);
+
+        // Start the tool process execution
+        $this->TcUrl->Execute();
+
+
+        // DONE
+        // Move on to the next tool...
     
         // ...
         // ...
@@ -210,9 +229,6 @@ class ScanProcessor
         $em->persist($Vanother);
         $em->flush();  
 
-        // ...
-        // ...
-
         // =============== VULNERABILITY ===============
         // Vulnerability: Security Misconfiguration       
         // Responsible: MG
@@ -240,8 +256,23 @@ class ScanProcessor
 
         $em->persist($Vcsrf);
         $em->flush()
-        
 
+         // =============== VULNERABILITY ===============
+        // Vulnerability: Server Side Request Forgery
+        // Responsible: MG
+        $this->Vssrf->setScanId($this->scan);
+        $this->Vssrf->setName("Server Site Request Forgery");
+        
+        $SsrfProcess = new VULN_SSRF($this->scan, [$this->TcUrl]);
+        // the analyse function for the process will need be called I believe
+        $this->Vssrf->setSeverity($SsrfProcess->getSeverity());
+        $this->Vssrf->setHtml($SsrfProcess->getHTML());
+
+        $em->persist($Vssrf);
+        $em->flush()
+        
+        // ...
+        // ...
     }
 
 
