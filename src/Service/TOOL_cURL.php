@@ -29,7 +29,7 @@ class TOOL_cURL {
     private $name;
     private Process $process;
     //private array $reply;
-    private boolean $reply;
+    private bool $reply;
 
     // where required, you may have more complex data structures here!!
     //   (which is why we are returning this object JSON encoded)
