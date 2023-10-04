@@ -35,9 +35,6 @@ class Scan
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $time_completed = null;
 
-    #[ORM\OneToMany(mappedBy: 'scan_id', targetEntity: Tool::class)]
-    private Collection $tools;
-
     #[ORM\OneToMany(mappedBy: 'scan_id', targetEntity: Vulnerability::class)]
     private Collection $vulnerabilities;
 
@@ -120,36 +117,6 @@ class Scan
     public function setTimeCompleted(\DateTimeInterface $time_completed): static
     {
         $this->time_completed = $time_completed;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Tool>
-     */
-    public function getTools(): Collection
-    {
-        return $this->tools;
-    }
-
-    public function addTool(Tool $tool): static
-    {
-        if (!$this->tools->contains($tool)) {
-            $this->tools->add($tool);
-            $tool->setScanId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTool(Tool $tool): static
-    {
-        if ($this->tools->removeElement($tool)) {
-            // set the owning side to null (unless already changed)
-            if ($tool->getScanId() === $this) {
-                $tool->setScanId(null);
-            }
-        }
 
         return $this;
     }
