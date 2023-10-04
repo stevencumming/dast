@@ -12,6 +12,7 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(): Response
     {
+        // PARKER YOUNG TODO - GET SOME SCANS IN HERE!
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if (!$this->getUser()->isVerified()) {
             return $this->redirectToRoute('app_logout');
