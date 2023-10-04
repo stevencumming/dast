@@ -19,9 +19,7 @@ class DashboardController extends AbstractController
         else {
             return $this->render('dashboard/index.html.twig', [
                 'controller_name' => 'DashboardController',
-            ]);    
-
-            echo "Hello World - Test SC";
+            ]);
         }
     }
 }
