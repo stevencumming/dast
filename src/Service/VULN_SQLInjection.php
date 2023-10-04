@@ -56,7 +56,7 @@ class VULN_SQLInjection {
         foreach ($this->tools as $tool) {
             // Loop through each of the tools that were passed to this vulnerability
             // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
-            switch ($tool->getName) {
+            switch ($tool->getName()) {
                 case "DummyTool":
                     // Do stuff with DummyTool
                     
