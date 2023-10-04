@@ -21,7 +21,7 @@ class DashboardController extends AbstractController
                 'controller_name' => 'DashboardController',
             ]);    
 
-            echo "Test SC";
+            echo "Hello World - Test SC";
         }
     }
 }
