@@ -25,7 +25,7 @@ class VULN_SSRF {
 
     private array $tools;
     private Scan $scan;   
-    private $Severity;
+    private $severity;
     private $HTML;
 
     
@@ -66,11 +66,12 @@ class VULN_SSRF {
         $this->HTML = "<p>The results are: " . $output . ". Yes, this will need more formatting and extraction
         of $output...";
 
+        }
     }
 
     public function getSeverity(): ?int
     {
-        return $this->Severity;
+        return $this->severity;
     }
     public function getHTML(): ?string
     {
