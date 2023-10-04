@@ -7,14 +7,16 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 
-class TOOL_DummyTool {
+class TOOL_Commix {
     /*
-        Tool Name:              DummyTool
-        Responsible:            AA
-        OpenProject Phase #:    999
+        Tool Name:              Commix
+        Responsible:            SC
+        OpenProject Phase #:    
 
         Summary:
             ... quick summary of the tool's purpose. (Even if it's all written in PHP / Symfony, still describe it breifly)
+
+            https://github.com/commixproject/commix
 
 
         Output (Object):

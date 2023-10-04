@@ -7,14 +7,18 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 
-class TOOL_DummyTool {
+class TOOL_SQLMAP {
     /*
-        Tool Name:              DummyTool
-        Responsible:            AA
-        OpenProject Phase #:    999
+        Tool Name:              SQLMAP / sqlmap
+        Responsible:            SC
+        OpenProject Phase #:    
 
         Summary:
             ... quick summary of the tool's purpose. (Even if it's all written in PHP / Symfony, still describe it breifly)
+
+            https://github.com/sqlmapproject/sqlmap
+            https://www.geeksforgeeks.org/use-sqlmap-test-website-sql-injection-vulnerability/
+
 
 
         Output (Object):

@@ -7,7 +7,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 
-class TOOL_DummyTool {
+class TOOL_HostInfo {
     /*
         Tool Name:              DummyTool
         Responsible:            AA
