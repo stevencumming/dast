@@ -66,7 +66,7 @@ class TOOL_GoSpider {
         $CONCURRENT_REQS = 10;          //  number of the maximum allowed concurrent requests of the matching domains
         $DEPTH = 0;                     //  MaxDepth limits the recursion depth of visited URLs. (Set it to 0 for infinite recursion) (default 1)
         $THREADS = 5;                   //  The number of threads to use
-        $this->process = new Process(['gospider', '-s ' . $scan->getTarget(), , '-c ' . $CONCURRENT_REQS, '-d ' . $DEPTH, '-t ' . $THREADS, '--json']);
+        $this->process = new Process(['gospider', '-s ' . $scan->getTarget(), '-c ' . $CONCURRENT_REQS, '-d ' . $DEPTH, '-t ' . $THREADS, '--json']);
 
 
         // Tset the process timeout (max execution time)
