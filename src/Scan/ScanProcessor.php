@@ -15,14 +15,14 @@ use App\Service\DdosService;
 use App\Service\TOOL as ServiceTOOL;
 use App\Service\TOOL_cURL;
 // Tools
-use App\Service\TOOL_DummyTool;
+//use App\Service\TOOL_DummyTool;
 use App\Service\TOOL_Nmap;
 use App\Service\TOOL_Sitemap;
 use App\Service\TOOL_XSRFProbe;
 use App\Service\TOOL_cdnCheck;
 use App\Service\TOOL_ProTravel;
 // Vulnerabilities
-use App\Service\VULN_DummyVulnerability;
+//use App\Service\VULN_DummyVulnerability;
 use App\Service\VULN_SSRF;
 use App\Service\VULN_CSRF;
 use App\Service\VULN_SecurityMscfg;
@@ -49,7 +49,6 @@ class ScanProcessor
                 This is so that we can pass them around as TOOL objects, and extend (override) the implementations in their
                 respective TOOL_xxx classes we each create.
     */
-    private TOOL_DummyTool $Tdummy;
     private TOOL_cURL $TcUrl;
     private TOOL_Nmap $Tnmap;
     private TOOL_Sitemap $Tsitemap;
@@ -62,8 +61,6 @@ class ScanProcessor
     /*          [DELETEME] REFACTOR SEP28: Vulnerabilities stay as Vulnerability typed entities (for now) as they ARE
                 persisted to the database.
     */
-    private Vulnerability $Vdummy;
-    private Vulnerability $Vanother;
     private Vulnerability $Vsecuritymscfg;
     private Vulnerability $Vcsrf;
     private Vulnerability $V_ddos;
@@ -116,28 +113,6 @@ class ScanProcessor
 
 
     public function processTools() {
-        // The first process to be called after a new scan is loaded.
-        // Go through all tools to be used and execute them.
-
-
-        // =============== TOOL ===============
-        // Tool Name:       Dummy Tool
-        // Responsible:     AA
-
-        // Declare the process (service)
-        // naming it, and passing it a reference to this scan (so it can grab the target)
-        $this->Tdummy = new TOOL_DummyTool("DummyTool", $this->scan);
-
-        // Start the tool process execution
-        $this->Tdummy->Execute();
-
-        // DONE
-        // Move on to the next tool...
-    
-        // ...
-        // ...
-
-
         // =============== TOOL ===============
         // Tool Name:       Nmap
         // Responsible:     MG + others
@@ -213,48 +188,6 @@ class ScanProcessor
 
     public function processVulnerabilities() {
         // Go through each of the vulnerabilities and analyse output of the relevant tool(s)
-        
-        // =============== VULNERABILITY ===============
-        // Vulnerability:       
-        // Responsible: 
-        
-        // Set the scan ID for the vulnerability
-        $this->Vdummy->setScanId($this->scan);
-
-        // Set the name of the vulnerability
-        $this->Vdummy->setName("Some vulnerability");
-
-
-        // Instantiate vulnerability process and pass it the required tools
-        // Also pass this Scan object
-        $VdummyProcess = new VULN_DummyVulnerability($this->scan, [$this->Tdummy, $this->Tnmap]);
-
-        // Analyse Vuln
-        $VdummyProcess->Analyse();
-
-        // Persist Results
-        $this->Vdummy->setSeverity($VdummyProcess->getSeverity());
-        $this->Vdummy->setHtml($VdummyProcess->getHTML());
-
-        $em->persist($this->Vdummy);
-        $em->flush();  
-
-        // DONE
-        // Move on to the next vulnerability...
-    
-        // ...
-        // ...
-
-        // =============== VULNERABILITY ===============
-        // Vulnerability:       
-        // Responsible: 
-        $this->Vanother->setScanId($this->scan);
-        $this->Vanother->setName("Some vulnerability");
-        $VanotherProcess = new VULN_AnotherVulnerability($this->Vanother);
-        $this->Vanother->setSeverity($Vanother->getSeverity());
-        $this->Vanother->setHtml($Vanother->getHTML());
-        $em->persist($this->Vanother);
-        $em->flush();  
 
         // =============== VULNERABILITY ===============
         // Vulnerability: Security Misconfiguration       
@@ -323,26 +256,15 @@ class ScanProcessor
         $this->V_pathTrav->setSeverity($pathTravProcess->getSeverity());
         $this->V_pathTrav->setHtml($pathTravProcess->getHTML());
 
-        $em->persist($this->V_pathTrav);
+        // PY- might be able to for loop this code once we have all this in. lot of repeatable code here.
+        $em->persist($this->V_pathTrav); 
         $em->flush();   
     }
 
-
     public function compileReport() {
         // Compile the report using the vulnerability data from analysis above.
-
-
-
+        // PARKER YOUNG TODO
     }
-
-
-
-
-
-
-
-
-    
 
     public function scanComplete() {
         // mark scan conclusion time and persist
@@ -351,9 +273,5 @@ class ScanProcessor
         $em->persist($this->scan);
         $em->flush(); 
     }
-
-
-
-    
 
 }
