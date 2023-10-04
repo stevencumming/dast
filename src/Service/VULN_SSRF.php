@@ -26,7 +26,7 @@ class VULN_SSRF {
     private array $tools;
     private Scan $scan;   
     private $severity;
-    private $HTML;
+    private $html;
 
     
     // May as well pass in the scan object too, so that the Scan entity members are available here if needed (like target etc)
@@ -63,7 +63,7 @@ class VULN_SSRF {
 
         // this might have to go into the above if statement if we don't want to return anything if nothing is found
         // and the HTML:
-        $this->HTML = "<p>The results are: " . $output . ". Yes, this will need more formatting and extraction
+        $this->html = "<p>The results are: " . $output . ". Yes, this will need more formatting and extraction
         of $output...";
 
         }
@@ -75,7 +75,7 @@ class VULN_SSRF {
     }
     public function getHTML(): ?string
     {
-        return $this->HTML;
+        return $this->html;
     }
 
 }

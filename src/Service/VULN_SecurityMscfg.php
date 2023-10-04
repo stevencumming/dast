@@ -24,8 +24,8 @@ class VULN_SecurityMscfg {
     private array $tools;
     private Scan $scan;
     // private Tool $TDirBustingTool;
-    private $Severity;
-    private $HTML;
+    private $severity;
+    private $html;
 
     
     // TODO look up the results of a Tool entity from the database
@@ -59,7 +59,7 @@ class VULN_SecurityMscfg {
                 
                 case "Nmap":
                     // if the array of cves returned by nmap tool isn't empty then we know something was found
-                    if (sizeof($tool->getCVEs() > 0) {
+                    if (sizeof($tool->getCVEs() > 0)) {
                         // kind of a place holder output here but you get the idea
                         $nmapOutput = "Potential CVEs found during port scanning: " . $tool->getCVEs();
                         // if something was found then set the severity
@@ -91,11 +91,11 @@ class VULN_SecurityMscfg {
 
     public function getSeverity(): ?int
     {
-        return $this->Severity;
+        return $this->severity;
     }
     public function getHTML(): ?string
     {
-        return $this->HTML;
+        return $this->html;
     }
 
 }
