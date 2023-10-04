@@ -7,14 +7,17 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 
-class TOOL_DummyTool {
+class TOOL_GoSpider {
     /*
-        Tool Name:              DummyTool
-        Responsible:            AA
-        OpenProject Phase #:    999
+        Tool Name:              GoSpider
+        Responsible:            SC
+        OpenProject Phase #:    
 
         Summary:
             ... quick summary of the tool's purpose. (Even if it's all written in PHP / Symfony, still describe it breifly)
+
+            https://github.com/jaeles-project/gospider
+
 
 
         Output (Object):
@@ -59,19 +62,14 @@ class TOOL_DummyTool {
 
         // Initialise the Symfony process(es)
 
-        // Example: file listing (generic command plus argument)
-        //$process = new Process(['ls', '-lsa']);
+        // GoSpider
+        $CONCURRENT_REQS = 10;          //  number of the maximum allowed concurrent requests of the matching domains
+        $DEPTH = 0;                     //  MaxDepth limits the recursion depth of visited URLs. (Set it to 0 for infinite recursion) (default 1)
+        $THREADS = 5;                   //  The number of threads to use
+        $this->process = new Process(['gospider', '-s ' . $scan->getTarget(), , '-c ' . $CONCURRENT_REQS, '-d ' . $DEPTH, '-t ' . $THREADS, '--json']);
 
-        // Example: nslookup of Swinburne
-        $this->process = new Process(['nslookup', 'swin.edu.au']);
 
-        // Example: nslookup of target
-        $this->process = new Process(['nslookup', $scan->getTarget()]);
-
-        // ... where there are multiple processes, name them '$process_nslookup' and '$process_namp' for example.
-
-        // TODO Process timeout
-        // https://symfony.com/doc/current/components/process.html#process-timeout
+        // Tset the process timeout (max execution time)
         $this->process->setTimeout(3600);
     }
 
@@ -102,19 +100,11 @@ class TOOL_DummyTool {
         // Process (tool) was successful, now extract the data
         $CLI = $this->process->getOutput();
 
-        // do the whole preg_match regex stuff here...
-        // for nslookup, the pattern would be something like:
-        //   Non-authoritative answer:\sName:\s*(\S*)\sAddress:\s*(\S*)\sName:\s*(\S*)\sAddress:\s*(\S*)
-        // use https://regex101.com/ or something similar and use their generation tool
 
-        $pattern = '/Non-authoritative answer:\sName:\s*(\S*)\sAddress:\s*(\S*)\sName:\s*(\S*)\sAddress:\s*(\S*)/m';
-        preg_match_all($pattern, $CLI, $matches, PREG_SET_ORDER, 0);
+        // The GoSpider output is already formatted as JSON
 
-        // normally, I'm not a fan of ternary or single-line if statements.. but it makes sense here.
-        if (isset($matches[0])) array_push($this->names, $matches[0]);
-        if (isset($matches[1])) array_push($this->addresses, $matches[0]);
-        if (isset($matches[2])) array_push($this->names, $matches[1]);
-        if (isset($matches[3])) array_push($this->addresses, $matches[1]);
+        echo $CLI;
+
     }    
 
 	/**

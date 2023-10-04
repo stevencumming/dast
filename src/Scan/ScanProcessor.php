@@ -205,6 +205,9 @@ class ScanProcessor
         // Also pass this Scan object
         $VdummyProcess = new VULN_DummyVulnerability($this->scan, [$this->Tdummy, $this->Tnmap]);
 
+        // Analyse Vuln
+        $VdummyProcess->Analyse();
+
         // Persist Results
         $this->Vdummy->setSeverity($VdummyProcess->getSeverity());
         $this->Vdummy->setHtml($VdummyProcess->getHTML());
@@ -241,7 +244,7 @@ class ScanProcessor
         $this->Vsecuritymscfg->setHtml($SecurityMscfgProcess->getHTML());
 
         $em->persist($Vsecuritymscfg);
-        $em->flush()
+        $em->flush();
 
         // =============== VULNERABILITY ===============
         // Vulnerability: Cross Site Request Forgery   
@@ -255,7 +258,7 @@ class ScanProcessor
         $this->Vcsrf->setHtml($CsrfProcess->getHTML());
 
         $em->persist($Vcsrf);
-        $em->flush()
+        $em->flush();
 
          // =============== VULNERABILITY ===============
         // Vulnerability: Server Side Request Forgery
@@ -269,7 +272,7 @@ class ScanProcessor
         $this->Vssrf->setHtml($SsrfProcess->getHTML());
 
         $em->persist($Vssrf);
-        $em->flush()
+        $em->flush();
         
         // ...
         // ...

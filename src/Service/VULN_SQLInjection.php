@@ -4,11 +4,11 @@ namespace App\Service;
 
 use App\Entity\Scan;
 
-class VULN_DummyVulnerability {
+class VULN_SQLInjection {
     /*
-        Vulnerability:          DummyTool
-        Responsible:            AA
-        OpenProject Phase #:    999
+        Vulnerability:          SQL Injection
+        Responsible:            SC
+        OpenProject Phase #:    439
 
         Summary:
             ... quick summary on the vulnerability and what tools are required
