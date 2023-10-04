@@ -49,7 +49,7 @@ class VULN_CSRF {
             switch ($tool->getName()) {
                 case "XSRFProbe":
                 // if the array returned by the xsrfprobe tool isn't empty then we know something was found
-                    if (sizeof($tool->getVulnTypes() > 0) {
+                    if (sizeof($tool->getVulnTypes() > 0)) {
                         // kind of a place holder output here but you get the idea
                         $output = "Application is potentially vulnerable to " . $tool->getVulnTypes();
                         // if something was found then set the severity
