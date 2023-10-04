@@ -5,6 +5,7 @@ namespace App\Scan;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Clock\ClockInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\Entity\Vulnerability;
@@ -18,12 +19,15 @@ use App\Service\TOOL_DummyTool;
 use App\Service\TOOL_Nmap;
 use App\Service\TOOL_Sitemap;
 use App\Service\TOOL_XSRFProbe;
+use App\Service\TOOL_cdnCheck;
+use App\Service\TOOL_ProTravel;
 // Vulnerabilities
 use App\Service\VULN_DummyVulnerability;
 use App\Service\VULN_SSRF;
 use App\Service\VULN_CSRF;
 use App\Service\VULN_SecurityMscfg;
-use Doctrine\ORM\Query\Expr;
+use App\Service\VULN_DDOS;
+use App\Service\VULN_PathTraversal;
 
 // ========================================================================
 
@@ -50,6 +54,8 @@ class ScanProcessor
     private TOOL_Nmap $Tnmap;
     private TOOL_Sitemap $Tsitemap;
     private TOOL_XSRFProbe $Txsrfprobe;
+    private TOOL_cdnCheck $T_cdnCheck;
+    private TOOL_ProTravel $T_proTravel;
 
 
     //      Vulnerabilities
@@ -60,15 +66,15 @@ class ScanProcessor
     private Vulnerability $Vanother;
     private Vulnerability $Vsecuritymscfg;
     private Vulnerability $Vcsrf;
-    private Vulnerability $Vssrf;
+    private Vulnerability $V_ddos;
+    private Vulnerability $V_pathTrav;
 
 
     public function __construct(
         private EntityManagerInterface $entityManager,
         private ClockInterface $clock,
         private Security $security,
-
-        private Scan $scan,
+        private Scan $scan
     ) {
     }
 
@@ -177,12 +183,30 @@ class ScanProcessor
         // DONE
         // Move on to the next tool...
     
-        // ...
-        // ...
+        // =============== TOOL ===============
+        // Tool Name:       CDNCheck
+        // Responsible:     PY
 
+        // Declare the process (service)
+        // naming it, and passing it a reference to this scan (so it can grab the target)
+        $this->T_cdnCheck = new TOOL_cdnCheck("cdnCheck", $this->scan);
 
-        
+        // Start the tool process execution
+        $this->T_cdnCheck->Execute();
 
+        // DONE
+        // Move on to the next tool...
+    
+        // =============== TOOL ===============
+        // Tool Name:       ProTravel
+        // Responsible:     PY
+
+        // Declare the process (service)
+        // naming it, and passing it a reference to this scan (so it can grab the target)
+        $this->T_proTravel = new TOOL_cdnCheck("ProTravel", $this->scan);
+
+        // Start the tool process execution
+        $this->T_proTravel->Execute();
 
     }
 
@@ -212,7 +236,7 @@ class ScanProcessor
         $this->Vdummy->setSeverity($VdummyProcess->getSeverity());
         $this->Vdummy->setHtml($VdummyProcess->getHTML());
 
-        $em->persist($Vdummy);
+        $em->persist($this->Vdummy);
         $em->flush();  
 
         // DONE
@@ -229,7 +253,7 @@ class ScanProcessor
         $VanotherProcess = new VULN_AnotherVulnerability($this->Vanother);
         $this->Vanother->setSeverity($Vanother->getSeverity());
         $this->Vanother->setHtml($Vanother->getHTML());
-        $em->persist($Vanother);
+        $em->persist($this->Vanother);
         $em->flush();  
 
         // =============== VULNERABILITY ===============
@@ -243,7 +267,7 @@ class ScanProcessor
         $this->Vsecuritymscfg->setSeverity($SecurityMscfgProcess->getSeverity());
         $this->Vsecuritymscfg->setHtml($SecurityMscfgProcess->getHTML());
 
-        $em->persist($Vsecuritymscfg);
+        $em->persist($this->Vsecuritymscfg);
         $em->flush();
 
         // =============== VULNERABILITY ===============
@@ -257,10 +281,10 @@ class ScanProcessor
         $this->Vcsrf->setSeverity($CsrfProcess->getSeverity());
         $this->Vcsrf->setHtml($CsrfProcess->getHTML());
 
-        $em->persist($Vcsrf);
+        $em->persist($this->Vcsrf);
         $em->flush();
 
-         // =============== VULNERABILITY ===============
+        // =============== VULNERABILITY ===============
         // Vulnerability: Server Side Request Forgery
         // Responsible: MG
         $this->Vssrf->setScanId($this->scan);
@@ -271,11 +295,36 @@ class ScanProcessor
         $this->Vssrf->setSeverity($SsrfProcess->getSeverity());
         $this->Vssrf->setHtml($SsrfProcess->getHTML());
 
-        $em->persist($Vssrf);
+        $em->persist($this->Vssrf);
         $em->flush();
         
-        // ...
-        // ...
+        // =============== VULNERABILITY ===============
+        // Vulnerability: Distributed Denial Of Service
+        // Responsible: PY
+        $this->V_ddos->setScanId($this->scan);
+        $this->V_ddos->setName("Distributed Denial Of Service");
+        
+        $ddosProcess = new VULN_DDOS($this->scan, [$this->T_cdnCheck]);
+        // the analyse function for the process will need be called I believe
+        $this->V_ddos->setSeverity($ddosProcess->getSeverity());
+        $this->V_ddos->setHtml($ddosProcess->getHTML());
+
+        $em->persist($this->V_ddos);
+        $em->flush();    
+
+        // =============== VULNERABILITY ===============
+        // Vulnerability: Path Traversal
+        // Responsible: PY
+        $this->V_pathTrav->setScanId($this->scan);
+        $this->V_pathTrav->setName("Path Traversal");
+        
+        $pathTravProcess = new VULN_DDOS($this->scan, [$this->T_proTravel]);
+        // the analyse function for the process will need be called I believe
+        $this->V_pathTrav->setSeverity($pathTravProcess->getSeverity());
+        $this->V_pathTrav->setHtml($pathTravProcess->getHTML());
+
+        $em->persist($this->V_pathTrav);
+        $em->flush();   
     }
 
 

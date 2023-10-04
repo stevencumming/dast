@@ -48,7 +48,7 @@ class VULN_DummyVulnerability {
         ]);
         
         // fetch the data and decode the JSON (not sure if this is done by Symfony...?)
-        $output = $this->cdnCheck->getResults();
+        $output = $this->cdnCheck->getOutput();
 
         // analyse it somehow
 

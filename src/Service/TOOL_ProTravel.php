@@ -27,11 +27,11 @@ class TOOL_ProTravel {
     // where required, you may have more complex data structures here!!
     //   (which is why we are returning this object JSON encoded)
 
-    private $cliOutput;
+    private $output;
 
     public function __construct(
-        private Tool $tool,
-        private Process $process
+        Tool $tool,
+        Process $process,
         ){
     }
 
@@ -65,20 +65,20 @@ class TOOL_ProTravel {
 
         // If the process (tool) failed, throw an exception
         if (!$this->process->isSuccessful()) {
-            $cliOutput = "Process failed.";
+            $this->output = "Process failed.";
             throw new ProcessFailedException($this->process);
             // TODO write something to the output about how it failed.
         }
         else {
             // Process (tool) was successful, now extract the data
-            $cliOutput = $this->process->getOutput();
+            $this->output = $this->process->getOutput();
         }
         
     }
 
 
     public function Output() {
-        return $cliOutput;
+        return $this->output;
     }
 
 
