@@ -64,6 +64,7 @@ class VULN_CSRF {
         $this->HTML = "<p>The results are: " . $output . ". Yes, this will need more formatting and extraction
         of $output...";
 
+        }
     }
 
     public function getSeverity(): ?int
