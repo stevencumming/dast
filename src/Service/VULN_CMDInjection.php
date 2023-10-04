@@ -4,11 +4,11 @@ namespace App\Service;
 
 use App\Entity\Scan;
 
-class VULN_DummyVulnerability {
+class VULN_CMDInjection {
     /*
-        Vulnerability:          DummyTool
-        Responsible:            AA
-        OpenProject Phase #:    999
+        Vulnerability:          Command Injection (including A03:2021 - Injection)
+        Responsible:            SC
+        OpenProject Phase #:    449
 
         Summary:
             ... quick summary on the vulnerability and what tools are required

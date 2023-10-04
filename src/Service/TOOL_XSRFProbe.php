@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Tool;
+use App\Entity\Scan;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -19,19 +19,20 @@ class TOOL_XSRFProbe {
             will obviously be used for the csrf vulnerability but may be used for others 
 
 
-        Output (JSON):
+        Output (array): the vulnTypes array will 
             ... describe in psuedocode
-            $vulnTypes: the type of csrf vulnerability found
+            $vulnTypes: an array containing the types of csrf vulnerability found
            
 
     */
+    private $name;
     private Process $process;
     private array $vulnTypes;
     // where required, you may have more complex data structures here!!
     //   (which is why we are returning this object JSON encoded)
 
 
-    public function __construct(private Tool $tool){
+    public function __construct($aName, Scan $scan){
         // Initialise the process
         
         // Example: file listing (generic command plus argument)
@@ -40,7 +41,9 @@ class TOOL_XSRFProbe {
         // Example: nslookup of Swinburne
         //$this->process = new Process(['nslookup', 'swin.edu.au']);
 
-        $this->process = new Process(['xsrfprobe', '-u', $tool->getScanId()->getTarget()]); // idk if getScanId actually returns the scan object...
+        $this->name = $aName;
+
+        $this->process = new Process(['xsrfprobe', '-u', $scan->getScanId()->getTarget()]); // idk if getScanId actually returns the scan object...
 
         // ... where there are multiple processes, name them '$process_nslookup' and '$process_namp' for example.
 
@@ -88,13 +91,20 @@ class TOOL_XSRFProbe {
 
         // not really sure if we will need the below statements if we can just push straight to the vulnTypes array
         // normally, I'm not a fan of ternary or single-line if statements.. but it makes sense here.
-        if (isset($matches[0])) array_push($this->vulnTypes, $matches[0]);
-        if (isset($matches[1])) array_push($this->vulnTypes, $matches[1]);
-        // might be worth implementing a for each loop to just push any finding to the arrray         
+        //if (isset($matches[0])) array_push($this->vulnTypes, $matches[0]);
+        //if (isset($matches[1])) array_push($this->vulnTypes, $matches[1]);
+         
     
     }
 
     // Getter for vulnTypes array
+    // no need for setter since only the tool class can set its arrays
+
+    public function getName() {
+        
+        return this->name;
+
+    }
 
     public function getVulnTypes() {
 
@@ -102,7 +112,7 @@ class TOOL_XSRFProbe {
 
     }
 
-
+    // won't need the below function if we aren't persisting to database
     public function Output() {
         // Persist this whole object as JSON
         // TODO

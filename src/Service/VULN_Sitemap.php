@@ -4,11 +4,11 @@ namespace App\Service;
 
 use App\Entity\Scan;
 
-class VULN_DummyVulnerability {
+class VULN_Sitemap {
     /*
-        Vulnerability:          DummyTool
-        Responsible:            AA
-        OpenProject Phase #:    999
+        Vulnerability:          Siotemap Generation - Reconnaissance
+        Responsible:            SC
+        OpenProject Phase #:    459
 
         Summary:
             ... quick summary on the vulnerability and what tools are required

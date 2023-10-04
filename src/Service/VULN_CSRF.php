@@ -1,11 +1,7 @@
 <?php
-
 namespace App\Service;
 
-use App\Entity\Vulnerability;
-use App\Entity\Tool;
-
-use App\Repository\ToolRepository;
+use App\Entity\Scan;
 
 class VULN_CSRF {
     /*
@@ -24,22 +20,19 @@ class VULN_CSRF {
             HTML formatted output to go straight into the Report.
     */
 
-    private ToolRepository $ToolsRepository;
-    private Tool $TXSRFProbe;
+    private array $tools;
+    private Scan $scan;   
     private $Severity;
     private $HTML;
 
     
-    // TODO look up the results of a Tool entity from the database
-    // I think it's something like: ??
 
-    public function __construct(private Vulnerability $vulnerability){
-        $this->ToolsRepository = $entityManager->getRepository(Tool::class);
-        $this->TXSRFProbe = $this->ToolsRepository->findOneBy([
-            'name' => 'xsrfprobe',
-            'scan' => $vulnerability->getScanId(),
-        ]);
-
+   // May as well pass in the scan object too, so that the Scan entity members are available here if needed (like target etc)
+    public function __construct(Scan $aScan, array $aTools){
+        $this->tools = $aTools;
+        $this->scan = $aScan;
+        // set the initial severity level to  -1 so that if another class calls the GetSeverity function it will know nothing was found if the severity is less than zero
+        $this->severity = -1;
     }
     
     
@@ -47,30 +40,38 @@ class VULN_CSRF {
 
     // Information output
     public function Analyse() {
-        // process the data from the tool
-        
-        // fetch the data and decode the JSON (not sure if this is done by Symfony...?)
-        //$output = json_decode($this->TXSRFProbe->getResults(), true);
-        $output = $this->TXSRFProbe->getResults();
+        $output = "";
 
-        // TODO analyse it somehow (see screenshot of tool in resources doc)
-        // regex will need to check for things like "Possible CSRF Vulnerability Detected"
-
-        // calculate the severities and store
-        // severity should be informational so leaving as zero should be fine
-        $this->Severity = 0;
+        // Start by reading the data from your tool(s)
+        foreach ($this->tools as $tool) {
+            // Loop through each of the tools that were passed to this vulnerability
+            // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
+            switch ($tool->getName()) {
+                case "XSRFProbe":
+                // if the array returned by the xsrfprobe tool isn't empty then we know something was found
+                    if (sizeof($tool->getVulnTypes() > 0)) {
+                        // kind of a place holder output here but you get the idea
+                        $output = "Application is potentially vulnerable to " . $tool->getVulnTypes();
+                        // if something was found then set the severity
+                        $this->severity = 0;
+                    }
+            
+                    break;  // don't forget to break
+                // we don't really need a default case, the condition should never occur.
+            }
 
         // and the HTML:
         $this->HTML = "<p>The results are: " . $output . ". Yes, this will need more formatting and extraction
         of $output...";
 
+        }
     }
 
     public function getSeverity(): ?int
     {
         return $this->Severity;
     }
-    public function getHTML(): ?int
+    public function getHTML(): ?string
     {
         return $this->HTML;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Tool;
+use App\Entity\Scan;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -20,33 +20,35 @@ class TOOL_cURL {
             and determine whether it is vulnerable based on the reply received
 
 
-        Output (JSON): TODO
+        Output (either array or just a boolean):
             ... describe in psuedocode
-            $reply = the reply to the curl request 
+            $reply: I'm thinking that it might be simpler to just return a boolean if the regex for etc/passwd matches instead of an array 
+            but if anyone else is going to use cURL then that will change 
 
     */
+    private $name;
     private Process $process;
-    private array $reply;
+    //private array $reply;
+    private bool $reply;
+
     // where required, you may have more complex data structures here!!
     //   (which is why we are returning this object JSON encoded)
 
 
-    public function __construct(private Tool $tool){
+    public function __construct($aName, Scan $scan){
+        
+        // Initialise the reply flag to false when the tool is created 
+        $reply = false;
         // Initialise the process
         
         // Example: file listing (generic command plus argument)
         //$process = new Process(['ls', '-lsa']);
-
-        // Example: nslookup of Swinburne
-        //$this->process = new Process(['nslookup', 'swin.edu.au']);
+        $this->name = $aName;
 
         // curl of target 
-        // TODO actually work out what the curl request needs to look like for both the header and the body
-        $this->process = new Process(['curl', 'arguments', $tool->getScanId()->getTarget()]); // idk if getScanId actually returns the scan object...
-
-        
-        // There shouldn't be multiple processes though right? It's just 1 per tool?
-        // ... where there are multiple processes, name them '$process_nslookup' and '$process_namp' for example.
+        // TODO fine tune curl request to be a legitimate ssrf vulnerability that MAY work...
+        // below is a placeholder command that uses the localhost as the url and gets your own etc/passwd
+        $this->process = new Process(['curl', 'file://127.0.0.1/etc/passwd']); // idk if getScanId actually returns the scan object...
 
 
         // TODO Process timeout
@@ -85,17 +87,35 @@ class TOOL_cURL {
         //   Non-authoritative answer:\sName:\s*(\S*)\sAddress:\s*(\S*)\sName:\s*(\S*)\sAddress:\s*(\S*)
         // use https://regex101.com/ or something similar and use their generation tool
 
-        // this check may need to be moved to the ssrf vuln class depending on how we want to implement the regex checking
+        // the below will look for a common element of an etc/passwd file
 
-        $pattern = 'The pattern that matches a successful request';
+        $pattern = '/root:/bin/bash';
         preg_match_all($pattern, $CLI, $matches, PREG_SET_ORDER, 0);
 
-     
-        if (isset($matches[0])) array_push($this->reply, $matches[0]);
+        // if the pattern above is found in the reply to the curl request then we know /etc/passwd is being displayed, set the reply flag to true so the ssrf vuln can use it
+        if (isset($matches[0])) {
+
+            $reply = true;
+
+        }
+
+ 
         
     }
 
+    public function GetName() {
+        
+        return $this->name;
 
+    }
+
+    public function GetReply() {
+
+        return $this->reply;
+
+    }
+    
+    // below function deprecated
     public function Output() {
         // Persist this whole object as JSON
         // TODO
