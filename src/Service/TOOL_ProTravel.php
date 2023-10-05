@@ -9,25 +9,24 @@ use Symfony\Component\Process\Process;
 
 class TOOL_ProTravel {
     /*
-        Tool Name:              DummyTool
-        Responsible:            AA
-        OpenProject Phase #:    999
+        Tool Name:              ProTravel
+        Responsible:            PY
+        OpenProject Phase #:    
 
         Summary:
-            ... quick summary of the tool's purpose. (Even if it's all written in PHP / Symfony, still describe it breifly)
+            Python CLI tool to assess whether a website is susceptible to path traversal vulnerability.
 
 
-        Output (JSON):
-            ... describe in psuedocode
-            $names = array of domain names
-            $addresses = array of addresses (IPv4/6) corresponding to the matching $names[i]
+        Output:
+            The output produced will depend on whether a vulnerability is found or not.
+            A "Done" output from ProTravel indicates there is no present vulnerability.
+            An output displaying either paths or files indicates that the program has found the presence of sensitive information through a path traversal exploit.
 
     */
     
-    // where required, you may have more complex data structures here!!
-    //   (which is why we are returning this object JSON encoded)
-
+    private $name;
     private $output;
+    private Process $process;
 
     public function __construct(
         Tool $tool,

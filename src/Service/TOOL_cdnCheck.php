@@ -8,8 +8,22 @@ use App\Entity\Tool;
 // DAST test feature
 class TOOL_cdnCheck
 {
+    /*
+        Tool Name:              CDNCheck
+        Responsible:            PY
+        OpenProject Phase #:    
+
+        Summary:
+            Custom PHP script written by Parker Young to assess whether a target is utilising a commercial CDN.
+
+
+        Output:
+            Fairly simple: the output will check for a popular commercial CDN by analying the headers.
+            If a CDN is present, or no CDN is in use, the script will output the resulting string accordingly.
+
+    */
+    private $name;
     private $output;
-    private $vulnerable;
 
     public function __construct(
         Tool $tool,
