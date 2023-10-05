@@ -16,7 +16,8 @@ class TOOL_cURL extends TOOL {
         Output (either array or just a boolean):
             ... describe in psuedocode
             $reply: I'm thinking that it might be simpler to just return a boolean if the regex for etc/passwd matches instead of an array 
-            but if anyone else is going to use cURL then that will change 
+            but if anyone else is going to use cURL then that will change
+            NOTE FROM LC - Also using cURL however I also just need to check the regex when run with the -I flag and return a boolean if specific text matches 
 
     */
     private array $CLI;
