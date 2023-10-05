@@ -90,19 +90,40 @@ $TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
 $TOOL_Dummy = new TOOL_Dummy($SCAN, "DummyTool");
 $TOOL_Dummy->Execute();
 
+// PY TOOL
+$TOOL_a2sv = new TOOL_a2sv($SCAN, "a2sv");
+$TOOL_a2sv->Execute();
+
+// PY TOOL
+$TOOL_cdnCheck = new TOOL_cdnCheck($SCAN, "cdnCheck");
+$TOOL_cdnCheck->Execute();
+
+// PY TOOL
+$TOOL_ProTravel = new TOOL_ProTravel($SCAN, "ProTravel");
+$TOOL_ProTravel->Execute();
+
 // ... next tool
 
 print_r($TOOL_Dummy);
-
+print_r($TOOL_a2sv);
+print_r($TOOL_cdnCheck);
+print_r($TOOL_ProTravel);
 
 // Analyse each of the vulnerabilities:
 $VULN_Dummy = new VULN_Dummy($SCAN, [$TOOL_GoSpider, $TOOL_Dummy]);
 $VULN_Dummy->Analyse();
 
-// next vuln...
+// PY VULNERABILITY
+$VULN_InsecureServer = new VULN_InsecureServer($SCAN, [$TOOL_a2sv]);
+$VULN_InsecureServer->Analyse();
 
+// PY VULNERABILITY
+$VULN_DDOS = new VULN_DDOS($SCAN, [$TOOL_cdnCheck]);
+$VULN_DDOS->Analyse();
 
-
+// PY VULNERABILITY
+$VULN_PathTraversal = new VULN_Dummy($SCAN, [$TOOL_ProTravel]);
+$VULN_PathTraversal->Analyse();
 
 // Prepare the report
 
