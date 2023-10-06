@@ -1,8 +1,8 @@
 <?php
-class VULN_Dummy extends VULN {
+class VULN_SQLInjection extends VULN {
     /*
-        Vulnerability:          DummyTool
-        Responsible:            AA
+        Vulnerability:          SQL Injection
+        Responsible:            SC
         OpenProject Phase #:    999
 
         Summary:

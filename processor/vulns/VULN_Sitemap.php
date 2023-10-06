@@ -1,13 +1,12 @@
 <?php
-class VULN_Dummy extends VULN {
+class VULN_Sitemap extends VULN {
     /*
-        Vulnerability:          DummyTool
-        Responsible:            AA
+        Vulnerability:          Sitemap
+        Responsible:            SC
         OpenProject Phase #:    999
 
         Summary:
-            ... quick summary on the vulnerability and what tools are required
-
+            Discover the sitemap / directory structure of a target website.
 
         Output (HTML):
             HTML formatted output to go straight into the Report.

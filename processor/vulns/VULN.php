@@ -15,6 +15,9 @@ class VULN {
     ) {
         $this->scan = $scan;
         $this->tools = $tools;
+
+        // Initialise severity to default value (0: Information)
+        $this->severity = 0;
     }
 
       

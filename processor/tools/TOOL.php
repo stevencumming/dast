@@ -4,8 +4,6 @@ class TOOL {
     protected string $name;
     protected Scan $scan;
 
-    protected $output;
-
  
     function __construct(
         $scan,

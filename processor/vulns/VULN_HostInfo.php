@@ -1,13 +1,14 @@
 <?php
-class VULN_Dummy extends VULN {
+class VULN_HostInfo extends VULN {
     /*
-        Vulnerability:          DummyTool
-        Responsible:            AA
+        Vulnerability:          Host Information
+        Responsible:            SC
         OpenProject Phase #:    999
 
         Summary:
-            ... quick summary on the vulnerability and what tools are required
-
+            Gather target host information:
+                - Web host software
+                - Open ports
 
         Output (HTML):
             HTML formatted output to go straight into the Report.

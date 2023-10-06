@@ -2,7 +2,6 @@
 /*
     DAST Backend Processing
 */
-
 // ====================================
 // Includes / Imports
 
@@ -13,6 +12,8 @@ require_once('./Scan.php');
 require_once('./tools/TOOL.php');
 require_once('./tools/TOOL_Dummy.php');
 require_once('./tools/TOOL_GoSpider.php');
+require_once('./tools/TOOL_Gobuster.php');
+require_once('./tools/TOOL_Nmap.php');
 // ... more tools here
 
 // Vulnerabiliites
@@ -81,10 +82,18 @@ if  (!$scanWaiting) {
 // ====================================
 // There is a scan to process
 
+// ========================================================================
+//                                  TOOLS
+// ========================================================================
 
 // Execute each of the tools:
 $TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
-//$TOOL_GoSpider->Execute();
+$TOOL_GoSpider->Execute();
+
+//
+$TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
+$TOOL_Gobuster->Execute();
+
 
 // next tool
 $TOOL_Dummy = new TOOL_Dummy($SCAN, "DummyTool");
@@ -103,6 +112,7 @@ $TOOL_ProTravel = new TOOL_ProTravel($SCAN, "ProTravel");
 $TOOL_ProTravel->Execute();
 
 // ... next tool
+$TOOL_Nmap = new TOOL_Nmap($SCAN, "nmap");
 
 print_r($TOOL_Dummy);
 print_r($TOOL_a2sv);
@@ -110,8 +120,8 @@ print_r($TOOL_cdnCheck);
 print_r($TOOL_ProTravel);
 
 // Analyse each of the vulnerabilities:
-$VULN_Dummy = new VULN_Dummy($SCAN, [$TOOL_GoSpider, $TOOL_Dummy]);
-$VULN_Dummy->Analyse();
+//$VULN_Dummy = new VULN_Dummy($SCAN, [$TOOL_GoSpider, $TOOL_Dummy]);
+//$VULN_Dummy->Analyse();
 
 // PY VULNERABILITY
 $VULN_InsecureServer = new VULN_InsecureServer($SCAN, [$TOOL_a2sv]);
@@ -126,8 +136,12 @@ $VULN_PathTraversal = new VULN_Dummy($SCAN, [$TOOL_ProTravel]);
 $VULN_PathTraversal->Analyse();
 
 // Prepare the report
+// go through each vuln html and sever and produce some other html file?
 
 
+
+// Persist the report
+// save that html to the db
 
 
 // Update the scan status
