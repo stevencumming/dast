@@ -85,19 +85,22 @@ if  (!$scanWaiting) {
 // ========================================================================
 //                                  TOOLS
 // ========================================================================
-
 // Execute each of the tools:
+
+// example tool
+$TOOL_Dummy = new TOOL_Dummy($SCAN, "DummyTool");
+$TOOL_Dummy->Execute();
+
+// SC TOOL
 $TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
 $TOOL_GoSpider->Execute();
 
-//
+// SC TOOL
 $TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
 $TOOL_Gobuster->Execute();
 
 
-// next tool
-$TOOL_Dummy = new TOOL_Dummy($SCAN, "DummyTool");
-$TOOL_Dummy->Execute();
+
 
 // PY TOOL
 $TOOL_a2sv = new TOOL_a2sv($SCAN, "a2sv");
