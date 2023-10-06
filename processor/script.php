@@ -119,6 +119,10 @@ print_r($TOOL_a2sv);
 print_r($TOOL_cdnCheck);
 print_r($TOOL_ProTravel);
 
+// ========================================================================
+//                                  VULNERABILITIES
+// ========================================================================
+
 // Analyse each of the vulnerabilities:
 //$VULN_Dummy = new VULN_Dummy($SCAN, [$TOOL_GoSpider, $TOOL_Dummy]);
 //$VULN_Dummy->Analyse();
