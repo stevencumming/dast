@@ -27,7 +27,7 @@ class TOOL_XSRFProbe extends TOOL {
         // on my machine there is an initial deprecation warning message output to the command line about pkg_resources, doesn't really do anything it's just annoying
         // ALSO keep in mind that my version of xsrfprobe is edited to remover the colour values from the ouput so we will need to implement this on the DAST machine as well
         // below command only executes againt your own local host, will need to edit for actual scan
-        $command = 'xsrfprobe -u 127.0.0.1';
+        $command = 'xsrfprobe -u ' . parse_url($this->scan->getTarget())["host"];
         exec($command, $CLI);
         
         $patternTypes = '#Possible Vulnerability Type:#';

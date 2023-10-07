@@ -14,11 +14,16 @@ require_once('./tools/TOOL_Dummy.php');
 require_once('./tools/TOOL_GoSpider.php');
 require_once('./tools/TOOL_Gobuster.php');
 require_once('./tools/TOOL_Nmap.php');
+require_once('./tools/TOOL_cURL.php');
+require_once('./tools/TOOL_XSRFProbe.php');
 // ... more tools here
 
 // Vulnerabiliites
 require_once('./vulns/VULN.php');
 require_once('./vulns/VULN_Dummy.php');
+require_once('./vulns/VULN_SecurityMscfg.php');
+require_once('./vulns/VULN_SSRF.php');
+require_once('./vulns/VULN_CSRF.php');
 
 
 
@@ -114,8 +119,20 @@ $TOOL_cdnCheck->Execute();
 $TOOL_ProTravel = new TOOL_ProTravel($SCAN, "ProTravel");
 $TOOL_ProTravel->Execute();
 
+// MG TOOL
+$TOOL_Nmap = new TOOL_Nmap($SCAN, "Nmap");
+$TOOL_Nmap->Execute();
+
+// MG TOOL
+$TOOL_cURL = new TOOL_cURL($SCAN, "cURL");
+$TOOL_cURL->Execute();
+
+// MG TOOL
+$TOOL_XSRFProbe = new TOOL_XSRFProbe($SCAN, "XSRFProbe");
+$TOOL_XSRFProbe->Execute();
+
 // ... next tool
-$TOOL_Nmap = new TOOL_Nmap($SCAN, "nmap");
+//$TOOL_Nmap = new TOOL_Nmap($SCAN, "nmap");
 
 print_r($TOOL_Dummy);
 print_r($TOOL_a2sv);
@@ -141,6 +158,18 @@ $VULN_DDOS->Analyse();
 // PY VULNERABILITY
 $VULN_PathTraversal = new VULN_Dummy($SCAN, [$TOOL_ProTravel]);
 $VULN_PathTraversal->Analyse();
+
+// MG VULNERABILITY
+$VULN_SecurityMscfg = new VULN_SecurityMscfg($SCAN, [$TOOL_Nmap, $TOOL_Dirbuster]);
+$VULN_SecurityMscfg->Analyse();
+
+// MG VULNERABILITY
+$VULN_CSRF = new VULN_CSRF($SCAN, [$TOOL_XSRFProbe]);
+$VULN_CSRF->Analyse();
+
+// MG VULNERABILITY
+$VULN_SSRF = new VULN_SSRF($SCAN, [$TOOL_cURL]);
+$VULN_SSRF->Analyse();
 
 // Prepare the report
 // go through each vuln html and sever and produce some other html file?
