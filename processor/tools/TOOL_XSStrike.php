@@ -20,8 +20,10 @@ class TOOL_XSStrike extends TOOL {
     private array $CLI;
     private array $components;
     private array $cves;
+    
 
     public function Execute() {
+        
         // Run the process(es)
         $this->components = [];
         $this->cves = [];
@@ -29,19 +31,24 @@ class TOOL_XSStrike extends TOOL {
         $command = 'python3 ./assets/XSStrike/xsstrike.py -u "http://127.0.0.1/mutillidae/" --crawl';
         exec($command, $CLI);
         
-        $patternComponents = '#Vulnerable component:.*+#';
-        $patternCves = '#CVE:.*+#';
+        function stripAnsiEscapeCodes($text) {
+            return preg_replace('/\e\[[\d;]+m/', '', $text);
+        }
+        
+        $patternComponents = '#Vulnerable component:\s+([^\n]+)#';
+        $patternCves = '#CVE:\s+([^\n]+)#';
 
         foreach($CLI as $line){
+            $line = stripAnsiEscapeCodes($line);
 
             preg_match_all($patternComponents, $line, $result, PREG_SET_ORDER, 0);
             if(isset($result[0])) {
-                array_push($this->components, $result[0][0]);
+                array_push($this->components, $result[0][1]);
             }
 
             preg_match_all($patternCves, $line, $result, PREG_SET_ORDER, 0);
             if(isset($result[0])) {
-                array_push($this->cves, $result[0][0]);
+                array_push($this->cves, $result[0][1]);
             }
 
         }

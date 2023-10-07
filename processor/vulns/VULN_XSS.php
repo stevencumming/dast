@@ -29,10 +29,17 @@ class VULN_XSS extends VULN {
                 // if the array returned by the xsrfprobe tool isn't empty then we know something was found
                     if (isset($tool->getComponents()[0])) {
                         // kind of a place holder output here but you get the idea
-			    $output = "Application is potentially vulnerable to ";
-			    foreach($tool->getComponents() as $components){
-				$output .= $components . ", ";
-			    }
+                        $output = "Application is potentially vulnerable to ";
+                        foreach($tool->getComponents() as $components){
+                            $output .= $components . ", ";
+                        }
+                        if (isset($tool->getCves()[0])) {
+                            $output .= " Related CVE's are: ";
+                            foreach($tool->getCves() as $cves){
+                                $output .= $cves. ", ";
+                                }
+                        }
+                     
 		    }else{
 			    $output = "No potential XSS vulnerabilities were found";
 		    }
