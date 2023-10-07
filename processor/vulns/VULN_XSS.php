@@ -1,5 +1,5 @@
 <?php
-class VULN_Dummy extends VULN {
+class VULN_XSS extends VULN {
     /*
         Vulnerability:          CrossSiteScripting
         Responsible:            LC
@@ -26,15 +26,21 @@ class VULN_Dummy extends VULN {
             // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
             switch ($tool->getName()) {
                 case "XSStrike":
-                   
-                    
-                    if (isset($tool->getComponents()[0])) { 
-                        $nmapOutput = "There were " . count($tool->getCVEs()) . " potential CVEs found during port scanning.";
+                // if the array returned by the xsrfprobe tool isn't empty then we know something was found
+                    if (isset($tool->getComponents()[0])) {
+                        // kind of a place holder output here but you get the idea
+			    $output = "Application is potentially vulnerable to ";
+			    foreach($tool->getComponents() as $components){
+				$output .= $components . ", ";
+			    }
 		    }else{
-			    $nmapOutput = "There were no CVEs found during port scanning.";
+			    $output = "No potential XSS vulnerabilities were found";
 		    }
-                    break;
+            
+                    break;  // don't forget to break
+                // we don't really need a default case, the condition should never occur.
             }
+            
         }
 
         // ++ All tools have been analysed at this point
@@ -46,8 +52,8 @@ class VULN_Dummy extends VULN {
         // remember to construct the HTML used within the report:
         //   (the final report generated, that includes ALL vulnerabilities, will consist of all of these html segments displayed together)
         //   (We'll standardise this later!)
-        $this->html = "<p>The results are: " . $output . ". Yes, this will need more formatting and extraction
-        of $output...";
+        $this->html = "$output";
+        
 
     }
 

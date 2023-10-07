@@ -1,7 +1,7 @@
 <?php
 
 
-class TOOL_XSRFProbe extends TOOL {
+class TOOL_XSStrike extends TOOL {
     /*
         Tool Name:              XSStrike
         Responsible:            LC
@@ -18,14 +18,15 @@ class TOOL_XSRFProbe extends TOOL {
            
     */
     private array $CLI;
-    private array $vulnTypes;
+    private array $components;
+    private array $cves;
 
     public function Execute() {
         // Run the process(es)
-        $this->component = [];
+        $this->components = [];
         $this->cves = [];
 
-        $command = 'python xsstrike.py -u "http://127.0.0.1/mutillidae/" --crawl';
+        $command = 'python3 ./assets/XSStrike/xsstrike.py -u "http://127.0.0.1/mutillidae/" --crawl';
         exec($command, $CLI);
         
         $patternComponents = '#Vulnerable component:.*+#';
@@ -35,12 +36,12 @@ class TOOL_XSRFProbe extends TOOL {
 
             preg_match_all($patternComponents, $line, $result, PREG_SET_ORDER, 0);
             if(isset($result[0])) {
-                array_push($this->vulnTypes, $line);
+                array_push($this->components, $result[0][0]);
             }
 
             preg_match_all($patternCves, $line, $result, PREG_SET_ORDER, 0);
             if(isset($result[0])) {
-                array_push($this->vulnTypes, $line);
+                array_push($this->cves, $result[0][0]);
             }
 
         }
