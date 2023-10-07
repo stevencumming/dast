@@ -32,7 +32,7 @@ class TOOL_Nmap extends TOOL {
 	    $this->ports = [];
 	    $this->cves = [];
         // below script is just targeting the local host, will need to be changed for actual scans
-        $command = 'nmap -T4 -A --script vulners 127.0.0.1';
+        $command = 'nmap -T4 -A --script vulners ' . parse_url($this->scan->getTarget())["host"];
         // execute the specified command and put the ouput into an array called $CLI
         exec($command, $CLI);	
 

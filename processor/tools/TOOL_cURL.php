@@ -26,7 +26,7 @@ class TOOL_cURL extends TOOL {
     public function Execute() {
         $this->reply = false;
         // this command will need to be edited to add in the target url, although I doubt it will ever work...
-        $command = 'curl file://127.0.0.1/etc/passwd';
+        $command = 'curl file://' . parse_url($this->scan->getTarget())["host"] . '/127.0.0.1/etc/passwd';
         exec($command, $CLI);
 
         $pattern = '#/root:/bin/bash#';
