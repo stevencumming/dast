@@ -26,9 +26,8 @@ class VULN_CryptographicFlrs extends VULN {
             // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
             switch ($tool->getName()) {
                 case "cURL":
-                // if the array returned by the xsrfprobe tool isn't empty then we know something was found
+                // if the array returned by the cURL tool isn't empty then we know something was found
                     if (isset($tool->getRedirect()[0])) {
-                        // kind of a place holder output here but you get the idea
                         $output = "Application is correctly redirecting http traffic to: ";
                         foreach($tool->getRedirect() as $redirect){
                             $output .= $redirect . ", ";

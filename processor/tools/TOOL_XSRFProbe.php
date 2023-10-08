@@ -4,7 +4,7 @@
 class TOOL_XSRFProbe extends TOOL {
     /*
         Tool Name:              XSRFProbe
-        Responsible:            MG (and whoever else wants to use)
+        Responsible:            MG-LC (and whoever else wants to use)
         OpenProject Phase #:    XXX
 
         Summary:
