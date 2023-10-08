@@ -37,12 +37,41 @@ class TOOL_cURL extends TOOL {
                 $this->reply = true;
             }
         }
+        $this->redirect = [];
+        // this command will need to be edited to add in the target url, although I doubt it will ever work...
+        $command = 'curl -I http://127.0.0.1/mutillidae';
+        exec($command, $CLI);
+
+        $pattern = '#HTTP\/1.1 301 Moved Permanently#';
+        
+        foreach($CLI as $line) {
+            preg_match_all($pattern, $line, $result, PREG_SET_ORDER, 0);
+            if(isset($result[0])) {
+                $pattern = '#Location: https#';        
+                foreach($CLI as $line) {
+                    preg_match_all($pattern, $line, $result, PREG_SET_ORDER, 0);
+                    if(isset($result[0])) {
+                        $pattern = '#Location:\s+([^\n]+)#';
+                        preg_match_all($pattern, $line, $result, PREG_SET_ORDER, 0);
+                        if(isset($result[0])) {
+                            array_push($this->redirect, $result[0][1]);
+                        }
+                    }
+            }
+        }
 
     }
+}
 
     public function GetReply() {
 
         return $this->reply;
+
+    }
+
+    public function GetRedirect() {
+
+        return $this->redirect;
 
     }
     
