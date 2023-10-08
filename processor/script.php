@@ -14,6 +14,9 @@ require_once('./tools/TOOL_Dummy.php');
 require_once('./tools/TOOL_GoSpider.php');
 require_once('./tools/TOOL_Gobuster.php');
 require_once('./tools/TOOL_Nmap.php');
+require_once('./tools/TOOL_a2sv.php');
+require_once('./tools/TOOL_cdnCheck.php');
+require_once('./tools/TOOL_cURL.php');
 // ... more tools here
 
 // Vulnerabiliites
@@ -95,6 +98,8 @@ $TOOL_Dummy->Execute();
 $TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
 $TOOL_GoSpider->Execute();
 
+print_r($TOOL_GoSpider->getOutput());
+
 // SC TOOL
 $TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
 $TOOL_Gobuster->Execute();
@@ -141,6 +146,20 @@ $VULN_DDOS->Analyse();
 // PY VULNERABILITY
 $VULN_PathTraversal = new VULN_Dummy($SCAN, [$TOOL_ProTravel]);
 $VULN_PathTraversal->Analyse();
+
+
+$VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_GoSpider, $TOOL_Gobuster]);
+$VULN_Dummy->Analyse();
+
+
+
+
+
+
+
+
+
+
 
 // Prepare the report
 // go through each vuln html and sever and produce some other html file?

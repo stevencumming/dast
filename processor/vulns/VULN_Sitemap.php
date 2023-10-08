@@ -24,7 +24,7 @@ class VULN_Sitemap extends VULN {
             // Loop through each of the tools that were passed to this vulnerability
             // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
             switch ($tool->getName()) {
-                case "DummyTool":
+                case "GoSpider":
                     // Do stuff with DummyTool
                     
                     // E.g. DummyTool (object of type TOOL_DummyTool has $addresses and $domain_names private members (variables))
@@ -34,15 +34,22 @@ class VULN_Sitemap extends VULN {
                     }
 
                     break;
-                case "Nmap":
-                    // Do other stuff with nmap
-                    // Analyse the output inside the Nmap object
-                    //  ... which at this point in code would simply be accessed with $tool
-                    //  ... this $tool object would be of type TOOL_Nmap
-                    // because it is the CURRENT tool index in the foreach loop
+
+                case "Gobuster":
+                    $output += "<div><h3>Directory / File listing</h3>";
+                    $output += "<h4>Extended file information</h4>";
+                    $output += "<ul>";
+
+                    foreach ($tool->getVerboseOutput() as $value) {
+                        # code...
+                    }
+
+                    
+
 
                     $output = "Some other value";
                     break;
+
                 case "another_tool_that_might_have_been_passed":
                     // Do more stuff
                     break;  // don't forget to break

@@ -21,16 +21,17 @@ class TOOL_GoSpider extends TOOL {
     private array $output;
 
     public function Execute() {
+        echo "Executing Gospider...\n";
+
         // Initialize arrays for storing the output data
         $results["url"] = array();
         $results["form"] = array();
         $results["other"] = array();
 
-
         // Initialise the output buffer (array of lines) and execute the tool
+        $command = "PATH=/usr/local/go/bin gospider -s " . $this->scan->getTarget() . " -c 10 -d 0 -t 5 --json";
         $CLI = array();
-        exec("PATH=/usr/local/go/bin gospider -s " . $this->scan->getTarget() . " -c 10 -d 0 -t 5 --json", $CLI);
-
+        exec($command, $CLI);
 
         foreach ($CLI as $line) {
             // Decode each line of the output buffer to an object
@@ -52,23 +53,10 @@ class TOOL_GoSpider extends TOOL {
             }
         }
 
-        // ob_start();
-        // passthru("PATH=/usr/local/go/bin gospider -s " . $this->scan->getTarget() . " -c 10 -d 0 -t 5 --json");
-        // // Split the curly braces out
-        // preg_match_all('~{[^}]*}~', ob_get_clean(), $output);
-
-        
-
-        // // Loop through each line of the CLI output
-        // for ($i=0; $i < sizeof($output[0]); $i++) {
-            
-        // }
-        //print_r($results);
-
-        // Store in $output field of tool.
         $this->output = $results;
-    }
 
+        echo "\nFinished Gospider.\n";    
+    }
 
     public function getOutput(){
         return $this->output;
