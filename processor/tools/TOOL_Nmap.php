@@ -3,8 +3,8 @@
 class TOOL_Nmap extends TOOL {
     /*
         Tool Name:              Nmap
-        Responsible:            MG (and whoever else will use it)
-        OpenProject Phase #:    XXX
+        Responsible:            MG, SC
+        OpenProject Phase #:    
 
         Summary:
             Nmap is a versatile port scanner that can also be used for things like vulnerability checking and victim host information gathering
@@ -13,12 +13,16 @@ class TOOL_Nmap extends TOOL {
 
         Output (arrays): the arrays that are populated after the process has been run will be used by each vulnerability that requires them
             $ports- open ports on the target machine
-            $hostInfo- recon info on the host machine (os etc.)
             $cves- cves found with nmap vulners against each open port
-            feel free to add more
+            $hostInfo- recon info on the host machine (os etc.)
+
+            For example:
+            $hostInfo[OS Details] => Microsoft Windows Server 2016
+            $hostInfo[Service Info][OS] => Windows
+            $hostInfo[Service Info][CPE] => cpe:/o:microsoft:windows
+            $hostInfo[Aggressive OS guesses] => Linux 2.6.32 (94%), Linux 3.10 - 4.11 (94%), Linux 3.2 - 4.9 (94%), Linux 3.4 - 3.10 (94%), Linux 2.6.32 - 3.10 (93%), Linux 2.6.32 - 3.13 (93%), Linux 3.10 (93%), Synology DiskStation Manager 5.2-5644 (92%), Linux 2.6.22 - 2.6.36 (91%), Linux 2.6.39 (91%)
 
      */
-    private array $CLI;
     private array $ports;
     private array $hostInfo;
     private array $cves;
@@ -31,8 +35,10 @@ class TOOL_Nmap extends TOOL {
         // initialising the arrays as empty, not sure if this is necessary
 	    $this->ports = [];
 	    $this->cves = [];
+        $this->hostInfo = array();
         // below script is just targeting the local host, will need to be changed for actual scans
         $command = 'nmap -T4 -A --script vulners ' . parse_url($this->scan->getTarget())["host"];
+        echo "\nnmap command: " . $command . "\n";
         // execute the specified command and put the ouput into an array called $CLI
         exec($command, $CLI);	
 
@@ -46,14 +52,15 @@ class TOOL_Nmap extends TOOL {
         $patternPorts = '#\d{1,4}/tcp#';
         // regex looking for CVE followed by -, then 4 numbers, another - and then 4 to 5 numbers then white space
         $patternCves = '#CVE-\d{4}-\d{4,5}\s#';
-        // regex wil need to check for multiple things so can't just use one pattern
-        $patternHostOS = '#TODO#';
         
-	    $patternServerVersion = '#TODO#';
+        // Host Information
+        $patternHostInfo_ServiceInfo = '/Service Info: (.*)/m';
+        $patternHostInfo_OSGuesses = '/Aggressive OS guesses: (.*)/m';
+        $patternHostInfo_OSDetails = '/OS details: (.*)/m';
 
-	    // not sure if there is a better way to do this but this seems to work
-        // basically checking through every line of the output and doing the necessary regex matching
-	    foreach($CLI as $line){
+
+        // For each line returned by nmap, check the output data:
+        foreach($CLI as $line){
 		    preg_match_all($patternPorts, $line, $result, PREG_SET_ORDER, 0);
 		    if(isset($result[0])) {
                 // this is a pretty hacky way to go about this but I haven't figured out a cleaner way yet
@@ -67,6 +74,25 @@ class TOOL_Nmap extends TOOL {
 		    if(isset($result[0])) {
 			    array_push($this->cves, $result[0][0]);
 		    }
+
+            preg_match_all($patternHostInfo_ServiceInfo, $line, $result);
+            if(isset($result[1][0])) {
+                $temp = explode(";", $result[1][0]);
+
+                $this->hostInfo["Service Info"]["Host"] = $temp[0];
+                $this->hostInfo["Service Info"]["OS"] = $temp[1];
+                $this->hostInfo["Service Info"]["CPE"] = $temp[2];
+            }
+            
+            preg_match_all($patternHostInfo_OSGuesses, $line, $result);
+            if(isset($result[1][0])) {
+                $this->hostInfo["Aggressive OS guesses"] = $result[1][0];
+            }
+
+            preg_match_all($patternHostInfo_OSDetails, $line, $result);
+            if(isset($result[1][0])) {
+                $this->hostInfo["OS Details"] = $result[1][0];
+            }
 	    }
     }
 

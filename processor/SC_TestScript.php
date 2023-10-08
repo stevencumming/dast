@@ -20,6 +20,7 @@ require_once('./tools/TOOL_Nmap.php');
 require_once('./vulns/VULN.php');
 require_once('./vulns/VULN_Dummy.php');
 require_once('./vulns/VULN_Sitemap.php');
+require_once('./vulns/VULN_HostInfo.php');
 
 
 
@@ -91,18 +92,24 @@ if  (!$scanWaiting) {
 // Execute each of the tools:
 
 // example tool
-$TOOL_Dummy = new TOOL_Dummy($SCAN, "DummyTool");
-$TOOL_Dummy->Execute();
+// $TOOL_Dummy = new TOOL_Dummy($SCAN, "DummyTool");
+// $TOOL_Dummy->Execute();
+
+// MG TOOL
+$TOOL_Nmap = new TOOL_Nmap($SCAN, "Nmap");
+$TOOL_Nmap->Execute();
+
+print_r($TOOL_Nmap);
 
 // SC TOOL
-$TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
-$TOOL_GoSpider->Execute();
+// $TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
+// $TOOL_GoSpider->Execute();
 
 //print_r($TOOL_GoSpider->getOutput());
 
 // SC TOOL
-$TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
-$TOOL_Gobuster->Execute();
+// $TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
+// $TOOL_Gobuster->Execute();
 
 // 
 
@@ -117,14 +124,23 @@ $TOOL_Gobuster->Execute();
 //$VULN_Dummy->Analyse();
 
 
+// // SC VULNERABILITY
+// $VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_GoSpider, $TOOL_Gobuster]);
+// $VULN_Sitemap->Analyse();
+
 // SC VULNERABILITY
-$VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_GoSpider, $TOOL_Gobuster]);
-$VULN_Sitemap->Analyse();
+$VULN_HostInfo = new VULN_HostInfo($SCAN, [$TOOL_Nmap]);
+$VULN_HostInfo->Analyse();
 
 
 // 
 echo "\n\n\n\n=============\n\n\n\n";
-print_r($VULN_Sitemap->getHTML());
+print_r($VULN_HostInfo->getHTML());
+
+
+// 
+// echo "\n\n\n\n=============\n\n\n\n";
+// print_r($VULN_Sitemap->getHTML());
 
 
 

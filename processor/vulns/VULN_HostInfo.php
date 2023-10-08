@@ -3,7 +3,7 @@ class VULN_HostInfo extends VULN {
     /*
         Vulnerability:          Host Information
         Responsible:            SC
-        OpenProject Phase #:    999
+        OpenProject Phase #:    
 
         Summary:
             Gather target host information:
@@ -18,42 +18,43 @@ class VULN_HostInfo extends VULN {
         // Analyse your vulnerability
 
         // Local variables here for using when analysing the tools
-        // xxxx
-        $output = "";
+        $output = "<div>";
 
         // Start by reading the data from your tool(s)
         foreach ($this->tools as $tool) {
             // Loop through each of the tools that were passed to this vulnerability
             // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
             switch ($tool->getName()) {
-                case "DummyTool":
-                    // Do stuff with DummyTool
-                    
-                    // E.g. DummyTool (object of type TOOL_DummyTool has $addresses and $domain_names private members (variables))
-                    // example, list all of the ip addresses found against their domain names reading in the array stored in the $tool TOOL_DummyTool
-                    for ($i=0; $i < sizeof($tool->getAddresses); $i++) { 
-                        $output += $tool->getAddresses[$i] . ": " . $tool->getDomain_names[$i];
+                case "Nmap":
+                    // Server OS / Service Overview
+                    $output .= "<h3>Web Server Host Information:</h3>";
+                    $output .= "<h4>Service Information:</h4>";
+                    $output .= "<p>" . $tool->GetHostInfo()["Service Info"]["Host"] . "<br />";
+                    $output .= $tool->GetHostInfo()["Service Info"]["OS"] . "<br />";
+                    $output .= $tool->GetHostInfo()["Service Info"]["CPE"] . "</p>";
+
+                    // OS Details
+                    if(isset($tool->GetHostInfo()["OS Details"])) {
+                        // OS type / version if it was determined.
+                        $output .= "<h4>OS Details:</h4><p>" . $tool->GetHostInfo()["OS Details"] . "<br />";
+                    } elseif (isset($tool->GetHostInfo()["Aggressive OS guesses"])) {
+                        // if OS wasn't determined, show guesses.
+                        $output .= "<h4>OS Details:</h4><p>No exact OS version match found.</p><p><span style='font-weight:bold;'>Aggressive OS Guesses:</span> " . $tool->GetHostInfo()["Aggressive OS guesses"] . "<br />";
+                    }
+                    $output .= "</p>";
+
+                    // Open Ports
+                    $output .= "<h3>Open Ports:</h3>";
+                    $output .= "<ul>";
+                    foreach ($tool->GetPorts() as $item) {
+                        $output .= "<li>" . $item . "</li>";
                     }
 
+                    $output .= "</div>";
                     break;
-                case "Nmap":
-                    // Do other stuff with nmap
-                    // Analyse the output inside the Nmap object
-                    //  ... which at this point in code would simply be accessed with $tool
-                    //  ... this $tool object would be of type TOOL_Nmap
-                    // because it is the CURRENT tool index in the foreach loop
-
-                    $output = "Some other value";
-                    break;
-                case "another_tool_that_might_have_been_passed":
-                    // Do more stuff
-                    break;  // don't forget to break
-                // we don't really need a default case, the condition should never occur.
             }
         }
-
         // ++ All tools have been analysed at this point
-
         
         // calculate the severities and store
         $this->severity = 0;
@@ -61,10 +62,7 @@ class VULN_HostInfo extends VULN {
         // remember to construct the HTML used within the report:
         //   (the final report generated, that includes ALL vulnerabilities, will consist of all of these html segments displayed together)
         //   (We'll standardise this later!)
-        $this->html = "<p>The results are: " . $output . ". Yes, this will need more formatting and extraction
-        of $output...";
-
+        $this->html = $output;
     }
-
 }
 ?>
