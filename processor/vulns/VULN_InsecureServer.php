@@ -7,7 +7,9 @@ class VULN_InsecureServer extends VULN {
         OpenProject Phase #:    --
 
         Summary:
-            
+            Determines whether server configuration is susceptible to SSL and security exploits.
+            Finds vulnerabilities and their class.
+            Severity and output is calculated and stored for use in report.
 
         Output (HTML):
             HTML formatted output to go straight into the Report.
@@ -29,16 +31,25 @@ class VULN_InsecureServer extends VULN {
 
         // TODO
         // calculate the severities and store
-        if($rawOutput == '') {
-            $this->severity = 0;
-            $output = "";
-        }
-        else {
-            $this->severity = 2;
-            $output = "";
-        }
+        $severity = 0;
+        $count = 0;
 
+        foreach ($arr as $value) {
+            if(substr_count($value, "Vulnerable!") > 0) {
+                $count++;
+            }
+            if ($severity = 0) {
+                if(substr_count($value, "Vulnerable!") > 0) {
+                    $severity = 2;
+                }
+            } elseif ($severity = 2) {
+                if(substr_count($value, "Vulnerable!") > 0) {
+                    $severity = 3;
+                }
+            }
+        }
+        
         // and the HTML:
-        $this->html = "Results from Insecure Server Configuration/SSL check: " . $output . " Severity rating: " . $this->severity;
+        $this->html = nl2br("Results from Insecure Server Configuration/SSL check:\n" . $output . "\nSeverity rating: " . $this->severity);
     }
 }
