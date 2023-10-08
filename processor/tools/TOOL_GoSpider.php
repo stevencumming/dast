@@ -29,7 +29,8 @@ class TOOL_GoSpider extends TOOL {
         $results["other"] = array();
 
         // Initialise the output buffer (array of lines) and execute the tool
-        $command = "PATH=/usr/local/go/bin gospider -s " . $this->scan->getTarget() . " -c 10 -d 0 -t 5 --json";
+        $command = "PATH=/usr/local/go/bin gospider -s " . $this->scan->getTarget() . " -c 10 -d 5 -t 50 --json";
+
         $CLI = array();
         exec($command, $CLI);
 

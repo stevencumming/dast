@@ -34,7 +34,6 @@ class TOOL_Gobuster extends TOOL {
     */
     const SEARCH_EXTENSIONS = "php,txt,html,css,js";
     private array $output;
-    private array $output_verbose;
 
     public function Execute() {
         echo "Executing Gobuster...";

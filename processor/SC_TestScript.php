@@ -14,6 +14,8 @@ require_once('./tools/TOOL_Dummy.php');
 require_once('./tools/TOOL_GoSpider.php');
 require_once('./tools/TOOL_Gobuster.php');
 require_once('./tools/TOOL_Nmap.php');
+require_once('./tools/TOOL_sqlmap.php');
+require_once('./tools/TOOL_Commix.php');
 // ... more tools here
 
 // Vulnerabiliites
@@ -21,7 +23,8 @@ require_once('./vulns/VULN.php');
 require_once('./vulns/VULN_Dummy.php');
 require_once('./vulns/VULN_Sitemap.php');
 require_once('./vulns/VULN_HostInfo.php');
-
+require_once('./vulns/VULN_SQLInjection.php');
+require_once('./vulns/VULN_CMDInjection.php');
 
 
 
@@ -103,11 +106,20 @@ if  (!$scanWaiting) {
 // $TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
 // $TOOL_GoSpider->Execute();
 
-//print_r($TOOL_GoSpider->getOutput());
+
+
+// // SC TOOL
+// $TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
+// $TOOL_Gobuster->Execute();
 
 // SC TOOL
-$TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
-$TOOL_Gobuster->Execute();
+// $TOOL_sqlmap = new TOOL_sqlmap($SCAN, "sqlmap");
+// $TOOL_sqlmap->Execute();
+
+// SC TOOL
+$TOOL_Commix = new TOOL_Commix($SCAN, "commix");
+$TOOL_Commix->Execute();
+print_r($TOOL_Commix);
 
 
 // ========================================================================
@@ -120,12 +132,22 @@ $TOOL_Gobuster->Execute();
 
 
 // SC VULNERABILITY
-$VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_Gobuster]);
-$VULN_Sitemap->Analyse();
+// $VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_Gobuster, $TOOL_GoSpider]);
+// $VULN_Sitemap->Analyse();
 
 // SC VULNERABILITY
 // $VULN_HostInfo = new VULN_HostInfo($SCAN, [$TOOL_Nmap]);
 // $VULN_HostInfo->Analyse();
+
+// SC VULNERABILITY
+// $VULN_SQLInjection = new VULN_SQLInjection($SCAN, [$TOOL_sqlmap]);
+// $VULN_SQLInjection->Analyse();
+
+// SC VULNERABILITY
+$VULN_CMDInjection = new VULN_CMDInjection($SCAN, [$TOOL_Commix]);
+$VULN_CMDInjection->Analyse();
+
+print_r($VULN_CMDInjection->getHTML());
 
 
 // 
@@ -135,7 +157,7 @@ $VULN_Sitemap->Analyse();
 
 // 
 // echo "\n\n\n\n=============\n\n\n\n";
-print_r($VULN_Sitemap->getHTML());
+//print_r($VULN_Sitemap->getHTML());
 
 
 // Prepare the report

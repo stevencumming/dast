@@ -19,6 +19,9 @@ require_once('./tools/TOOL_cdnCheck.php');
 require_once('./tools/TOOL_cURL.php');
 require_once('./tools/TOOL_XSRFProbe.php');
 require_once('./tools/TOOL_XSStrike.php');
+require_once('./tools/TOOL_sqlmap.php');
+require_once('./tools/TOOL_Commix.php');
+
 // ... more tools here
 
 // Vulnerabiliites
@@ -32,6 +35,8 @@ require_once('./vulns/VULN_BrokenAccessCtl.php');
 require_once('./vulns/VULN_CryptographicFlrs.php');
 require_once('./vulns/VULN_XSS.php');
 require_once('./vulns/VULN_HostInfo.php');
+require_once('./vulns/VULN_SQLInjection.php');
+require_once('./vulns/VULN_CMDInjection.php');
 
 
 
@@ -104,21 +109,6 @@ if  (!$scanWaiting) {
 $TOOL_Dummy = new TOOL_Dummy($SCAN, "DummyTool");
 $TOOL_Dummy->Execute();
 
-// SC TOOL
-$TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
-$TOOL_GoSpider->Execute();
-
-print_r($TOOL_GoSpider->getOutput());
-
-// SC TOOL
-$TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
-$TOOL_Gobuster->Execute();
-
-// 
-
-
-
-
 // PY TOOL
 $TOOL_a2sv = new TOOL_a2sv($SCAN, "a2sv");
 $TOOL_a2sv->Execute();
@@ -146,6 +136,24 @@ $TOOL_XSRFProbe->Execute();
 // LC TOOL
 $TOOL_XSStrike = new TOOL_XSStrike($SCAN, "XSStrike");
 $TOOL_XSStrike->Execute();
+
+// SC TOOL
+$TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
+$TOOL_GoSpider->Execute();
+
+print_r($TOOL_GoSpider->getOutput());
+
+// SC TOOL
+$TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
+$TOOL_Gobuster->Execute();
+
+// SC TOOL
+$TOOL_sqlmap = new TOOL_sqlmap($SCAN, "sqlmap");
+$TOOL_sqlmap->Execute();
+
+// SC TOOL
+$TOOL_Commix = new TOOL_Commix($SCAN, "commix");
+$TOOL_Commix->Execute();
 
 // ... next tool
 //$TOOL_Nmap = new TOOL_Nmap($SCAN, "nmap");
@@ -207,6 +215,16 @@ $VULN_HostInfo->Analyse();
 // SC VULNERABILITY
 $VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_Gobuster]);
 $VULN_Sitemap->Analyse();
+
+// SC VULNERABILITY
+$VULN_SQLInjection = new VULN_SQLInjection($SCAN, [$TOOL_sqlmap]);
+$VULN_SQLInjection->Analyse();
+
+// SC VULNERABILITY
+$VULN_CMDInjection = new VULN_CMDInjection($SCAN, [$TOOL_Commix]);
+$VULN_CMDInjection->Analyse();
+
+
 
 
 // Prepare the report
