@@ -31,6 +31,7 @@ require_once('./vulns/VULN_Sitemap.php');
 require_once('./vulns/VULN_BrokenAccessCtl.php');
 require_once('./vulns/VULN_CryptographicFlrs.php');
 require_once('./vulns/VULN_XSS.php');
+require_once('./vulns/VULN_HostInfo.php');
 
 
 
@@ -200,9 +201,12 @@ $VULN_XSS = new VULN_XSS($SCAN, [$TOOL_XSStrike]);
 $VULN_XSS->Analyse();
 
 // SC VULNERABILITY
-$VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_GoSpider, $TOOL_Gobuster]);
-$VULN_Dummy->Analyse();
+$VULN_HostInfo = new VULN_HostInfo($SCAN, [$TOOL_Nmap]);
+$VULN_HostInfo->Analyse();
 
+// SC VULNERABILITY
+$VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_Gobuster]);
+$VULN_Sitemap->Analyse();
 
 
 // Prepare the report

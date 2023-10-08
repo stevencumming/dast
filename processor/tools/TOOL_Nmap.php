@@ -23,22 +23,21 @@ class TOOL_Nmap extends TOOL {
             $hostInfo[Aggressive OS guesses] => Linux 2.6.32 (94%), Linux 3.10 - 4.11 (94%), Linux 3.2 - 4.9 (94%), Linux 3.4 - 3.10 (94%), Linux 2.6.32 - 3.10 (93%), Linux 2.6.32 - 3.13 (93%), Linux 3.10 (93%), Synology DiskStation Manager 5.2-5644 (92%), Linux 2.6.22 - 2.6.36 (91%), Linux 2.6.39 (91%)
 
      */
+    // Fields
     private array $ports;
     private array $hostInfo;
     private array $cves;
-    // where required, you may have more complex data structures here!!
-    //   (which is why we are returning this object JSON encoded) (not anymore though)
-
 
 
     public function Execute() {
+        echo "Executing Nmap...";
+
         // initialising the arrays as empty, not sure if this is necessary
 	    $this->ports = [];
 	    $this->cves = [];
         $this->hostInfo = array();
         // below script is just targeting the local host, will need to be changed for actual scans
         $command = 'nmap -T4 -A --script vulners ' . parse_url($this->scan->getTarget())["host"];
-        echo "\nnmap command: " . $command . "\n";
         // execute the specified command and put the ouput into an array called $CLI
         exec($command, $CLI);	
 
@@ -94,42 +93,20 @@ class TOOL_Nmap extends TOOL {
                 $this->hostInfo["OS Details"] = $result[1][0];
             }
 	    }
+
+        echo " Finished Nmap.\n"; 
     }
 
-    // I have added a few getters here that are for specific arrays like ports and cves etc, it might be helpful to have for when the vulnerabilities need to be called they can just check relevant output 
-    // no need for Setters since no other class will be able to change any of the arrays except for the tool itself
-
+    // Getters / Setters
     public function GetPorts() {
-        
         return $this->ports;
-
     }
 
     public function GetCVEs() {
-    
         return $this->cves;
-
     }
 
     public function GetHostInfo() {
-
         return $this->hostInfo;
-
-    }
-
-    
-    // the below function will be deprecated now that there is no persistence
-    
-    public function Output() {
-
-        
-
-        // Persist this whole object as JSON
-        // TODO
-        // return json_encode($this);
-
-        
-    }
-
-    
+    }    
 }

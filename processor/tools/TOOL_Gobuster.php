@@ -13,17 +13,24 @@ class TOOL_Gobuster extends TOOL {
             getOutput()
                 returns the found files / directories as an array.
                 each element is one file/directory (URL)
+                    which contains:
+                    [URL]
+                    [status code]
+                    [size] (bytes)
                 e.g.:
-                    https://stevencumming.io/header.php
-                    https://stevencumming.io/index.php
+                    [0] => Array
+                        (
+                            [URL] => https://stevencumming.io/.html
+                            [status code] => 403
+                            [size] => 282
+                        )
 
-
-            getVerboseOutput()
-                returns the found file/directory URL, HTTP response code, and size.
-                e.g.:
-                    https://stevencumming.io/.html                (Status: 403) [Size: 282]
-                    https://stevencumming.io/assets               (Status: 301) [Size: 323] [--> https://stevencumming.io/assets/]
-
+                    [1] => Array
+                        (
+                            [URL] => https://stevencumming.io/.php
+                            [status code] => 403
+                            [size] => 282
+                        )
     */
     const SEARCH_EXTENSIONS = "php,txt,html,css,js";
     private array $output;
@@ -32,33 +39,43 @@ class TOOL_Gobuster extends TOOL {
     public function Execute() {
         echo "Executing Gobuster...";
 
-        // Initialise the output buffer (array of lines) and execute the tool
+        // gobuster command
         $command = "PATH=/usr/local/go/bin gobuster dir -q -e -x " . self::SEARCH_EXTENSIONS . " -u " . $this->scan->getTarget() . " -t 50 -w assets/wordlist.txt";
+
+        // Initialise the output buffer (array of lines) and execute the tool
+        $output = array();
         $CLI = array();
         exec($command, $CLI);
-
-        // initialise output arrays
-        $this->output = array();
-        $this->output_verbose = array();
-
+      
         // Gor each line reformat and store in output array
         foreach ($CLI as $line) {
-            // Push verbose output to array
-            array_push($this->output_verbose, $line);
+            $results = array();
 
-            // Trim off the excess from the result and push to output array
-            $line = strtok($line,' ');
-            array_push($this->output, $line);
+            // After like 5 hours of debugging (read, pulling my hair out...) Gobuster was injecting some non-visible ASCII control characters at the
+            //   beginning of each line, so PHP foreach wasn't working at all. Anyway, stripping the first 4 chars of the string fixes it.
+            $line = substr($line, 5);
+            
+            // truncate after first space (SP char = 0x20 in hex) for just the URL
+            $url = substr($line, 0, strpos($line, chr(0x20)));
+            $results["URL"] = $url;
+
+            // extract the http status code and also the file / resource size if found
+            $pattern_StatusCode_Size = '/\(Status: ([\d]+)\) \[Size: ([\d]+)\]/m';
+            preg_match_all($pattern_StatusCode_Size, $line, $temp);
+            $results["status code"] = $temp[1][0];
+            $results["size"] = $temp[2][0];
+
+            // Push verbose output to array
+            array_push($output, $results);
         }
 
-        echo " Finished Gobuster.\n";        
+        $this->output = $output;
+        
+        echo " Finished Gobuster.\n";
     }
 
     public function getOutput(){
         return $this->output;
-    }
-    public function getVerboseOutput(){
-        return $this->output_verbose;
     }
 }
 ?>

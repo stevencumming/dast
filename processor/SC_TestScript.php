@@ -96,10 +96,8 @@ if  (!$scanWaiting) {
 // $TOOL_Dummy->Execute();
 
 // MG TOOL
-$TOOL_Nmap = new TOOL_Nmap($SCAN, "Nmap");
-$TOOL_Nmap->Execute();
-
-print_r($TOOL_Nmap);
+// $TOOL_Nmap = new TOOL_Nmap($SCAN, "Nmap");
+// $TOOL_Nmap->Execute();
 
 // SC TOOL
 // $TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
@@ -108,11 +106,8 @@ print_r($TOOL_Nmap);
 //print_r($TOOL_GoSpider->getOutput());
 
 // SC TOOL
-// $TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
-// $TOOL_Gobuster->Execute();
-
-// 
-
+$TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
+$TOOL_Gobuster->Execute();
 
 
 // ========================================================================
@@ -124,24 +119,23 @@ print_r($TOOL_Nmap);
 //$VULN_Dummy->Analyse();
 
 
-// // SC VULNERABILITY
-// $VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_GoSpider, $TOOL_Gobuster]);
-// $VULN_Sitemap->Analyse();
+// SC VULNERABILITY
+$VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_Gobuster]);
+$VULN_Sitemap->Analyse();
 
 // SC VULNERABILITY
-$VULN_HostInfo = new VULN_HostInfo($SCAN, [$TOOL_Nmap]);
-$VULN_HostInfo->Analyse();
+// $VULN_HostInfo = new VULN_HostInfo($SCAN, [$TOOL_Nmap]);
+// $VULN_HostInfo->Analyse();
 
 
 // 
-echo "\n\n\n\n=============\n\n\n\n";
-print_r($VULN_HostInfo->getHTML());
+// echo "\n\n\n\n=======aaa======\n\n\n\n";
+// var_dump($TOOL_Gobuster);
 
 
 // 
 // echo "\n\n\n\n=============\n\n\n\n";
-// print_r($VULN_Sitemap->getHTML());
-
+print_r($VULN_Sitemap->getHTML());
 
 
 // Prepare the report
