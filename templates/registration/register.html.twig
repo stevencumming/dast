@@ -3,6 +3,13 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+<style>
+#registration_form_agreeTerms {
+    box-shadow: inset 0px 0px 0px;
+}
+
+</style>
+<div class="login">
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
@@ -12,12 +19,17 @@
     {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        <div style="color: white">
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password'
+            }) }}
+            {{ form_row(registrationForm.agreeTerms, {
+                label: "Agree to Terms"
+            }) }}
+        </div>
 
-        <button type="submit" class="btn">Register</button>
+        <button type="submit" class="btn btn-primary btn-block btn-large">Register</button>
     {{ form_end(registrationForm) }}
+</div>
 {% endblock %}

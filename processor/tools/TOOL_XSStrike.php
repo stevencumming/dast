@@ -28,24 +28,32 @@ class TOOL_XSStrike extends TOOL {
         $this->components = [];
         $this->cves = [];
 
-        $command = 'python3 ./assets/XSStrike/xsstrike.py -u "http://127.0.0.1/mutillidae/" --crawl';
+        //Calls python3 tool XSStrike and crawls the site looking for vulnerabilities
+        $command = 'python3 ./assets/XSStrike/xsstrike.py -u'. parse_url($this->scan->getTarget())["host"] . '--crawl';
         exec($command, $CLI);
         
+        // Tool nativley outputs in colour. This gets formatted weirdly in HTML so gets stripped with regex here
         function stripAnsiEscapeCodes($text) {
             return preg_replace('/\e\[[\d;]+m/', '', $text);
         }
-        
+
+        // Regex patterns for vulnerable components and their associated CVE's
         $patternComponents = '#Vulnerable component:\s+([^\n]+)#';
         $patternCves = '#CVE:\s+([^\n]+)#';
 
+        // Calls function to strip the colour from the output
         foreach($CLI as $line){
             $line = stripAnsiEscapeCodes($line);
 
+            // Checks to see if there were any vulnerable components found
+            // Pushes to a multi dimensional array as only the second regex group should be matched, filtering out unnecessary text 
             preg_match_all($patternComponents, $line, $result, PREG_SET_ORDER, 0);
             if(isset($result[0])) {
                 array_push($this->components, $result[0][1]);
             }
 
+            // Checks to see if any CVE's were found relating to the vulnerable components
+            // Pushes to a multi dimensional array as only the second regex group should be matched, filtering out unnecessary text 
             preg_match_all($patternCves, $line, $result, PREG_SET_ORDER, 0);
             if(isset($result[0])) {
                 array_push($this->cves, $result[0][1]);

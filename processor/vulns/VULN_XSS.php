@@ -26,7 +26,7 @@ class VULN_XSS extends VULN {
             // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
             switch ($tool->getName()) {
                 case "XSStrike":
-                // if the array returned by the xsrfprobe tool isn't empty then we know something was found
+                // if the array returned by the XSStrike tool isn't empty then we know something was found
                     if (isset($tool->getComponents()[0])) {
                         // kind of a place holder output here but you get the idea
                         $output = "Application is potentially vulnerable to ";

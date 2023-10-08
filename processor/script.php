@@ -18,6 +18,7 @@ require_once('./tools/TOOL_a2sv.php');
 require_once('./tools/TOOL_cdnCheck.php');
 require_once('./tools/TOOL_cURL.php');
 require_once('./tools/TOOL_XSRFProbe.php');
+require_once('./tools/TOOL_XSStrike.php');
 // ... more tools here
 
 // Vulnerabiliites
@@ -27,6 +28,9 @@ require_once('./vulns/VULN_SecurityMscfg.php');
 require_once('./vulns/VULN_SSRF.php');
 require_once('./vulns/VULN_CSRF.php');
 require_once('./vulns/VULN_Sitemap.php');
+require_once('./vulns/VULN_BrokenAccessCtl.php');
+require_once('./vulns/VULN_CryptographicFlrs.php');
+require_once('./vulns/VULN_XSS.php');
 
 
 
@@ -138,6 +142,10 @@ $TOOL_cURL->Execute();
 $TOOL_XSRFProbe = new TOOL_XSRFProbe($SCAN, "XSRFProbe");
 $TOOL_XSRFProbe->Execute();
 
+// LC TOOL
+$TOOL_XSStrike = new TOOL_XSStrike($SCAN, "XSStrike");
+$TOOL_XSStrike->Execute();
+
 // ... next tool
 //$TOOL_Nmap = new TOOL_Nmap($SCAN, "nmap");
 
@@ -178,6 +186,18 @@ $VULN_CSRF->Analyse();
 $VULN_SSRF = new VULN_SSRF($SCAN, [$TOOL_cURL]);
 $VULN_SSRF->Analyse();
 
+// LC VULNERABILITY
+$VULN_BrokenAccessCtl = new VULN_BrokenAccessCtl($SCAN, [$TOOL_XSRFProbe, $TOOL_cURL]);
+$VULN_BrokenAccessCtl->Analyse();
+
+// LC VULNERABILITY
+$VULN_CryptographicFlrs = new VULN_CryptographicFlrs($SCAN, [$TOOL_cURL]);
+$VULN_CryptographicFlrs->Analyse();
+
+
+// LC VULNERABILITY
+$VULN_XSS = new VULN_XSS($SCAN, [$TOOL_XSStrike]);
+$VULN_XSS->Analyse();
 
 // SC VULNERABILITY
 $VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_GoSpider, $TOOL_Gobuster]);

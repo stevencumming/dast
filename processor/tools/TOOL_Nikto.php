@@ -25,10 +25,14 @@ class TOOL_nikto extends TOOL{
     */
 
     private array $output;
-    private bool $reply;
+    
+    private array $CLI;
+
+    private array $InsecDes;
+    private array $VulnComp;
+    private array $IDAuth;
 
     public function Execute() {
-        $this->reply = false;
         // this command will need to be edited to add in the target url, although I doubt it will ever work...
 
 /*
@@ -49,35 +53,56 @@ class TOOL_nikto extends TOOL{
             c     Remote Source Inclusion
             x     Reverse Tuning Options (i.e., include all except specified)
 
+Insecure design:                    2 c
+Vulnerable and outdated components: b
+Identification and auth failures:   a
+Soft and Data integrity failures:   5 8 0 **Not useful**
+
 */
-//Insecure design
-//$command = 'perl nikto/program/nikto.pl -h' . $this->scan->getTarget() . '-Tuning 1 2 5 7 8 0';
 
-//Vulnerable Outdated components
-//$command = 'perl nikto/program/nikto.pl -h' . $this->scan->getTarget() . '-Tuning b';
+        //$command = 'perl nikto/program/nikto.pl -h' . $this->scan->getTarget() . '-Tuning 2 a b c';
+        $command = 'perl nikto/program/nikto.pl -h https://localhost/mutillidae/ -Tuning 2 a b c';
 
-//ID Auth Failures
-//$command = 'perl nikto/program/nikto.pl -h' . $this->scan->getTarget() . '-Tuning a';
+        $this->InsecDes = [];
+        $this->VulnComp = [];
+        $this->IDAuth = [];
 
-        $command = 'perl nikto/program/nikto.pl -h' . $this->scan->getTarget() . '-Tuning x 4 6 9';
-        $CLI = array();
         exec($command, $CLI);
 
-        $patternComponents = '#OSVDB\d{1,4}:#';
+        $patternInsecureDesign = '#\/.git|Directory indexing found|phpInfo\(\)|Readme|brute force#';
+        $patternVulnOutComp = '#outdated#';
+        $patternIDAuthFailures = '#login#';
         
         foreach($CLI as $line){
+            $line = preg_replace('/\+', '', $line);
+            $line = preg_replace('/OSVDB\-[\d]+\: ', '', $line);
 
-            preg_match_all($patternComponents, $line, $result, PREG_SET_ORDER, 0);
+            preg_match_all($patternInsecureDesign, $line, $result, PREG_SET_ORDER, 0);
             if(isset($result[0])) {
-                array_push($this->vulnTypes, $line);
+                array_push($this->InsecDes, $line);
+            }
+            preg_match_all($patternVulnOutComp, $line, $result, PREG_SET_ORDER, 0);
+            if(isset($result[0])) {
+                array_push($this->VulnComp, $line);
+            }
+            preg_match_all($patternIDAuthFailures, $line, $result, PREG_SET_ORDER, 0);
+            if(isset($result[0])) {
+                array_push($this->IDAuth, $line);
             }
         }
 
         //$this->output = $results;
     }
-    
-    // below function deprecated
-    public function getOutput() {
-        //return $this->output;
+
+    public function getInsecDes(){
+        return $this->InsecDes;
+    }
+
+    public function getVulnComp(){
+        return $this->VulnComp;
+    }
+
+    public function getIDAuth(){
+        return $this->IDAuth;
     }
 }

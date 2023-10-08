@@ -6,7 +6,8 @@ class VULN_BrokenAccessCtl extends VULN {
         OpenProject Phase #:    438
 
         Summary:
-            Cryptographic failures are any failure where the cryptography that should be applied either is not or is misconfigured
+            Broken access contains lots of different smaller vulnerabilities. This class doesnt call upon any new tools but instead
+            uses exisiting tools and compiles the information
 
 
         Output (HTML):
@@ -24,13 +25,12 @@ class VULN_BrokenAccessCtl extends VULN {
 
         // Start by reading the data from your tool(s)
         foreach ($this->tools as $tool) {
-            // Loop through each of the tools that were passed to this vulnerability
-            // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
+            
             switch ($tool->getName()) {
                 case "XSRFProbe":
                 // if the array returned by the xsrfprobe tool isn't empty then we know something was found
                     if (isset($tool->getVulnTypes()[0])) {
-                        // kind of a place holder output here but you get the idea
+                        // Outputs that some information was found by XSRFProbe
                         $output .= "Broken access misconfigurations found. Please see Cross-Site Request Forgery section for more detail. ";
                    
 		    }else{
@@ -42,9 +42,9 @@ class VULN_BrokenAccessCtl extends VULN {
             }
             switch ($tool->getName()) {
                 case "cURL":
-                // if the array returned by the xsrfprobe tool isn't empty then we know something was found
+                // if the array returned by the cURL tool isn't empty then we know something was found
                     if ($tool->getReply()){
-                        // kind of a place holder output here but you get the idea
+                        // Outputs that some information was found by cURL
                         $output .= "Able to access pages that should be restricted. Please see Server Side Request Forgery for more detail. ";
                    
 		    }else{

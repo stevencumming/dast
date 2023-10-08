@@ -3,7 +3,7 @@
 class TOOL_cURL extends TOOL {
     /*
         Tool Name:              cURL
-        Responsible:            MG (and whoever else wants to use)
+        Responsible:            MG-LC (and whoever else wants to use)
         OpenProject Phase #:    XXX
 
         Summary:
@@ -17,8 +17,7 @@ class TOOL_cURL extends TOOL {
             ... describe in psuedocode
             $reply: I'm thinking that it might be simpler to just return a boolean if the regex for etc/passwd matches instead of an array 
             but if anyone else is going to use cURL then that will change
-            NOTE FROM LC - Also using cURL however I also just need to check the regex when run with the -I flag and return a boolean if specific text matches 
-
+            
     */
     private array $CLI;
     private bool $reply;
@@ -38,19 +37,21 @@ class TOOL_cURL extends TOOL {
             }
         }
         $this->redirect = [];
-        // this command will need to be edited to add in the target url, although I doubt it will ever work...
-        $command = 'curl -I http://127.0.0.1/mutillidae';
+        // This command is checking if there is a redirect setup on the target site
+        $command = 'curl -I'  . parse_url($this->scan->getTarget())["host"];
         exec($command, $CLI);
 
-        $pattern = '#HTTP\/1.1 301 Moved Permanently#';
-        
+        // Regex to check if the redirect is in place
+        $pattern = '#HTTP\/1.1 301 Moved Permanently#';        
         foreach($CLI as $line) {
             preg_match_all($pattern, $line, $result, PREG_SET_ORDER, 0);
             if(isset($result[0])) {
+                // If there is a redirect check that it is redirecting to https and not just another webpage
                 $pattern = '#Location: https#';        
                 foreach($CLI as $line) {
                     preg_match_all($pattern, $line, $result, PREG_SET_ORDER, 0);
                     if(isset($result[0])) {
+                        // If redirecting to https then filter out useless information and just grab the url that the site redirected to
                         $pattern = '#Location:\s+([^\n]+)#';
                         preg_match_all($pattern, $line, $result, PREG_SET_ORDER, 0);
                         if(isset($result[0])) {
