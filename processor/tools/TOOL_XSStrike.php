@@ -1,11 +1,11 @@
 <?php
 
 
-class TOOL_XSRFProbe extends TOOL {
+class TOOL_XSStrike extends TOOL {
     /*
         Tool Name:              XSStrike
         Responsible:            LC
-        OpenProject Phase #:    XXX
+        OpenProject Phase #:    428
 
         Summary:
             ... quick summary of the tool's purpose. (Even if it's all written in PHP / Symfony, still describe it breifly)
@@ -18,23 +18,37 @@ class TOOL_XSRFProbe extends TOOL {
            
     */
     private array $CLI;
-    private array $vulnTypes;
+    private array $components;
+    private array $cves;
+    
 
     public function Execute() {
+        
         // Run the process(es)
-        $this->vulnTypes = [];
+        $this->components = [];
+        $this->cves = [];
 
-        $command = 'python xsstrike.py -u "http://example.com/page.php" --crawl';
+        $command = 'python3 ./assets/XSStrike/xsstrike.py -u "http://127.0.0.1/mutillidae/" --crawl';
         exec($command, $CLI);
         
-        $patternTypes = '#Possible Vulnerability Type:#';
+        function stripAnsiEscapeCodes($text) {
+            return preg_replace('/\e\[[\d;]+m/', '', $text);
+        }
+        
+        $patternComponents = '#Vulnerable component:\s+([^\n]+)#';
+        $patternCves = '#CVE:\s+([^\n]+)#';
 
         foreach($CLI as $line){
+            $line = stripAnsiEscapeCodes($line);
 
-            preg_match_all($patternTypes, $line, $result, PREG_SET_ORDER, 0);
+            preg_match_all($patternComponents, $line, $result, PREG_SET_ORDER, 0);
             if(isset($result[0])) {
-                // it actually might be better to push the whole line to the array since the match string doesn't really give us anything useful
-                array_push($this->vulnTypes, $line);
+                array_push($this->components, $result[0][1]);
+            }
+
+            preg_match_all($patternCves, $line, $result, PREG_SET_ORDER, 0);
+            if(isset($result[0])) {
+                array_push($this->cves, $result[0][1]);
             }
 
         }
@@ -45,9 +59,15 @@ class TOOL_XSRFProbe extends TOOL {
     // no need for setter since only the tool class can set its arrays
 
 
-    public function getVulnTypes() {
+    public function getComponents() {
 
-        return $this->vulnTypes;
+        return $this->components;
+
+    }
+
+    public function getCves() {
+
+        return $this->cves;
 
     }
 
