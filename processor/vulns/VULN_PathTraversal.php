@@ -7,7 +7,8 @@ class VULN_PathTraversal extends VULN {
         OpenProject Phase #:    --
 
         Summary:
-            
+            Checks to see whether the target is susceptible and/or able to be attacked via path traversal exploitation techniques.
+            Severity and output is calculated and stored for use in report.
 
         Output (HTML):
             HTML formatted output to go straight into the Report.
@@ -38,6 +39,6 @@ class VULN_PathTraversal extends VULN {
         }
 
         // and the HTML:
-        $this->html = "Results from Path Traversal check: " . $output . " Severity rating: " . $this->severity;
+        $this->html = nl2br("Results from Path Traversal check:\n" . $output . "\nSeverity rating: " . $this->severity);
     }
 }

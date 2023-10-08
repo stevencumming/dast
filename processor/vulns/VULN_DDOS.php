@@ -10,7 +10,7 @@ class VULN_DDOS extends VULN {
             DDoS Vulnerability check that uses a cdnCheck method as part of TOOL_cdnTool
             to check the target's susceptibility to a DDoS attack. The logic behind
             this method is that targets that employ the use of a CDN are protected
-            against DDoS attacks.
+            against DDoS attacks. Severity and output is calculated and stored for use in report.
 
         Output (HTML):
             HTML formatted output to go straight into the Report.
@@ -40,6 +40,6 @@ class VULN_DDOS extends VULN {
         }
 
         // and the HTML:
-        $this->html = "Results from DDoS check: " . $output . " Severity rating: " . $this->severity;
+        $this->html = nl2br("Results from DDoS check:\n" . $output . "\nSeverity rating: " . $this->severity);
     }
 }

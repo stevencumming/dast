@@ -12,14 +12,14 @@ class TOOL_a2sv extends TOOL
 
 
         Output:
-            The output produced will depend on whether a vulnerability is found or not.
-            A "Done" output from ProTravel indicates there is no present vulnerability.
-            An output displaying either paths or files indicates that the program has found the presence of sensitive information through a path traversal exploit.
+            a2sv checks for SSL vulnerabilities and returns result in array for each vulnerability potentially exploitable.
 
     */
 
     public function Execute() {
-        $this->output = shell_exec("python a2sv.py -t {$this->scan->getTarget()}");
+        exec("python a2sv.py -t {$this->scan->getTarget()}", $arr);
+
+        $this->output = array_slice($array,-18,18,true);
     }
 
 
