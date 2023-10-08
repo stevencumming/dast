@@ -21,7 +21,7 @@ class TOOL_GoSpider extends TOOL {
     private array $output;
 
     public function Execute() {
-        echo "Executing Gospider...\n";
+        echo "Executing Gospider...";
 
         // Initialize arrays for storing the output data
         $results["url"] = array();
@@ -55,7 +55,7 @@ class TOOL_GoSpider extends TOOL {
 
         $this->output = $results;
 
-        echo "\nFinished Gospider.\n";    
+        echo " Finished Gospider.\n";    
     }
 
     public function getOutput(){

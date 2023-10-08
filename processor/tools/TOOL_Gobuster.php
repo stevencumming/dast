@@ -30,7 +30,7 @@ class TOOL_Gobuster extends TOOL {
     private array $output_verbose;
 
     public function Execute() {
-        echo "Executing Gobuster...\n";
+        echo "Executing Gobuster...";
 
         // Initialise the output buffer (array of lines) and execute the tool
         $command = "PATH=/usr/local/go/bin gobuster dir -q -e -x " . self::SEARCH_EXTENSIONS . " -u " . $this->scan->getTarget() . " -t 50 -w assets/wordlist.txt";
@@ -51,7 +51,7 @@ class TOOL_Gobuster extends TOOL {
             array_push($this->output, $line);
         }
 
-        echo "\nFinished Gobuster.\n";        
+        echo " Finished Gobuster.\n";        
     }
 
     public function getOutput(){
