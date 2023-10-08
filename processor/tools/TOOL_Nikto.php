@@ -105,9 +105,4 @@ Soft and Data integrity failures:   5 8 0 **Not useful**
     public function getIDAuth(){
         return $this->IDAuth;
     }
-    
-    // below function deprecated
-    public function getOutput() {
-        //return $this->output;
-    }
 }
