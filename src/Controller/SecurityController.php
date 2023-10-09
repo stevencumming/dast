@@ -22,7 +22,6 @@ class SecurityController extends AbstractController
                 'userId' => $this->getUser()->getId(),
                 'ip' => $request->getClientIp(),
             ]);
-            //$tms->persistTraffic();
             return $this->redirectToRoute('app_dashboard');
         }
         elseif ($this->getUser() and !$this->getUser()->isVerified()) {
@@ -30,11 +29,8 @@ class SecurityController extends AbstractController
                 'userId' => $this->getUser()->getId(),
                 'ip' => $request->getClientIp(),
             ]);
-            //$tms->persistTraffic();
             return $this->redirectToRoute('app_logout');
         }
-
-        //$tms->persistTraffic();
 
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -51,9 +47,6 @@ class SecurityController extends AbstractController
             'ip' => $request->getClientIp(),
         ]);
 
-        //$tms->persistTraffic();
-
         return $this->redirectToRoute('app_login');
-        // throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }

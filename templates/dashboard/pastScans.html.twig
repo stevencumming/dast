@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DAST Previous Scans{% endblock %}
+
+{% block body %}
+
+<div class="login">
+    <div>
+        <p style="position:fixed; left: 10px; top: 5px; margin-top: 0px;">You are logged in as {{app.user.email}}</p>
+        <a class="link" href="{{ path('app_logout') }}" style="text-decoration:none; color: #ffffff; font-weight: bold; position:fixed; right: 10px; top: 5px; max-width: 100px;">
+                    Logout
+        </a>
+    </div>
+    <h1>View Previously Executed Target Scans</h1>
+
+    <form action="{{ path('app_scan') }}" method="post">
+        <input type="url" name="target" placeholder="Target URL" id="inputTarget" class="form-control" required autofocus>
+
+        <button class="btn btn-primary btn-block btn-large" type="submit">
+            Queue Scan on Target
+        </button>
+        <a href="{{ path('app_dashboard') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
+            Back to Dashboard
+        </a>
+
+    </form>
+
+</div>
+{% endblock %}

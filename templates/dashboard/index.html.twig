@@ -4,26 +4,23 @@
 
 {% block body %}
 
-<style>
-    a:hover {
-        color: #999999;
-    }
-</style>
-
 <div class="login">
     <div>
         <p style="position:fixed; left: 10px; top: 5px; margin-top: 0px;">You are logged in as {{app.user.email}}</p>
-        <a href="{{ path('app_logout') }}" style="text-decoration:none; color: #ffffff; font-weight: bold; position:fixed; right: 10px; top: 5px; max-width: 100px;">
+        <a class="link" href="{{ path('app_logout') }}" style="text-decoration:none; color: #ffffff; font-weight: bold; position:fixed; right: 10px; top: 5px; max-width: 100px;">
                     Logout
         </a>
     </div>
     <h1>DAST Dashboard</h1>
 
-    <a href="{{ path('app_dashboard') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
+    <a href="{{ path('app_new_scan') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
             Scan A New Target
     </a>
     <a href="{{ path('app_dashboard') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
-            View Previous Target Scans
+            View Previously Executed Target Scans
+    </a>
+    <a href="{{ path('app_dashboard') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
+            View Currently Queued Target Scans
     </a>
 
 </div>
