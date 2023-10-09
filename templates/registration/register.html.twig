@@ -3,18 +3,6 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-<style>
-#registration_form_agreeTerms {
-    box-shadow: inset 0px 0px 0px;
-    width: auto;
-}
-
-.checkbox {
-    margin-bottom: 10px;
-    float: right;
-}
-
-</style>
 <div class="login">
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
