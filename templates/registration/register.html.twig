@@ -6,6 +6,12 @@
 <style>
 #registration_form_agreeTerms {
     box-shadow: inset 0px 0px 0px;
+    width: auto;
+}
+
+.checkbox {
+    margin-bottom: 10px;
+    float: right;
 }
 
 </style>
@@ -14,22 +20,26 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
+    <h1>Register for DAST</h1>
 
     {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
         <div style="color: white">
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword, {
-                label: 'Password'
+            {{ form_row(registrationForm.email, { 
+                'attr': { 'placeholder': 'Email' },
+                label: false
             }) }}
-            {{ form_row(registrationForm.agreeTerms, {
-                label: "Agree to Terms"
+            {{ form_row(registrationForm.plainPassword, { 
+                'attr': { 'placeholder': 'Password' },
+                label: false
             }) }}
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block btn-large">Register</button>
+        <button type="submit" class="btn btn-primary btn-block btn-large">Agree to Terms and Register</button>
+        <a href="{{ path('app_login') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
+            Back to Login
+        </a>
     {{ form_end(registrationForm) }}
 </div>
 {% endblock %}
