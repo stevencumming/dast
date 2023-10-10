@@ -1,13 +1,7 @@
 <?php
 
-namespace App\Service;
 
-use App\Entity\Scan;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
-
-
-class TOOL_nikto extends TOOL{
+class TOOL_Nikto extends TOOL{
     /*
         Tool Name:              nikto
         Responsible:            SH (and whoever else wants to use)
@@ -23,9 +17,6 @@ class TOOL_nikto extends TOOL{
             + /path/to/web/file: A PHP backdoor was identified
 
     */
-
-    private array $output;
-    
     private array $CLI;
 
     private array $InsecDes;
@@ -35,33 +26,8 @@ class TOOL_nikto extends TOOL{
     public function Execute() {
         // this command will need to be edited to add in the target url, although I doubt it will ever work...
 
-/*
-
--Tuning+:
-            1     Interesting File / Seen in logs
-            2     Misconfiguration / Default File
-            3     Information Disclosure
-            4     Injection (XSS/Script/HTML)
-            5     Remote File Retrieval - Inside Web Root
-            6     Denial of Service
-            7     Remote File Retrieval - Server Wide
-            8     Command Execution / Remote Shell
-            9     SQL Injection
-            0     File Upload
-            a     Authentication Bypass
-            b     Software Identification
-            c     Remote Source Inclusion
-            x     Reverse Tuning Options (i.e., include all except specified)
-
-Insecure design:                    2 c
-Vulnerable and outdated components: b
-Identification and auth failures:   a
-Soft and Data integrity failures:   5 8 0 **Not useful**
-
-*/
-
         //$command = 'perl nikto/program/nikto.pl -h' . $this->scan->getTarget() . '-Tuning 2 a b c';
-        $command = 'perl nikto/program/nikto.pl -h https://localhost/mutillidae/ -Tuning 2 a b c';
+        $command = 'perl ./assets/nikto/program/nikto.pl -h http://127.0.0.1/mutillidae/ -Tuning 2 a b c';
 
         $this->InsecDes = [];
         $this->VulnComp = [];
@@ -69,29 +35,29 @@ Soft and Data integrity failures:   5 8 0 **Not useful**
 
         exec($command, $CLI);
 
-        $patternInsecureDesign = '#\/.git|Directory indexing found|phpInfo\(\)|Readme|brute force#';
+        $patternInsecureDesign = '#\/.git|Directory\sindexing\sfound|phpInfo\(\)|Readme|brute\sforce#';
         $patternVulnOutComp = '#outdated#';
-        $patternIDAuthFailures = '#login#';
+        $patternIDAuthFailures = '#(login)#';
         
         foreach($CLI as $line){
-            $line = preg_replace('/\+', '', $line);
-            $line = preg_replace('/OSVDB\-[\d]+\: ', '', $line);
+            $line = preg_replace('/\+\s/', '', $line);
+            $line = preg_replace('/OSVDB\-[\d]+\:\s/', '', $line);
 
-            preg_match_all($patternInsecureDesign, $line, $result, PREG_SET_ORDER, 0);
+            preg_match_all($patternInsecureDesign, $line, $result, PREG_SET_ORDER);
             if(isset($result[0])) {
                 array_push($this->InsecDes, $line);
             }
-            preg_match_all($patternVulnOutComp, $line, $result, PREG_SET_ORDER, 0);
+
+            preg_match_all($patternVulnOutComp, $line, $result, PREG_SET_ORDER);
             if(isset($result[0])) {
                 array_push($this->VulnComp, $line);
             }
-            preg_match_all($patternIDAuthFailures, $line, $result, PREG_SET_ORDER, 0);
+
+            preg_match_all($patternIDAuthFailures, $line, $result, PREG_SET_ORDER);
             if(isset($result[0])) {
                 array_push($this->IDAuth, $line);
             }
         }
-
-        //$this->output = $results;
     }
 
     public function getInsecDes(){
