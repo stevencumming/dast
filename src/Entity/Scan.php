@@ -20,8 +20,8 @@ class Scan
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $time_requested = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $time_requested = null;
 
     #[ORM\Column(length: 255)]
     private ?string $target = null;
@@ -58,12 +58,12 @@ class Scan
         return $this;
     }
 
-    public function getTimeRequested(): ?\DateTimeImmutable
+    public function getTimeRequested(): ?\DateTimeInterface
     {
         return $this->time_requested;
     }
 
-    public function setTimeRequested(\DateTimeImmutable $time_requested): static
+    public function setTimeRequested(\DateTimeInterface $time_requested): static
     {
         $this->time = $time_requested;
 
