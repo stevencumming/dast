@@ -11,6 +11,7 @@ use App\Service\TrafficMonitorService;
 use App\Repository\ScanRepository;
 use App\Entity\Scan;
 use Symfony\Component\Clock\ClockInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 // This controller function redirects user on login to dashboard. Must be authenticated to access.
 class DashboardController extends AbstractController
@@ -38,7 +39,7 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/dashboard/new-scan', name: 'app_new_scan')]
-    public function newScan(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms): Response
+    public function newScan(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms, ClockInterface $clock): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if (!$this->getUser()->isVerified()) {
@@ -49,30 +50,33 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute('app_logout');
         }
         else {
-            $logger->info('User {userId} has started a new target scan. IP Address: {ip}', [
+            if ($request->getMethod() == 'POST') {
+                $logger->info('User {userId} has started a new target scan. IP Address: {ip}', [
+                    'userId' => $this->getUser()->getId(),
+                    'ip' => $request->getClientIp(),
+                ]);
+                // send scan off here
+                //$em = $entityManager;
+                $time = $clock->now();
+                $scan = new Scan();
+                $target = $request->request->get('target');
+                $scan->setUser($this->getUser());
+                $scan->setTimeRequested($time);
+                $scan->setTarget($target);
+                $scan->setStatus("waiting");
+                     //set time commenced from somewhere else
+                     //set time completed from somewhere else
+                dd($scan);
+                $entityManager->persist($scan);
+                $entityManager->flush();
+            }
+            $logger->info('User {userId} is on the newScan page. IP Address: {ip}', [
                 'userId' => $this->getUser()->getId(),
                 'ip' => $request->getClientIp(),
             ]);
-            if ($request->getMethod() == 'POST') {
-                // send scan off here
-                $em = $this->entityManager;
-                $time = $this->clock->now();
-                $scan = new Scan();
-                $target = $request->request->get('target');
-                $scan->setUser($this->getUser)
-                     ->setTimeRequested($time)
-                     ->setTarget($target);
-                     //set status
-                     //set time commenced from somewhere else
-                     //set time completed from somewhere else
-                //$em->persist($traffic);
-                //$em->flush();
-            }
-            else {
-                return $this->render('dashboard/scan.html.twig', [
-                    'controller_name' => 'DashboardController',
-                ]);    
-            }
+            return $this->render('dashboard/newScan.html.twig', [
+                'controller_name' => 'DashboardController',
+            ]);
         }
     }
 
