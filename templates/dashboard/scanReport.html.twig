@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}DAST Dashboard{% endblock %}
+{% block title %}DAST Scan Report{% endblock %}
 
 {% block body %}
 
@@ -11,17 +11,22 @@
                     Logout
         </a>
     </div>
-    <h1>DAST Dashboard</h1>
+    <h1>View Scan Report</h1>
 
-    <a href="{{ path('app_new_scan') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
-            Scan A New Target
-    </a>
     <a href="{{ path('app_past_scans') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
-            View Previously Executed Target Scans
+        Back to Scans
     </a>
-    <a href="{{ path('app_queued_scans') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
-            View Currently Queued Target Scans
-    </a>
+
+    {% if scan.user.id = userId %}
+        {% if scan.status != 'waiting' %}
+            <td>{{ scan.target }}</td>
+            <td>{{ scan.status }}</td>
+            <td>{{ scan.timeRequested }}</td>
+            <td>{{ scan.timeCommenced }}</td>
+            <td>{{ scan.timeCompleted }}</td>
+            <td>{{ scan.html }}</td>
+        {% endif %}
+    {% endif %}
 
 </div>
 {% endblock %}

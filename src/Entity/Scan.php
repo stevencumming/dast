@@ -65,7 +65,7 @@ class Scan
 
     public function setTimeRequested(\DateTimeInterface $time_requested): static
     {
-        $this->time = $time_requested;
+        $this->time_requested = $time_requested;
 
         return $this;
     }

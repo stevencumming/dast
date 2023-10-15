@@ -13,17 +13,20 @@
     </div>
     <h1>View Currently Queued Target Scans</h1>
 
-    <form action="{{ path('app_scan') }}" method="post">
-        <input type="url" name="target" placeholder="Target URL" id="inputTarget" class="form-control" required autofocus>
+    <a href="{{ path('app_dashboard') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
+        Back to Dashboard
+    </a>
 
-        <button class="btn btn-primary btn-block btn-large" type="submit">
-            Queue Scan on Target
-        </button>
-        <a href="{{ path('app_dashboard') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
-            Back to Dashboard
-        </a>
+    {% for s in scans %}
+        {% if s.user.id = userId %}
+            {% if s.status != 'waiting' %}
+                <td>{{ s.target }}</td>
+                <td>{{ s.status }}</td>
+                <td>{{ s.timeRequested }}</td>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
 
-    </form>
 
 </div>
 {% endblock %}

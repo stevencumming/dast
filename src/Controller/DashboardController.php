@@ -56,7 +56,6 @@ class DashboardController extends AbstractController
                     'ip' => $request->getClientIp(),
                 ]);
                 // send scan off here
-                //$em = $entityManager;
                 $time = $clock->now();
                 $scan = new Scan();
                 $target = $request->request->get('target');
@@ -64,9 +63,8 @@ class DashboardController extends AbstractController
                 $scan->setTimeRequested($time);
                 $scan->setTarget($target);
                 $scan->setStatus("waiting");
-                     //set time commenced from somewhere else
-                     //set time completed from somewhere else
-                dd($scan);
+                $scan->setTimeCommenced($time);
+                $scan->setTimeCompleted($time);
                 $entityManager->persist($scan);
                 $entityManager->flush();
             }
@@ -81,7 +79,7 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/dashboard/past-scans', name: 'app_past_scans')]
-    public function pastScans(LoggerInterface $logger, Request $request, TrafficMonitorService $tms, ScanRepository $scanRepository): Response
+    public function pastScans(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if (!$this->getUser()->isVerified()) {
@@ -96,15 +94,17 @@ class DashboardController extends AbstractController
                 'userId' => $this->getUser()->getId(),
                 'ip' => $request->getClientIp(),
             ]);
+            $scans = $entityManager->getRepository(Scan::class);
             return $this->render('dashboard/pastScans.html.twig', [
                 'controller_name' => 'DashboardController',
-                'scan_repository' => $scanRepository, //deal with sorting in twig, need to create controller route for report view
+                'scans' => $scans, //deal with sorting in twig, need to create controller route for report view
+                'userId' => $this-getUser()->getId(),
             ]);    
         }
     }
 
     #[Route('/dashboard/queued-scans', name: 'app_queued_scans')]
-    public function queuedScans(LoggerInterface $logger, Request $request, TrafficMonitorService $tms, ScanRepository $scanRepository): Response
+    public function queuedScans(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if (!$this->getUser()->isVerified()) {
@@ -119,9 +119,37 @@ class DashboardController extends AbstractController
                 'userId' => $this->getUser()->getId(),
                 'ip' => $request->getClientIp(),
             ]);
+            $scans = $entityManager->getRepository(Scan::class);
             return $this->render('dashboard/queuedScans.html.twig', [
                 'controller_name' => 'DashboardController',
-                'scan_repository' => $scanRepository, //deal with sorting in twig
+                'scans' => $scans, //deal with sorting in twig
+                'userId' => $this-getUser()->getId(),
+            ]);    
+        }
+    }
+
+    #[Route('/dashboard/past-scans/scan-report{scanId}', name: 'app_scan_report')]
+    public function scanReport(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms, string $scanId): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->getUser()->isVerified()) {
+            $logger->info('User {userId} has attempted to access their dashboard, but is not verified. They have been automatically logged out.  IP Address: {ip}', [
+                'userId' => $this->getUser()->getId(),
+                'ip' => $request->getClientIp(),
+            ]);
+            return $this->redirectToRoute('app_logout');
+        }
+        else {
+            $logger->info('User {userId} is viewing a previous scan report. IP Address: {ip}', [
+                'userId' => $this->getUser()->getId(),
+                'ip' => $request->getClientIp(),
+            ]);
+            $scan = $entityManager->getRepository(Scan::class)->find($scanId);
+            //$html?? get from scan?
+            return $this->render('dashboard/scanReport.html.twig', [
+                'controller_name' => 'DashboardController',
+                'scan' => $scan,
+                'userId' => $this-getUser()->getId(),
             ]);    
         }
     }
