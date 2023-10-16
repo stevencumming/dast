@@ -34,6 +34,7 @@ class DashboardController extends AbstractController
             ]);
             return $this->render('dashboard/index.html.twig', [
                 'controller_name' => 'DashboardController',
+                'scans' => $this->getUser()->getScans(),
             ]);
         }
     }
@@ -65,6 +66,9 @@ class DashboardController extends AbstractController
                 $scan->setStatus("waiting");
                 $entityManager->persist($scan);
                 $entityManager->flush();
+                $request->getSession()->getFlashBag()->add('success', 'Scan has been queued!');
+                return $this->redirectToRoute('app_dashboard');
+    
             }
             $logger->info('User {userId} is on the newScan page. IP Address: {ip}', [
                 'userId' => $this->getUser()->getId(),
