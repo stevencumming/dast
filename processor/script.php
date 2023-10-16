@@ -53,6 +53,33 @@ $password = "DAST34swin@";
 $dbname = "u428402158_dast";
 
 
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+  }
+
+
+// ====================================
+// Retrieve Permitted Domains
+$sql = "SELECT * FROM allowed_domains";
+$result = $conn->query($sql);
+
+$PERMITTED_DOMAINS = array();
+
+if ($result->num_rows > 0) {
+    // There is a scan ready to process
+    $scanWaiting = true;
+
+    // Grab the scan data
+    while($row = $result->fetch_assoc()) {
+        array_push($PERMITTED_DOMAINS, $row["domain"] );
+    }
+} else {
+    // no scans currently waiting
+}
+
 
 // ====================================
 // Scan Data
@@ -61,12 +88,6 @@ $SCAN;
 // Check if there are any scans waiting
 $scanWaiting = false;
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 
 $sql = "SELECT * FROM scan WHERE scan.status = 'waiting' LIMIT 1";
 $result = $conn->query($sql);
@@ -99,6 +120,27 @@ if  (!$scanWaiting) {
 
 // ====================================
 // There is a scan to process
+
+
+// ========================================================================
+//                                  DOMAIN RESTRICTION
+// ========================================================================
+// Check to see if the domain is authorised
+$permitted_flag = false;
+foreach ($PERMITTED_DOMAINS as $domain) {
+    // Loop through each of the permitted domains and check if it matches the current scan
+    if (parse_url($SCAN->getTarget())["host"] == $domain) {
+        $permitted_flag = true;
+    }
+}
+
+if (!$permitted_flag) {
+    // Domain requested as target is not authorised
+    
+    // set SCAN status to error ('domain_unauthorized') and die();
+    // TODO
+}
+
 
 // ========================================================================
 //                                  TOOLS
@@ -226,10 +268,7 @@ $VULN_CMDInjection->Analyse();
 
 
 
-
-// Prepare the report
-// go through each vuln html and sever and produce some other html file?
-
+$html = "<article> ... stuff inside ... </article>";
 
 
 // Persist the report
