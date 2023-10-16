@@ -18,19 +18,28 @@
     </a>
 
     {% for s in scans %}
-        {% if s.user.id = userId %}
-            {% if s.status != 'waiting' %}
-                <td>{{ s.target }}</td>
-                <td>{{ s.status }}</td>
-                <td>{{ s.timeCommenced }}</td>
-                <td>{{ s.timeCompleted }}</td>
-                {% if s.status == 'complete' %}
-                    <a href="{{ path('app_scan_report', {scanId: scan.id}) }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
-                        View Report
-                    </a>
-                {% endif %}
-            {% endif %}
+        <div class="login" style="width: 400px; height: 200px; margin-left: auto; margin-right: auto; text-align:center;">
+        {% if s.status == 'in_progress' %}
+            <h3 style="margin-left: auto; margin-right: auto;">Scan Details: {{ s.target }}</h3>
+            <p><b>Target: </b>{{ s.target }}</p>
+            <p><b>Scan Status: </b>In Progress</p>
+            <p><b>Time Requested: </b>{{ s.timeRequested|date() }}</p>
+            <p><b>Time Commenced: </b>{{ s.timeCommenced|date() }}</p>
+            <br>
         {% endif %}
+        {% if s.status == 'complete' %}
+            <h3 style="margin-left: auto; margin-right: auto;">Scan Details: {{ s.target }}</h3>
+            <p><b>Target: </b>{{ s.target }}</p>
+            <p><b>Scan Status: </b>Complete</p>
+            <p><b>Time Requested: </b>{{ s.timeRequested|date() }}</p>
+            <p><b>Time Commenced: </b>{{ s.timeCommenced|date() }}</p>
+            <p><b>Time Completed: </b>{{ s.timeCompleted|date() }}</p>
+            <br>
+            <a href="{{ path('app_scan_report', {scanId: scan.id}) }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
+                    View Report
+            </a>
+        {% endif %}
+        </div>
     {% endfor %}
 
 </div>

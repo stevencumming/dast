@@ -18,15 +18,15 @@
     </a>
 
     {% for s in scans %}
-        {% if s.user.id = userId %}
-            {% if s.status != 'waiting' %}
-                <td>{{ s.target }}</td>
-                <td>{{ s.status }}</td>
-                <td>{{ s.timeRequested }}</td>
-            {% endif %}
+        <div class="login" style="width: 400px; height: 200px; margin-left: auto; margin-right: auto; text-align:center;">
+        {% if s.status == 'waiting' %}
+            <h3 style="margin-left: auto; margin-right: auto;">Scan Details: {{ s.target }}</h3>
+            <p><b>Target: </b>{{ s.target }}</p>
+            <p><b>Scan Status: </b>Waiting</p>
+            <p><b>Time Requested: </b>{{ s.timeRequested|date() }}</p>
         {% endif %}
+        </div>
     {% endfor %}
-
 
 </div>
 {% endblock %}

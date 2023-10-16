@@ -63,8 +63,6 @@ class DashboardController extends AbstractController
                 $scan->setTimeRequested($time);
                 $scan->setTarget($target);
                 $scan->setStatus("waiting");
-                $scan->setTimeCommenced($time);
-                $scan->setTimeCompleted($time);
                 $entityManager->persist($scan);
                 $entityManager->flush();
             }
@@ -97,8 +95,7 @@ class DashboardController extends AbstractController
             $scans = $entityManager->getRepository(Scan::class);
             return $this->render('dashboard/pastScans.html.twig', [
                 'controller_name' => 'DashboardController',
-                'scans' => $scans, //deal with sorting in twig, need to create controller route for report view
-                'userId' => $this-getUser()->getId(),
+                'scans' => $this->getUser()->getScans(),
             ]);    
         }
     }
@@ -122,8 +119,7 @@ class DashboardController extends AbstractController
             $scans = $entityManager->getRepository(Scan::class);
             return $this->render('dashboard/queuedScans.html.twig', [
                 'controller_name' => 'DashboardController',
-                'scans' => $scans, //deal with sorting in twig
-                'userId' => $this-getUser()->getId(),
+                'scans' => $this->getUser()->getScans(),
             ]);    
         }
     }
