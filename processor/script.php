@@ -45,13 +45,14 @@ require_once('./vulns/VULN_CMDInjection.php');
 while (true) {
 
 
-// ====================================
+// ========================================================================
+//                           DATABASE CONNECTION
+// ========================================================================
 // Connection variables
 $servername = "170.187.240.98";
 $username = "root";
 $password = "DAST34swin@";
 $dbname = "u428402158_dast";
-
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -61,7 +62,9 @@ if ($conn->connect_error) {
   }
 
 
-// ====================================
+// ========================================================================
+//                           INITIALISATION
+// ========================================================================
 // Retrieve Permitted Domains
 $sql = "SELECT * FROM allowed_domains";
 $result = $conn->query($sql);
@@ -80,14 +83,12 @@ if ($result->num_rows > 0) {
     // no scans currently waiting
 }
 
-
 // ====================================
 // Scan Data
 $SCAN;
 
 // Check if there are any scans waiting
-$scanWaiting = false;
-
+$scanWaiting = false;       // flag
 
 $sql = "SELECT * FROM scan WHERE scan.status = 'waiting' LIMIT 1";
 $result = $conn->query($sql);
@@ -126,15 +127,15 @@ if  (!$scanWaiting) {
 //                                  DOMAIN RESTRICTION
 // ========================================================================
 // Check to see if the domain is authorised
-$permitted_flag = false;
+$permitted = false;     // flag
 foreach ($PERMITTED_DOMAINS as $domain) {
     // Loop through each of the permitted domains and check if it matches the current scan
     if (parse_url($SCAN->getTarget())["host"] == $domain) {
-        $permitted_flag = true;
+        $permitted = true;
     }
 }
 
-if (!$permitted_flag) {
+if (!$permitted) {
     // Domain requested as target is not authorised
     
     // set SCAN status to error ('domain_unauthorized') and die();
