@@ -233,21 +233,12 @@ $TOOL_sqlmap->Execute();
 $TOOL_Commix = new TOOL_Commix($SCAN, "commix");
 $TOOL_Commix->Execute();
 
-// ... next tool
-//$TOOL_Nmap = new TOOL_Nmap($SCAN, "nmap");
-
-print_r($TOOL_Dummy);
-print_r($TOOL_a2sv);
-print_r($TOOL_cdnCheck);
-print_r($TOOL_ProTravel);
 
 // ========================================================================
 //                                  VULNERABILITIES
 // ========================================================================
 
 // Analyse each of the vulnerabilities:
-//$VULN_Dummy = new VULN_Dummy($SCAN, [$TOOL_GoSpider, $TOOL_Dummy]);
-//$VULN_Dummy->Analyse();
 
 // PY VULNERABILITY
 $VULN_InsecureServer = new VULN_InsecureServer($SCAN, [$TOOL_a2sv]);
@@ -280,7 +271,6 @@ $VULN_BrokenAccessCtl->Analyse();
 // LC VULNERABILITY
 $VULN_CryptographicFlrs = new VULN_CryptographicFlrs($SCAN, [$TOOL_cURL]);
 $VULN_CryptographicFlrs->Analyse();
-
 
 // LC VULNERABILITY
 $VULN_XSS = new VULN_XSS($SCAN, [$TOOL_XSStrike]);
@@ -338,8 +328,6 @@ $html += "</section>";
 
 // ====================================
 // SC VULNERABILITY - VULN_Sitemap
-$VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_Gobuster]);
-$VULN_Sitemap->Analyse();
 $html += "<section>";
 $html += "<h2>Reconnaissance: Sitemap</h2>";
 
@@ -398,14 +386,12 @@ $html += "</section>";
 
 // ====================================
 // PY VULNERABILITY - VULN_DDOS
-$VULN_DDOS = new VULN_DDOS($SCAN, [$TOOL_cdnCheck]);
-$VULN_DDOS->Analyse();
 $html += "<section>";
 $html += "<h2>Summary</h2>";
 
 // Severity Score:
 $html += "<p>";
-switch ($VULN_InsecureServer->getSeverity()) {
+switch ($VULN_DDOS->getSeverity()) {
     case '0':           // INFORMATION
         $html += "<span class='severity_score sev_0'>";
         $html += "0 – INFORMATION";
@@ -432,7 +418,7 @@ $html += "</span></p>";
 
 // Vulnerability Content:
 $html += "<p>";
-$html += $VULN_InsecureServer->getHTML();
+$html += $VULN_DDOS->getHTML();
 $html += "</p>";
 $html += "</section>";
 
