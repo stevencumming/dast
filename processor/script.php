@@ -199,10 +199,6 @@ if (!$permitted) {
 // ========================================================================
 // Execute each of the tools:
 
-// example tool
-// $TOOL_Dummy = new TOOL_Dummy($SCAN, "DummyTool");
-// $TOOL_Dummy->Execute();
-
 // PY TOOL
 $TOOL_a2sv = new TOOL_a2sv($SCAN, "a2sv");
 $TOOL_a2sv->Execute();
@@ -378,7 +374,7 @@ $html .= "</section>";
 // ====================================
 // PY VULNERABILITY - VULN_InsecureServer
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Insecure Server Configuration</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -417,7 +413,7 @@ $html .= "</section>";
 // ====================================
 // PY VULNERABILITY - VULN_DDOS
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Distributed Denial-of-service attack</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -456,7 +452,7 @@ $html .= "</section>";
 // ====================================
 // PY VULNERABILITY - VULN_PathTraversal
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Path Traversal</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -495,7 +491,7 @@ $html .= "</section>";
 // ====================================
 // MG VULNERABILITY - VULN_SecurityMscfg
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Security Misconfiguration</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -534,7 +530,7 @@ $html .= "</section>";
 // ====================================
 // MG VULNERABILITY - VULN_CSRF
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Cross-Site Request Forgery</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -573,7 +569,7 @@ $html .= "</section>";
 // ====================================
 // MG VULNERABILITY - VULN_SSRF
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Server Side Request Forgery</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -612,7 +608,7 @@ $html .= "</section>";
 // ====================================
 // LC VULNERABILITY - VULN_BrokenAccessCtl
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Broken Access Control</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -651,7 +647,7 @@ $html .= "</section>";
 // ====================================
 // LC VULNERABILITY - VULN_CryptographicFlrs
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: VULN_Cryptographic Failures</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -690,7 +686,7 @@ $html .= "</section>";
 // ====================================
 // LC VULNERABILITY - VULN_XSS
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Cross-Site-Scripting</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -729,7 +725,7 @@ $html .= "</section>";
 // ====================================
 // SC VULNERABILITY - VULN_SQLInjection
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: SQL Injection</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -768,7 +764,7 @@ $html .= "</section>";
 // ====================================
 // SC VULNERABILITY - VULN_CMDInjection
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Command Injection</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -807,7 +803,7 @@ $html .= "</section>";
 // ====================================
 // SH VULNERABILITY - VULN_IDAuth
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: ID Auth</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -846,7 +842,7 @@ $html .= "</section>";
 // ====================================
 // SH VULNERABILITY - VULN_InsecDesign
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Insecure Design</h2>";
 
 // Severity Score (will always be information level):
 $html .= "<p>";
@@ -864,7 +860,7 @@ $html .= "</section>";
 // ====================================
 // SH VULNERABILITY - VULN_VulnOutComponents
 $html .= "<section>";
-$html .= "<h2>Summary</h2>";
+$html .= "<h2>Vulnerability: Vulnerable or Outdated Components</h2>";
 
 // Severity Score:
 $html .= "<p>";
@@ -903,6 +899,7 @@ $html .= "</article>";
 
 
 
+
 // ========================================================================
 //                            PERSIST REPORT
 // ========================================================================
@@ -916,17 +913,17 @@ if ($conn->connect_error) {
 }
 
 // If connected, update the scan html
-$sql = "UPDATE scan SET html = '" . $html . "' WHERE id = " . $SCAN->getScanID();
-// TODO -- I think this will need to 
+$sql = "UPDATE scan SET html = '" . $conn->real_escape_string($html) . "' WHERE id = " . $SCAN->getScanID();
+// TODO -- I think this will need to mysqli_real_escape_string() 
 
-if ($conn->query($sql) === TRUE) {
-    return TRUE;    // Success
-  } else {
+if (!($conn->query($sql)) === TRUE) {
     $FATAL = TRUE;  // Set fatal error flag
-    return FALSE;   // Failure
   }
-  
-  $conn->close();
+
+$conn->close();
+
+
+
 
 
 // ========================================================================
@@ -938,9 +935,6 @@ if ($FATAL) {
 } else {
     updateScanStatus("completed", $SCAN);
 }
-
-
-
 
 
 // ========================================================================
