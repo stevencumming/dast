@@ -27,7 +27,7 @@ class VULN_DDOS extends VULN {
             // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
             switch ($tool->getName()) {
                 case "cdnCheck":
-                    $output = $tool->Output();
+                    $output = $tool->getOutput();
             }
         }
 

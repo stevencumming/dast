@@ -120,8 +120,6 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         array_push($PERMITTED_DOMAINS, $row["domain"] );
     }
-} else {
-    // no scans currently waiting
 }
 
 // ====================================
@@ -187,9 +185,11 @@ if (!$permitted) {
     continue;
 } else {
     // Scan is permitted, update the status to in progress and begin scanning
-    updateScanStatus("in_progress", $SCAN);
 
-    echo "Scan commencing for " . parse_url($SCAN->getTarget())["host"] . "\n\n";
+    // SC TODO
+    // updateScanStatus("in_progress", $SCAN);
+
+    echo "\nScan commencing for " . parse_url($SCAN->getTarget())["host"] . "\n\n";
 }
 
 
@@ -203,16 +203,16 @@ if (!$permitted) {
 // $TOOL_Dummy->Execute();
 
 // PY TOOL
-// $TOOL_a2sv = new TOOL_a2sv($SCAN, "a2sv");
-// $TOOL_a2sv->Execute();
+$TOOL_a2sv = new TOOL_a2sv($SCAN, "a2sv");
+$TOOL_a2sv->Execute();
 
 // PY TOOL
 $TOOL_cdnCheck = new TOOL_cdnCheck($SCAN, "cdnCheck");
 $TOOL_cdnCheck->Execute();
 
 // PY TOOL
-// $TOOL_ProTravel = new TOOL_ProTravel($SCAN, "ProTravel");
-// $TOOL_ProTravel->Execute();
+$TOOL_ProTravel = new TOOL_ProTravel($SCAN, "ProTravel");
+$TOOL_ProTravel->Execute();
 
 // MG TOOL
 $TOOL_Nmap = new TOOL_Nmap($SCAN, "Nmap");
