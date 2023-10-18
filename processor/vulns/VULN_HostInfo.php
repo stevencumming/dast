@@ -28,10 +28,13 @@ class VULN_HostInfo extends VULN {
                 case "Nmap":
                     // Server OS / Service Overview
                     $output .= "<h3>Web Server Host Information:</h3>";
-                    $output .= "<h4>Service Information:</h4>";
-                    $output .= "<p>" . $tool->GetHostInfo()["Service Info"]["Host"] . "<br />";
-                    $output .= $tool->GetHostInfo()["Service Info"]["OS"] . "<br />";
-                    $output .= $tool->GetHostInfo()["Service Info"]["CPE"] . "</p>";
+
+                    if (isset($tool->GetHostInfo()["Service Info"])) {
+                        $output .= "<h4>Service Information:</h4>";
+                        $output .= "<p>" . $tool->GetHostInfo()["Service Info"]["Host"] . "<br />";
+                        $output .= $tool->GetHostInfo()["Service Info"]["OS"] . "<br />";
+                        $output .= $tool->GetHostInfo()["Service Info"]["CPE"] . "</p>";
+                    }                   
 
                     // OS Details
                     if(isset($tool->GetHostInfo()["OS Details"])) {
