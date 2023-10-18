@@ -259,8 +259,8 @@ $TOOL_Nikto->Execute();
 // Analyse each of the vulnerabilities:
 
 // PY VULNERABILITY
-// $VULN_InsecureServer = new VULN_InsecureServer($SCAN, [$TOOL_a2sv]);
-// $VULN_InsecureServer->Analyse();
+$VULN_InsecureServer = new VULN_InsecureServer($SCAN, [$TOOL_a2sv]);
+$VULN_InsecureServer->Analyse();
 
 // PY VULNERABILITY
 $VULN_DDOS = new VULN_DDOS($SCAN, [$TOOL_cdnCheck]);
