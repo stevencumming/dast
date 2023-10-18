@@ -32,7 +32,7 @@ class VULN_CSRF extends VULN {
 			    foreach($tool->getVulnTypes() as $vulnType){
 				$output .= $vulnType . ", ";
 			    }
-		    }else{
+		    } else {
 			    $output = "No potential CSRF vulnerabilities were found";
 		    }
             

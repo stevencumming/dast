@@ -38,20 +38,27 @@ class TOOL_GoSpider extends TOOL {
             // Decode each line of the output buffer to an object
             $foundObject = json_decode($line);
 
-            // sort by type into an array
-            switch ($foundObject->type) {
-                case 'url':
-                    array_push($results["url"], $foundObject);
-                    break;
+            // echo "\n\n\n\n";
+            // var_dump($foundObject);
+            // echo "\n\n\n\n";
 
-                case 'form':
-                    array_push($results["form"], $foundObject);
-                    break;
-                
-                default:
-                    array_push($results["other"], $foundObject);
-                    break;
+            if (isset($foundObject->type)) {
+                // sort by type into an array
+                switch ($foundObject->type) {
+                    case 'url':
+                        array_push($results["url"], $foundObject);
+                        break;
+
+                    case 'form':
+                        array_push($results["form"], $foundObject);
+                        break;
+                    
+                    default:
+                        array_push($results["other"], $foundObject);
+                        break;
+                }
             }
+            
         }
 
         $this->output = $results;

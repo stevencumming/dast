@@ -22,6 +22,7 @@ class TOOL_Dummy extends TOOL {
     private array $domain_names  = array();
 
     public function Execute() {        
+        echo "Executing DummyTool...";
         
         // parse_url
         // https://www.php.net/manual/en/function.parse-url.php

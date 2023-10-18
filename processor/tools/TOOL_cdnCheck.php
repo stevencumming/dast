@@ -16,9 +16,11 @@ class TOOL_cdnCheck extends TOOL
             If a CDN is present, or no CDN is in use, the script will output the resulting string accordingly.
 
     */
+    private string $output;                                     // SC added private member
     
-    public function Execute()
-    {
+    public function Execute() {
+        echo "Executing CDNCheck...";
+
         $target = $this->scan->getTarget();
         $arr = get_headers($target);
         $result = array_filter($arr, function ($element) {
@@ -43,6 +45,8 @@ class TOOL_cdnCheck extends TOOL
                 $this->output = 'No commercial CDN is in use. Target may be vulnerable to DDoS attacks.';
             }
         }
+
+        echo " Finished CDNCheck.\n";
     }
 
     public function getOutput() {

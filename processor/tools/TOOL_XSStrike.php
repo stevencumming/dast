@@ -23,6 +23,7 @@ class TOOL_XSStrike extends TOOL {
     
 
     public function Execute() {
+        echo "Executing XSStrike...";
         
         // Run the process(es)
         $this->components = [];
@@ -61,6 +62,7 @@ class TOOL_XSStrike extends TOOL {
 
         }
     
+        echo " Finished XSStrike.\n";
     }
 
     // Getter for vulnTypes array

@@ -17,9 +17,16 @@ class TOOL_ProTravel extends TOOL
             An output displaying either paths or files indicates that the program has found the presence of sensitive information through a path traversal exploit.
 
     */
+    private string $output;                                     // SC added private member
 
     public function Execute() {
-        $this->output = shell_exec("python protravel.py {$this->scan->getTarget()}?filename=../../../../..");
+        echo "Executing ProTravel...";
+
+        $this->output = shell_exec("python3 ./assets/protravel/protravel.py {$this->scan->getTarget()}?filename=../../../../..");
+        // $this->output = shell_exec("python3 ./assets/protravel/protravel.py {" . $this->scan->getTarget() . 
+        // "}?filename=../../../../..");       // SC fixed? the string concatentation for the command argument
+
+        echo " Finished ProTravel.\n";
     }
 
 

@@ -48,7 +48,7 @@ class TOOL_Commix extends TOOL {
 
         $this->output = $output;
         
-        echo " Finished sqlmap.\n";
+        echo " Finished Commix.\n";
     }
 
     public function getOutput(){

@@ -30,7 +30,7 @@ class VULN_SecurityMscfg extends VULN{
         foreach ($this->tools as $tool) {
             // Loop through each of the tools that were passed to this vulnerability
             // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
-            switch ($tool->name) {
+            switch ($tool->getName()) {
                 
                 case "Nmap":
 			// if the array of cves returned by nmap tool isn't empty then we know something was found
