@@ -36,8 +36,6 @@ class VULN_VulnOutComponents extends VULN {
                         foreach($tool->getVulnComp() as $vuln){
                             $output .= $vuln . "\n";
                         }
-												
-                        $this->severity = 1;
                     }
 
                     else{
