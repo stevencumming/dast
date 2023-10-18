@@ -2,9 +2,9 @@
 /*
     DAST Backend Processing
 */
-// ====================================
-// Includes / Imports
-
+// ========================================================================
+//                           IMPORTS / INCLUDES
+// ========================================================================
 // Scan object
 require_once('./Scan.php');
 
@@ -38,29 +38,63 @@ require_once('./vulns/VULN_HostInfo.php');
 require_once('./vulns/VULN_SQLInjection.php');
 require_once('./vulns/VULN_CMDInjection.php');
 
+// ========================================================================
+//                           GLOBAL VARS / CONSTANTS
+// ========================================================================
+// Database Connection constants
+define("DB_SERVERNAME", "170.187.240.98");
+define("DB_USERNAME", "root");
+define("DB_PASSWORD", "DAST34swin@");
+define("DB_DBNAME", "u428402158_dast");
+
+// Script Update Interval (seconds)
+define("SCRIPT_INTERVAL", "10");
+
+// Flags
+$FATAL = FALSE; // Fatal error encountered
 
 
-// ====================================
+// ========================================================================
+//                            HELPER FUNCTIONS
+// ========================================================================
+function updateScanStatus($status, $SCAN) {
+    // Create connection to database
+    $conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // If connected, update the scan status
+    $sql = "UPDATE scan SET scan.status = '" . $status . "' WHERE id = " . $SCAN->getScanID();
+
+    if ($conn->query($sql) === TRUE) {
+        return TRUE;    // Success
+      } else {
+        $FATAL = TRUE;  // Set fatal error flag
+        return FALSE;   // Failure
+      }
+      
+      $conn->close();
+}
+
+
+// ========================================================================
+//                             SCRIPT - BEGIN
+// ========================================================================
 // Run PHP script continuously
-while (true) {
+while (TRUE) {
 
 
 // ========================================================================
 //                           DATABASE CONNECTION
 // ========================================================================
-// Connection variables
-$servername = "170.187.240.98";
-$username = "root";
-$password = "DAST34swin@";
-$dbname = "u428402158_dast";
-
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-  }
-
+}
 
 // ========================================================================
 //                           INITIALISATION
@@ -73,7 +107,7 @@ $PERMITTED_DOMAINS = array();
 
 if ($result->num_rows > 0) {
     // There is a scan ready to process
-    $scanWaiting = true;
+    $scanWaiting = TRUE;
 
     // Grab the scan data
     while($row = $result->fetch_assoc()) {
@@ -84,7 +118,7 @@ if ($result->num_rows > 0) {
 }
 
 // ====================================
-// Scan Data
+// Scan Data (Initialise var)
 $SCAN;
 
 // Check if there are any scans waiting
@@ -104,6 +138,7 @@ if ($result->num_rows > 0) {
 } else {
     // no scans currently waiting
 }
+// Close the database connection for now (we don't want to keep it open all the time)
 $conn->close();
 
 
@@ -114,14 +149,12 @@ if  (!$scanWaiting) {
     echo "Last updated: " . date("Y-m-d H:i:s");
     
     // Sleep for 10 seconds then go back to the start
-    sleep(10);
-    continue;
+    sleep(SCRIPT_INTERVAL);
+    continue;       // break out of this iteration of while loop and go back to the start.
 }
 
-
 // ====================================
-// There is a scan to process
-
+// There is a scan to process (continue execution with below code)
 
 // ========================================================================
 //                                  DOMAIN RESTRICTION
@@ -137,9 +170,11 @@ foreach ($PERMITTED_DOMAINS as $domain) {
 
 if (!$permitted) {
     // Domain requested as target is not authorised
-    
     // set SCAN status to error ('domain_unauthorized') and die();
-    // TODO
+    updateScanStatus("domain_unauthorized", $SCAN);
+} else {
+    // Scan is permitted, update the status to in progress and begin scanning
+    updateScanStatus("in_progress", $SCAN);
 }
 
 
@@ -268,48 +303,536 @@ $VULN_CMDInjection = new VULN_CMDInjection($SCAN, [$TOOL_Commix]);
 $VULN_CMDInjection->Analyse();
 
 
-
-$html = "<article> ... stuff inside ... </article>";
-
-
-// Persist the report
-// save that html to the db
-
-
-// Update the scan status
+// ========================================================================
+//                            COMPILE REPORT
+// ========================================================================
+// go through each of the processed vulnerabilities and compile the final report
+$html = "<article>";
 
 
+// ====================================
+//  SUMMARY
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+$html += "<p>TODO</p>";
+$html += "</section>";
+
+
+// ====================================
+// SC VULNERABILITY - VULN_HostInfo
+$html += "<section>";
+$html += "<h2>Reconnaissance: Host Information</h2>";
+
+// Severity Score (will always be information level):
+    $html += "<p>";
+    $html += "<span class='severity_score sev_0'>";
+    $html += "0 – INFORMATION";
+    $html += "</span></p>";
+
+// Reconnaissance Content:
+$html += "<p>";
+$html += $VULN_HostInfo->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// SC VULNERABILITY - VULN_Sitemap
+$VULN_Sitemap = new VULN_Sitemap($SCAN, [$TOOL_Gobuster]);
+$VULN_Sitemap->Analyse();
+$html += "<section>";
+$html += "<h2>Reconnaissance: Sitemap</h2>";
+
+// Severity Score (will always be information level):
+$html += "<p>";
+$html += "<span class='severity_score sev_0'>";
+$html += "0 – INFORMATION";
+$html += "</span></p>";
+
+// Reconnaissance Content:
+$html += "<p>";
+$html += $VULN_Sitemap->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// ====================================
+// PY VULNERABILITY - VULN_InsecureServer
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_InsecureServer->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_InsecureServer->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// PY VULNERABILITY - VULN_DDOS
+$VULN_DDOS = new VULN_DDOS($SCAN, [$TOOL_cdnCheck]);
+$VULN_DDOS->Analyse();
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_InsecureServer->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_InsecureServer->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// PY VULNERABILITY - VULN_PathTraversal
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_PathTraversal->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_PathTraversal->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// MG VULNERABILITY - VULN_SecurityMscfg
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_SecurityMscfg->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_SecurityMscfg->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// MG VULNERABILITY - VULN_CSRF
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_CSRF->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_CSRF->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// MG VULNERABILITY - VULN_SSRF
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_SSRF->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_SSRF->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// LC VULNERABILITY - VULN_BrokenAccessCtl
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_BrokenAccessCtl->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_BrokenAccessCtl->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// LC VULNERABILITY - VULN_CryptographicFlrs
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_CryptographicFlrs->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_CryptographicFlrs->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// LC VULNERABILITY - VULN_XSS
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_XSS->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_XSS->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// SC VULNERABILITY - VULN_SQLInjection
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_SQLInjection->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_SQLInjection->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+
+// ====================================
+// SC VULNERABILITY - VULN_CMDInjection
+$html += "<section>";
+$html += "<h2>Summary</h2>";
+
+// Severity Score:
+$html += "<p>";
+switch ($VULN_CMDInjection->getSeverity()) {
+    case '0':           // INFORMATION
+        $html += "<span class='severity_score sev_0'>";
+        $html += "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html += "<span class='severity_score sev_1'>";
+        $html += "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html += "<span class='severity_score sev_2'>";
+        $html += "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html += "<span class='severity_score sev_3'>";
+        $html += "0 – HIGH";
+        break;
+
+    
+}
+$html += "</span></p>";
+
+// Vulnerability Content:
+$html += "<p>";
+$html += $VULN_CMDInjection->getHTML();
+$html += "</p>";
+$html += "</section>";
+
+$html += "</article>";
+
+
+
+// ========================================================================
+//                            PERSIST REPORT
+// ========================================================================
+// write the generated html for the report to the database against this scan
+
+// Create connection to database
+$conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// If connected, update the scan html
+$sql = "UPDATE scan SET html = '" . $html . "' WHERE id = " . $SCAN->getScanID();
+// TODO -- I think this will need to 
+
+if ($conn->query($sql) === TRUE) {
+    return TRUE;    // Success
+  } else {
+    $FATAL = TRUE;  // Set fatal error flag
+    return FALSE;   // Failure
+  }
+  
+  $conn->close();
+
+
+// ========================================================================
+//                      UPDATE SCAN STATUS - COMPLETED
+// ========================================================================
+if ($FATAL) {
+    // If there was a fatal error encountered in the script return 
+    updateScanStatus("failed", $SCAN);
+} else {
+    updateScanStatus("completed", $SCAN);
+}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-echo "Finished. Sleeping.";
-sleep(100);
+// ========================================================================
+echo "\n\n\nFinished. Sleeping...";
+sleep(SCRIPT_INTERVAL);
 
 } ?>
