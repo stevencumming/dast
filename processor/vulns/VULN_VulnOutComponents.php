@@ -15,9 +15,9 @@ class VULN_VulnOutComponents extends VULN {
 
     public function Analyse() {
         // Analyse your vulnerability
-        $output = "Vulnerable or outdated components:\n";
+        $output = "<h3>Vulnerable or outdated components:</h3><br>";
         
-        $outCount = 0;
+	$outCount = 0;
 
         // Start by reading the data from your tool(s)
         foreach ($this->tools as $tool) {
@@ -27,19 +27,23 @@ class VULN_VulnOutComponents extends VULN {
                 case "Nikto":
                 // if the array returned by the nikto tool isn't empty then we know something was found
                     if (isset($tool->getVulnComp()[0])) {
-                        //Set count for outdated components
-                        $outCount = count($tool->getVulnComp())
+			//Set count for outdated components
+			$outCount = count($tool->getVulnComp())
 												
-                        $output .=  "Application presents " .
+                        $output .=  "<h4>Application presents " .
                                     $outCount .
-                                    " potential vulnerabilities:\n";
+                                    " potential vulnerabilities:</h4><br><p>";
                         foreach($tool->getVulnComp() as $vuln){
-                            $output .= $vuln . "\n";
+                            $output .= $vuln . "<br>";
                         }
+												
+			$output .= "</p>";
+			
+			$this->severity = 1;
                     }
 
                     else{
-                        $output .= "No potential vulnerable or outdated components were found.\n";
+                        $output .= "<p>No potential vulnerable or outdated components were found.</p><br>";
                     }
             
                     break;
@@ -47,14 +51,15 @@ class VULN_VulnOutComponents extends VULN {
         }
 				
         // calculate the severities and store
-        if ($outCount <= 2) {
-            $this->severity = $outCount;
-        }
-        
-        else {
-            $this->severity = 3;
-        }
+	if ($outCount <= 2) {
+		$this->severity = $outCount;
+	}
+	
+	else {
+		$this->severity = 3;
+	}
 				
+	if (
         $this->html = $output;
     }
 }
