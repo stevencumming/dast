@@ -17,7 +17,7 @@ class VULN_InsecureServer extends VULN {
 
     public function Analyse() {
 
-        $rawOutput = "";
+        $output = "";
 
         // Start by reading the data from your tool(s)
         foreach ($this->tools as $tool) {
@@ -25,27 +25,21 @@ class VULN_InsecureServer extends VULN {
             // Index them (split them out) by their **name** (name is defined when the tool is CREATED / instantiated in ScanProcessor)
             switch ($tool->getName()) {
                 case "a2sv":
-                    $rawOutput = $tool->Output();
+                    $output = $tool->Output();
             }
         }
 
         // TODO
         // calculate the severities and store
-        $severity = 0;
-        $count = 0;
+        $this->severity = 0;
 
-        foreach ($arr as $value) {
-            if(substr_count($value, "Vulnerable!") > 0) {
-                $count++;
+        if ($this->severity = 0) {
+            if(substr_count($output, "Vulnerable!") > 0) {
+                $this->severity = 2;
             }
-            if ($severity = 0) {
-                if(substr_count($value, "Vulnerable!") > 0) {
-                    $severity = 2;
-                }
-            } elseif ($severity = 2) {
-                if(substr_count($value, "Vulnerable!") > 0) {
-                    $severity = 3;
-                }
+        } elseif ($this->severity = 2) {
+            if(substr_count($output, "Vulnerable!") > 0) {
+                $this->severity = 3;
             }
         }
         
