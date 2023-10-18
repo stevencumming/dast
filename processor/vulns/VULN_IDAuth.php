@@ -15,7 +15,7 @@ class VULN_IDAuth extends VULN {
 
     public function Analyse() {
         // Analyse your vulnerability
-        $output = " - Identification or authentication failures\n";
+        $output = "Identification or authentication failures\n";
 
         // Start by reading the data from your tool(s)
         foreach ($this->tools as $tool) {
@@ -32,10 +32,12 @@ class VULN_IDAuth extends VULN {
                         foreach($tool->getIDAuth() as $vuln){
                             $output .= $vuln . "\n";
                         }
+												
+                        $this->severity = 1;
                     }
 
                     else{
-                        $output .= "No potential identification or authentication based vulnerabilities were found";
+                        $output .= "No potential identification or authentication based vulnerabilities were found.\n";
                     }
             
                     break;
