@@ -19,13 +19,17 @@ class TOOL_cURL extends TOOL {
             but if anyone else is going to use cURL then that will change
             
     */
-    private array $CLI;
+    // private array $CLI; // SC: Don't think this is needed
     private bool $reply;
+    private array $redirect; // SC: Added missing private member
 
     public function Execute() {
+        echo "Executing cURL...";
+
         $this->reply = false;
         // this command will need to be edited to add in the target url, although I doubt it will ever work...
-        $command = 'curl file://' . parse_url($this->scan->getTarget())["host"] . '/127.0.0.1/etc/passwd';
+        $command = 'curl http://' . parse_url($this->scan->getTarget())["host"] . '/page?url=file://etc/passwd';
+                
         exec($command, $CLI);
 
         $pattern = '#/root:/bin/bash#';
@@ -62,6 +66,8 @@ class TOOL_cURL extends TOOL {
         }
 
     }
+
+    echo " Finished cURL.\n";
 }
 
     public function GetReply() {

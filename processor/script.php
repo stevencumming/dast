@@ -21,6 +21,8 @@ require_once('./tools/TOOL_XSRFProbe.php');
 require_once('./tools/TOOL_XSStrike.php');
 require_once('./tools/TOOL_sqlmap.php');
 require_once('./tools/TOOL_Commix.php');
+require_once('./tools/TOOL_ProTravel.php');
+require_once('./tools/TOOL_Nikto.php');
 
 // ... more tools here
 
@@ -36,7 +38,12 @@ require_once('./vulns/VULN_CryptographicFlrs.php');
 require_once('./vulns/VULN_XSS.php');
 require_once('./vulns/VULN_HostInfo.php');
 require_once('./vulns/VULN_SQLInjection.php');
+require_once('./vulns/VULN_InsecureServer.php');
 require_once('./vulns/VULN_CMDInjection.php');
+require_once('./vulns/VULN_DDOS.php');
+require_once('./vulns/VULN_IDAuth.php');
+require_once('./vulns/VULN_InsecDesign.php');
+
 
 // ========================================================================
 //                           GLOBAL VARS / CONSTANTS
@@ -165,6 +172,9 @@ foreach ($PERMITTED_DOMAINS as $domain) {
     // Loop through each of the permitted domains and check if it matches the current scan
     if (parse_url($SCAN->getTarget())["host"] == $domain) {
         $permitted = true;
+
+        // break out
+        break;
     }
 }
 
@@ -172,9 +182,14 @@ if (!$permitted) {
     // Domain requested as target is not authorised
     // set SCAN status to error ('domain_unauthorized') and die();
     updateScanStatus("domain_unauthorized", $SCAN);
+
+    // break out of this scan
+    continue;
 } else {
     // Scan is permitted, update the status to in progress and begin scanning
     updateScanStatus("in_progress", $SCAN);
+
+    echo "Scan commencing for " . parse_url($SCAN->getTarget())["host"] . "\n\n";
 }
 
 
@@ -184,20 +199,20 @@ if (!$permitted) {
 // Execute each of the tools:
 
 // example tool
-$TOOL_Dummy = new TOOL_Dummy($SCAN, "DummyTool");
-$TOOL_Dummy->Execute();
+// $TOOL_Dummy = new TOOL_Dummy($SCAN, "DummyTool");
+// $TOOL_Dummy->Execute();
 
 // PY TOOL
-$TOOL_a2sv = new TOOL_a2sv($SCAN, "a2sv");
-$TOOL_a2sv->Execute();
+// $TOOL_a2sv = new TOOL_a2sv($SCAN, "a2sv");
+// $TOOL_a2sv->Execute();
 
 // PY TOOL
 $TOOL_cdnCheck = new TOOL_cdnCheck($SCAN, "cdnCheck");
 $TOOL_cdnCheck->Execute();
 
 // PY TOOL
-$TOOL_ProTravel = new TOOL_ProTravel($SCAN, "ProTravel");
-$TOOL_ProTravel->Execute();
+// $TOOL_ProTravel = new TOOL_ProTravel($SCAN, "ProTravel");
+// $TOOL_ProTravel->Execute();
 
 // MG TOOL
 $TOOL_Nmap = new TOOL_Nmap($SCAN, "Nmap");
@@ -219,7 +234,7 @@ $TOOL_XSStrike->Execute();
 $TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
 $TOOL_GoSpider->Execute();
 
-print_r($TOOL_GoSpider->getOutput());
+// print_r($TOOL_GoSpider->getOutput());
 
 // SC TOOL
 $TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
@@ -241,16 +256,16 @@ $TOOL_Commix->Execute();
 // Analyse each of the vulnerabilities:
 
 // PY VULNERABILITY
-$VULN_InsecureServer = new VULN_InsecureServer($SCAN, [$TOOL_a2sv]);
-$VULN_InsecureServer->Analyse();
+// $VULN_InsecureServer = new VULN_InsecureServer($SCAN, [$TOOL_a2sv]);
+// $VULN_InsecureServer->Analyse();
 
 // PY VULNERABILITY
 $VULN_DDOS = new VULN_DDOS($SCAN, [$TOOL_cdnCheck]);
 $VULN_DDOS->Analyse();
 
 // PY VULNERABILITY
-$VULN_PathTraversal = new VULN_Dummy($SCAN, [$TOOL_ProTravel]);
-$VULN_PathTraversal->Analyse();
+// $VULN_PathTraversal = new VULN_Dummy($SCAN, [$TOOL_ProTravel]);
+// $VULN_PathTraversal->Analyse();
 
 // MG VULNERABILITY
 $VULN_SecurityMscfg = new VULN_SecurityMscfg($SCAN, [$TOOL_Nmap, $TOOL_Dirbuster]);
@@ -302,478 +317,478 @@ $html = "<article>";
 
 // ====================================
 //  SUMMARY
-$html += "<section>";
-$html += "<h2>Summary</h2>";
-$html += "<p>TODO</p>";
-$html += "</section>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
+$html .= "<p>TODO</p>";
+$html .= "</section>";
 
 
 // ====================================
 // SC VULNERABILITY - VULN_HostInfo
-$html += "<section>";
-$html += "<h2>Reconnaissance: Host Information</h2>";
+$html .= "<section>";
+$html .= "<h2>Reconnaissance: Host Information</h2>";
 
 // Severity Score (will always be information level):
-    $html += "<p>";
-    $html += "<span class='severity_score sev_0'>";
-    $html += "0 – INFORMATION";
-    $html += "</span></p>";
+    $html .= "<p>";
+    $html .= "<span class='severity_score sev_0'>";
+    $html .= "0 – INFORMATION";
+    $html .= "</span></p>";
 
 // Reconnaissance Content:
-$html += "<p>";
-$html += $VULN_HostInfo->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_HostInfo->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // SC VULNERABILITY - VULN_Sitemap
-$html += "<section>";
-$html += "<h2>Reconnaissance: Sitemap</h2>";
+$html .= "<section>";
+$html .= "<h2>Reconnaissance: Sitemap</h2>";
 
 // Severity Score (will always be information level):
-$html += "<p>";
-$html += "<span class='severity_score sev_0'>";
-$html += "0 – INFORMATION";
-$html += "</span></p>";
+$html .= "<p>";
+$html .= "<span class='severity_score sev_0'>";
+$html .= "0 – INFORMATION";
+$html .= "</span></p>";
 
 // Reconnaissance Content:
-$html += "<p>";
-$html += $VULN_Sitemap->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_Sitemap->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // ====================================
 // PY VULNERABILITY - VULN_InsecureServer
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_InsecureServer->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_InsecureServer->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_InsecureServer->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // PY VULNERABILITY - VULN_DDOS
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_DDOS->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_DDOS->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_DDOS->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // PY VULNERABILITY - VULN_PathTraversal
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_PathTraversal->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_PathTraversal->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_PathTraversal->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // MG VULNERABILITY - VULN_SecurityMscfg
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_SecurityMscfg->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_SecurityMscfg->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_SecurityMscfg->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // MG VULNERABILITY - VULN_CSRF
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_CSRF->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_CSRF->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_CSRF->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // MG VULNERABILITY - VULN_SSRF
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_SSRF->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_SSRF->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_SSRF->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // LC VULNERABILITY - VULN_BrokenAccessCtl
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_BrokenAccessCtl->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_BrokenAccessCtl->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_BrokenAccessCtl->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // LC VULNERABILITY - VULN_CryptographicFlrs
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_CryptographicFlrs->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_CryptographicFlrs->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_CryptographicFlrs->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // LC VULNERABILITY - VULN_XSS
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_XSS->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_XSS->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_XSS->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // SC VULNERABILITY - VULN_SQLInjection
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_SQLInjection->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_SQLInjection->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_SQLInjection->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
 
 // ====================================
 // SC VULNERABILITY - VULN_CMDInjection
-$html += "<section>";
-$html += "<h2>Summary</h2>";
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
 
 // Severity Score:
-$html += "<p>";
+$html .= "<p>";
 switch ($VULN_CMDInjection->getSeverity()) {
     case '0':           // INFORMATION
-        $html += "<span class='severity_score sev_0'>";
-        $html += "0 – INFORMATION";
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
         break;
     
     case '1':           // LOW
-        $html += "<span class='severity_score sev_1'>";
-        $html += "0 – LOW";
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
         break;
 
     case '2':           // MEDIUM
-        $html += "<span class='severity_score sev_2'>";
-        $html += "0 – MEDIUM";
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
         break;
 
     case '3':           // HIGH
-        $html += "<span class='severity_score sev_3'>";
-        $html += "0 – HIGH";
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
         break;
 
     
 }
-$html += "</span></p>";
+$html .= "</span></p>";
 
 // Vulnerability Content:
-$html += "<p>";
-$html += $VULN_CMDInjection->getHTML();
-$html += "</p>";
-$html += "</section>";
+$html .= "<p>";
+$html .= $VULN_CMDInjection->getHTML();
+$html .= "</p>";
+$html .= "</section>";
 
-$html += "</article>";
+$html .= "</article>";
 
 
 

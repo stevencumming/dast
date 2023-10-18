@@ -17,17 +17,17 @@ class TOOL_Nikto extends TOOL{
             + /path/to/web/file: A PHP backdoor was identified
 
     */
-    private array $CLI;
-
     private array $InsecDes;
     private array $VulnComp;
     private array $IDAuth;
 
     public function Execute() {
+        echo "Executing nikto...";
+
         // this command will need to be edited to add in the target url, although I doubt it will ever work...
 
         //$command = 'perl nikto/program/nikto.pl -h' . $this->scan->getTarget() . '-Tuning 2 a b c';
-        $command = 'perl ./assets/nikto/program/nikto.pl -h http://127.0.0.1/mutillidae/ -Tuning 2 a b c';
+        $command = "perl ./assets/nikto/program/nikto.pl -h " . $this->scan->getTarget() . " -Tuning 2 a b c";
 
         $this->InsecDes = [];
         $this->VulnComp = [];
@@ -58,6 +58,8 @@ class TOOL_Nikto extends TOOL{
                 array_push($this->IDAuth, $line);
             }
         }
+
+        echo " Finished nikto.\n";
     }
 
     public function getInsecDes(){

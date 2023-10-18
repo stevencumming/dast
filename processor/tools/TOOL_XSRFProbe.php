@@ -22,6 +22,8 @@ class TOOL_XSRFProbe extends TOOL {
     private array $vulnTypes;
 
     public function Execute() {
+        echo "Executing XSRFProbe...";
+
         // Run the process(es)
         $this->vulnTypes = [];
         // on my machine there is an initial deprecation warning message output to the command line about pkg_resources, doesn't really do anything it's just annoying
@@ -41,7 +43,8 @@ class TOOL_XSRFProbe extends TOOL {
             }
 
         }
-    
+        
+        echo " Finished XSRFProbe.\n";
     }
 
     // Getter for vulnTypes array
