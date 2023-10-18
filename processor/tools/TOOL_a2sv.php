@@ -21,7 +21,7 @@ class TOOL_a2sv extends TOOL
         echo "Executing a2sv...";
 
         // SC: is the syntax correct? PHP concat
-        exec("python a2sv.py -t {$this->scan->getTarget()}", $arr);
+        exec("python2 ./assets/a2sv/a2sv.py -t {$this->scan->getTarget()}", $arr);
 
         // $this->output = array_slice($array,-18,18,true);
         $this->output = array_slice($arr,-18,18,true);          // SC renamed $array to $arr

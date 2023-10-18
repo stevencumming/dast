@@ -22,9 +22,9 @@ class TOOL_ProTravel extends TOOL
     public function Execute() {
         echo "Executing ProTravel...";
 
-        // $this->output = shell_exec("python protravel.py {$this->scan->getTarget()}?filename=../../../../..");
-        $this->output = shell_exec("python protravel.py {" . $this->scan->getTarget() . 
-        "}?filename=../../../../..");       // SC fixed? the string concatentation for the command argument
+        $this->output = shell_exec("python3 ./assets/protravel/protravel.py {$this->scan->getTarget()}?filename=../../../../..");
+        // $this->output = shell_exec("python3 ./assets/protravel/protravel.py {" . $this->scan->getTarget() . 
+        // "}?filename=../../../../..");       // SC fixed? the string concatentation for the command argument
 
         echo " Finished ProTravel.\n";
     }

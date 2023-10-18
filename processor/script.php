@@ -152,7 +152,7 @@ $conn->close();
 if  (!$scanWaiting) {
     //  No scans waiting
     echo "No scans to process.";
-    echo "Last updated: " . date("Y-m-d H:i:s");
+    echo "Last updated: " . date("Y-m-d H:i:s") . "\n\n";
     
     // Sleep for 10 seconds then go back to the start
     sleep(SCRIPT_INTERVAL);
