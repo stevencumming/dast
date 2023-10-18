@@ -188,7 +188,7 @@ if (!$permitted) {
     // Scan is permitted, update the status to in progress and begin scanning
 
     // SC TODO
-    // updateScanStatus("in_progress", $SCAN);
+    updateScanStatus("in_progress", $SCAN);
 
     echo "\nScan commencing for " . parse_url($SCAN->getTarget())["host"] . "\n\n";
 }
@@ -934,6 +934,9 @@ if ($FATAL) {
     updateScanStatus("failed", $SCAN);
 } else {
     updateScanStatus("completed", $SCAN);
+
+    // TODO
+    // Update the time_completed against this scan
 }
 
 

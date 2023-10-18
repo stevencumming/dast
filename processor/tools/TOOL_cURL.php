@@ -29,7 +29,7 @@ class TOOL_cURL extends TOOL {
         $this->reply = false;
         // this command will need to be edited to add in the target url, although I doubt it will ever work...
         $command = 'curl http://' . parse_url($this->scan->getTarget())["host"] . '/page?url=file://etc/passwd';
-                
+
         exec($command, $CLI);
 
         $pattern = '#/root:/bin/bash#';
@@ -42,7 +42,7 @@ class TOOL_cURL extends TOOL {
         }
         $this->redirect = [];
         // This command is checking if there is a redirect setup on the target site
-        $command = 'curl -I'  . parse_url($this->scan->getTarget())["host"];
+        $command = 'curl -I '  . parse_url($this->scan->getTarget())["host"];
         exec($command, $CLI);
 
         // Regex to check if the redirect is in place
