@@ -15,13 +15,13 @@ class TOOL_a2sv extends TOOL
             a2sv checks for SSL vulnerabilities and returns result in array for each vulnerability potentially exploitable.
 
     */
-    private string $output;                                     // SC added private member
+    private array $output;
 
     public function Execute() {
         echo "Executing a2sv...";
 
         // SC: is the syntax correct? PHP concat
-        exec("python2 ./assets/a2sv/a2sv.py -t {$this->scan->getTarget()}", $arr);
+        exec("python2 ./assets/a2sv/a2sv.py -t " . parse_url($this->scan->getTarget())["host"], $arr);
 
         // $this->output = array_slice($array,-18,18,true);
         $this->output = array_slice($arr,-18,18,true);          // SC renamed $array to $arr

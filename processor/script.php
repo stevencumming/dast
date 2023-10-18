@@ -235,8 +235,6 @@ $TOOL_XSStrike->Execute();
 $TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
 $TOOL_GoSpider->Execute();
 
-// print_r($TOOL_GoSpider->getOutput());
-
 // SC TOOL
 $TOOL_Gobuster = new TOOL_Gobuster($SCAN, "Gobuster");
 $TOOL_Gobuster->Execute();
@@ -269,11 +267,11 @@ $VULN_DDOS = new VULN_DDOS($SCAN, [$TOOL_cdnCheck]);
 $VULN_DDOS->Analyse();
 
 // PY VULNERABILITY
-// $VULN_PathTraversal = new VULN_Dummy($SCAN, [$TOOL_ProTravel]);
-// $VULN_PathTraversal->Analyse();
+$VULN_PathTraversal = new VULN_Dummy($SCAN, [$TOOL_ProTravel]);
+$VULN_PathTraversal->Analyse();
 
 // MG VULNERABILITY
-$VULN_SecurityMscfg = new VULN_SecurityMscfg($SCAN, [$TOOL_Nmap, $TOOL_Dirbuster]);
+$VULN_SecurityMscfg = new VULN_SecurityMscfg($SCAN, [$TOOL_Nmap, $TOOL_Gobuster]);
 $VULN_SecurityMscfg->Analyse();
 
 // MG VULNERABILITY
@@ -346,10 +344,10 @@ $html .= "<section>";
 $html .= "<h2>Reconnaissance: Host Information</h2>";
 
 // Severity Score (will always be information level):
-    $html .= "<p>";
-    $html .= "<span class='severity_score sev_0'>";
-    $html .= "0 – INFORMATION";
-    $html .= "</span></p>";
+$html .= "<p>";
+$html .= "<span class='severity_score sev_0'>";
+$html .= "0 – INFORMATION";
+$html .= "</span></p>";
 
 // Reconnaissance Content:
 $html .= "<p>";
