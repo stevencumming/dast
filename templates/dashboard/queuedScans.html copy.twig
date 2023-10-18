@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DAST Queued Scans{% endblock %}
+
+{% block body %}
+
+<div class="login">
+    <div>
+        <p style="position:fixed; left: 10px; top: 5px; margin-top: 0px;">You are logged in as {{app.user.email}}</p>
+        <a class="link" href="{{ path('app_logout') }}" style="text-decoration:none; color: #ffffff; font-weight: bold; position:fixed; right: 10px; top: 5px; max-width: 100px;">
+                    Logout
+        </a>
+    </div>
+    <h1>View Currently Queued Target Scans</h1>
+
+    <a href="{{ path('app_dashboard') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
+        Back to Dashboard
+    </a>
+
+    {% for s in scans %}
+        <div class="login" style="width: 400px; height: 200px; margin-left: auto; margin-right: auto; text-align:center;">
+        {% if s.status == 'waiting' %}
+            <h3 style="margin-left: auto; margin-right: auto;">Scan Details: {{ s.target }}</h3>
+            <p><b>Target: </b>{{ s.target }}</p>
+            <p><b>Scan Status: </b>Waiting</p>
+            <p><b>Time Requested: </b>{{ s.timeRequested|date() }}</p>
+        {% endif %}
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
