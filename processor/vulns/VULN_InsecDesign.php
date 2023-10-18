@@ -16,7 +16,7 @@ class VULN_InsecDesign extends VULN {
 
     public function Analyse() {
         // Analyse your vulnerability
-        $output = " - Insecure design\n";
+        $output = "<h3>Insecure design:</h3><br>";
 
         // Start by reading the data from your tool(s)
         foreach ($this->tools as $tool) {
@@ -27,16 +27,18 @@ class VULN_InsecDesign extends VULN {
                 // if the array returned by the nikto tool isn't empty then we know something was found
                     if (isset($tool->getInsecDes()[0])) {
                         // kind of a place holder output here but you get the idea
-                        $output .=  "Application presents " .
+                        $output .=  "<h4>Application presents " .
                                     count($tool->getInsecDes()) .
-                                    " potential vulnerabilities:\n";
+                                    " potential vulnerabilities:</h4><br><p>";
                         foreach($tool->getInsecDes() as $vuln){
-                            $output .= $vuln . "\n";
+                            $output .= $vuln . "<br>";
                         }
+												
+                        $output .= "</p>";
                     }
 
                     else{
-                        $output .= "No potential design based vulnerabilities were found";
+                        $output .= "<p>No potential design based vulnerabilities were found.</p><br>";
                     }
             
                     break;
@@ -46,9 +48,6 @@ class VULN_InsecDesign extends VULN {
         // calculate the severities and store
         $this->severity = 0;
 
-        // remember to construct the HTML used within the report:
-        //   (the final report generated, that includes ALL vulnerabilities, will consist of all of these html segments displayed together)
-        //   (We'll standardise this later!)
         $this->html = $output;
     }
 }
