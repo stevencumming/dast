@@ -249,6 +249,10 @@ $TOOL_sqlmap->Execute();
 $TOOL_Commix = new TOOL_Commix($SCAN, "commix");
 $TOOL_Commix->Execute();
 
+// SH TOOL
+$TOOL_Nikto = new TOOL_Nikto($SCAN, "Nikto");
+$TOOL_Nikto->Execute();
+
 
 // ========================================================================
 //                                  VULNERABILITIES
@@ -307,6 +311,18 @@ $VULN_SQLInjection->Analyse();
 // SC VULNERABILITY
 $VULN_CMDInjection = new VULN_CMDInjection($SCAN, [$TOOL_Commix]);
 $VULN_CMDInjection->Analyse();
+
+// SH VULNERABILITY
+$VULN_IDAuth = new VULN_IDAuth($SCAN, [$TOOL_Nikto]);
+$VULN_IDAuth->Analyse();
+
+// SH VULNERABILITY
+$VULN_InsecDesign = new VULN_InsecDesign($SCAN, [$TOOL_Nikto]);
+$VULN_InsecDesign->Analyse();
+
+// SH VULNERABILITY
+$VULN_VulnOutComponents = new VULN_VulnOutComponents($SCAN, [$TOOL_Nikto]);
+$VULN_VulnOutComponents->Analyse();
 
 
 // ========================================================================
@@ -786,6 +802,102 @@ $html .= "</span></p>";
 // Vulnerability Content:
 $html .= "<p>";
 $html .= $VULN_CMDInjection->getHTML();
+$html .= "</p>";
+$html .= "</section>";
+
+
+// ====================================
+// SH VULNERABILITY - VULN_IDAuth
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
+
+// Severity Score:
+$html .= "<p>";
+switch ($VULN_IDAuth->getSeverity()) {
+    case '0':           // INFORMATION
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
+        break;
+
+    
+}
+$html .= "</span></p>";
+
+// Vulnerability Content:
+$html .= "<p>";
+$html .= $VULN_IDAuth->getHTML();
+$html .= "</p>";
+$html .= "</section>";
+
+
+// ====================================
+// SH VULNERABILITY - VULN_InsecDesign
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
+
+// Severity Score (will always be information level):
+$html .= "<p>";
+$html .= "<span class='severity_score sev_0'>";
+$html .= "0 – INFORMATION";
+$html .= "</span></p>";
+
+// Vulnerability Content:
+$html .= "<p>";
+$html .= $VULN_InsecDesign->getHTML();
+$html .= "</p>";
+$html .= "</section>";
+
+
+// ====================================
+// SH VULNERABILITY - VULN_VulnOutComponents
+$html .= "<section>";
+$html .= "<h2>Summary</h2>";
+
+// Severity Score:
+$html .= "<p>";
+switch ($VULN_VulnOutComponents->getSeverity()) {
+    case '0':           // INFORMATION
+        $html .= "<span class='severity_score sev_0'>";
+        $html .= "0 – INFORMATION";
+        break;
+    
+    case '1':           // LOW
+        $html .= "<span class='severity_score sev_1'>";
+        $html .= "0 – LOW";
+        break;
+
+    case '2':           // MEDIUM
+        $html .= "<span class='severity_score sev_2'>";
+        $html .= "0 – MEDIUM";
+        break;
+
+    case '3':           // HIGH
+        $html .= "<span class='severity_score sev_3'>";
+        $html .= "0 – HIGH";
+        break;
+
+    
+}
+$html .= "</span></p>";
+
+// Vulnerability Content:
+$html .= "<p>";
+$html .= $VULN_VulnOutComponents->getHTML();
 $html .= "</p>";
 $html .= "</section>";
 

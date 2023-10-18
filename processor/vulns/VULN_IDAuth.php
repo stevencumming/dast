@@ -15,7 +15,7 @@ class VULN_IDAuth extends VULN {
 
     public function Analyse() {
         // Analyse your vulnerability
-        $output = " - Identification or authentication failures\n";
+        $output = "<h3>Identification or authentication failures:</h3><br>";
 
         // Start by reading the data from your tool(s)
         foreach ($this->tools as $tool) {
@@ -26,16 +26,19 @@ class VULN_IDAuth extends VULN {
                 // if the array returned by the nikto tool isn't empty then we know something was found
                     if (isset($tool->getIDAuth()[0])) {
                         // kind of a place holder output here but you get the idea
-                        $output .=  "Application presents " .
+                        $output .=  "<h4>Application presents " .
                                     count($tool->getIDAuth()) .
-                                    " potential vulnerabilities:\n";
+                                    " potential vulnerabilities:</h4><br><p>";
                         foreach($tool->getIDAuth() as $vuln){
-                            $output .= $vuln . "\n";
+                            $output .= $vuln . "<br>";
                         }
+			$output .= "</p>";
+			
+			$this->severity = 1;
                     }
 
                     else{
-                        $output .= "No potential identification or authentication based vulnerabilities were found";
+                        $output .= "<p>No potential identification or authentication based vulnerabilities were found.</p><br>";
                     }
             
                     break;
