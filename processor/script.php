@@ -43,6 +43,7 @@ require_once('./vulns/VULN_CMDInjection.php');
 require_once('./vulns/VULN_DDOS.php');
 require_once('./vulns/VULN_IDAuth.php');
 require_once('./vulns/VULN_InsecDesign.php');
+require_once('./vulns/VULN_VulnOutComponents.php');
 
 
 // ========================================================================
