@@ -33,13 +33,15 @@ class VULN_InsecureServer extends VULN {
         // calculate the severities and store
         $this->severity = 0;
 
-        if ($this->severity = 0) {
-            if(substr_count($output, "Vulnerable!") > 0) {
-                $this->severity = 2;
-            }
-        } elseif ($this->severity = 2) {
-            if(substr_count($output, "Vulnerable!") > 0) {
-                $this->severity = 3;
+        foreach ($output as $value) {
+            if ($this->severity = 0) {
+                if(substr_count($value, "Vulnerable!") > 0) {
+                    $this->severity = 2;
+                }
+            } elseif ($this->severity = 2) {
+                if(substr_count($value, "Vulnerable!") > 0) {
+                    $this->severity = 3;
+                }
             }
         }
         
