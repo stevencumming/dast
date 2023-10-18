@@ -17,7 +17,7 @@ class VULN_InsecureServer extends VULN {
 
     public function Analyse() {
 
-        $output = "";
+        $output = array();
 
         // Start by reading the data from your tool(s)
         foreach ($this->tools as $tool) {
@@ -45,7 +45,13 @@ class VULN_InsecureServer extends VULN {
             }
         }
         
+        $temp = "<p>";
+        foreach ($output as $line) {
+            $temp .= $line;
+        }
+        $temp .= "</p>";
+
         // and the HTML:
-        $this->html = nl2br("Results from Insecure Server Configuration/SSL check:\n" . $output . "\nSeverity rating: " . $this->severity);
+        $this->html = nl2br("Results from Insecure Server Configuration/SSL check:\n" . $temp . "\nSeverity rating: " . $this->severity);
     }
 }
