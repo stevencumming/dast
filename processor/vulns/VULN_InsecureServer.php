@@ -29,7 +29,6 @@ class VULN_InsecureServer extends VULN {
             }
         }
 
-        // TODO
         // calculate the severities and store
         $this->severity = 0;
 
@@ -45,13 +44,13 @@ class VULN_InsecureServer extends VULN {
             }
         }
         
-        $temp = "<p>";
+        $output_block = "<p style='font-family: monospace;'>";
         foreach ($output as $line) {
-            $temp .= $line;
+            $output_block .= $line . "\n";
         }
-        $temp .= "</p>";
+        $output_block .= "</p>";
 
         // and the HTML:
-        $this->html = nl2br("Results from Insecure Server Configuration/SSL check:\n" . $temp . "\nSeverity rating: " . $this->severity);
+        $this->html = nl2br("Results from Insecure Server Configuration/SSL check:\n" . $output_block . "\nSeverity rating: " . $this->severity);
     }
 }

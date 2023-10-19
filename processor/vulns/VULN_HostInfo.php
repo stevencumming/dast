@@ -55,6 +55,33 @@ class VULN_HostInfo extends VULN {
 
                     $output .= "</div>";
                     break;
+                case "nslookup":
+                    // Server OS / Service Overview
+                    $output .= "<h3>DNS Information:</h3>";
+
+                    // IP Addresses
+                    $addresses = $tool->getAddresses();
+                    if (isset($addresses)) {
+                        $output .= "<h4>IP Addresses resolved for domain:</h4><ul>";
+                        foreach ($addresses as $address) {
+                            $output .= "<li>" . $address . "</li>";
+                        }
+                        $output .= "</ul>";
+                    }
+                    
+                    // Hostnames
+                    $hostnames = $tool->getDomain_names();
+                    if (isset($hostnames)) {
+                        $output .= "<h4>Domain names discovered for target:</h4><ul>";
+                        foreach ($hostnames as $hostname) {
+                            $output .= "<li>" . $hostname . "</li>";
+                        }
+                        $output .= "</ul>";
+                    }
+
+
+                    $output .= "</div>";
+                    break;
             }
         }
         // ++ All tools have been analysed at this point

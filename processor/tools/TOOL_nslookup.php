@@ -1,16 +1,15 @@
 <?php
-class TOOL_Dummy extends TOOL {
+class TOOL_nslookup extends TOOL {
     /*
-        Tool Name:              DummyTool
-        Responsible:            AA
-        OpenProject Phase #:    999
+        Tool Name:              nslookup
+        Responsible:            SC
+        OpenProject Phase #:    
 
         Summary:
-            ... quick summary of the tool's purpose. (Even if it's all written in PHP / Symfony, still describe it breifly)
+            returns the results found from nslookup DNS lookup utility
 
 
         Output (Object):
-            ... describe in psuedocode
             $domain_names = array of domain names
             $addresses = array of addresses (IPv4/6) corresponding to the matching $names[i]
     */
@@ -22,7 +21,7 @@ class TOOL_Dummy extends TOOL {
     private array $domain_names  = array();
 
     public function Execute() {        
-        echo "Executing DummyTool...";
+        echo "Executing nslookup...";
         
         // parse_url
         // https://www.php.net/manual/en/function.parse-url.php
@@ -40,6 +39,8 @@ class TOOL_Dummy extends TOOL {
         // normally, I'm not a fan of ternary or single-line if statements.. but it makes sense here.
         if (isset($matches[0][1])) array_push($this->domain_names, $matches[0][1]);
         if (isset($matches[0][2])) array_push($this->addresses, $matches[0][2]);
+
+        echo " Finished nslookup.\n";
     }
 
     // Getters / Setters

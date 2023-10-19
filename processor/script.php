@@ -10,7 +10,7 @@ require_once('./Scan.php');
 
 // Tools
 require_once('./tools/TOOL.php');
-require_once('./tools/TOOL_Dummy.php');
+require_once('./tools/TOOL_nslookup.php');
 require_once('./tools/TOOL_GoSpider.php');
 require_once('./tools/TOOL_Gobuster.php');
 require_once('./tools/TOOL_Nmap.php');
@@ -44,6 +44,8 @@ require_once('./vulns/VULN_DDOS.php');
 require_once('./vulns/VULN_IDAuth.php');
 require_once('./vulns/VULN_InsecDesign.php');
 require_once('./vulns/VULN_VulnOutComponents.php');
+require_once('./vulns/VULN_PathTraversal.php');
+
 
 
 // ========================================================================
@@ -151,8 +153,8 @@ $conn->close();
 // ====================================
 if  (!$scanWaiting) {
     //  No scans waiting
-    echo "No scans to process.";
-    echo "Last updated: " . date("Y-m-d H:i:s") . "\n\n";
+    echo "\nNo scans to process.";
+    echo "\nLast updated: " . date("Y-m-d H:i:s") . "\n\n";
     
     // Sleep for 10 seconds then go back to the start
     sleep(SCRIPT_INTERVAL);
@@ -228,6 +230,10 @@ $TOOL_XSStrike = new TOOL_XSStrike($SCAN, "XSStrike");
 $TOOL_XSStrike->Execute();
 
 // SC TOOL
+$TOOL_nslookup = new TOOL_nslookup($SCAN, "nslookup");
+$TOOL_nslookup->Execute();
+
+// SC TOOL
 $TOOL_GoSpider = new TOOL_GoSpider($SCAN, "GoSpider");
 $TOOL_GoSpider->Execute();
 
@@ -247,10 +253,13 @@ $TOOL_Commix->Execute();
 $TOOL_Nikto = new TOOL_Nikto($SCAN, "Nikto");
 $TOOL_Nikto->Execute();
 
+echo "\n\nFinished Tools.\n";
+
 
 // ========================================================================
 //                                  VULNERABILITIES
 // ========================================================================
+echo "\nAnalysing Vulnerabilities based on Tool outputs...\n";
 
 // Analyse each of the vulnerabilities:
 
@@ -263,7 +272,7 @@ $VULN_DDOS = new VULN_DDOS($SCAN, [$TOOL_cdnCheck]);
 $VULN_DDOS->Analyse();
 
 // PY VULNERABILITY
-$VULN_PathTraversal = new VULN_Dummy($SCAN, [$TOOL_ProTravel]);
+$VULN_PathTraversal = new VULN_PathTraversal($SCAN, [$TOOL_ProTravel]);
 $VULN_PathTraversal->Analyse();
 
 // MG VULNERABILITY
@@ -291,7 +300,7 @@ $VULN_XSS = new VULN_XSS($SCAN, [$TOOL_XSStrike]);
 $VULN_XSS->Analyse();
 
 // SC VULNERABILITY
-$VULN_HostInfo = new VULN_HostInfo($SCAN, [$TOOL_Nmap]);
+$VULN_HostInfo = new VULN_HostInfo($SCAN, [$TOOL_Nmap, $TOOL_nslookup]);
 $VULN_HostInfo->Analyse();
 
 // SC VULNERABILITY
@@ -323,6 +332,8 @@ $VULN_VulnOutComponents->Analyse();
 //                            COMPILE REPORT
 // ========================================================================
 // go through each of the processed vulnerabilities and compile the final report
+echo "\nCompiling Report...\n";
+
 $html = "<article>";
 
 
@@ -903,6 +914,7 @@ $html .= "</article>";
 // ========================================================================
 //                            PERSIST REPORT
 // ========================================================================
+echo "\nSaving Report...\n";
 // write the generated html for the report to the database against this scan
 
 // Create connection to database
@@ -934,6 +946,8 @@ if ($FATAL) {
     updateScanStatus("failed", $SCAN);
 } else {
     updateScanStatus("completed", $SCAN);
+
+    echo "\nComplete!\n";
 
     // TODO
     // Update the time_completed against this scan
