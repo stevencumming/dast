@@ -386,17 +386,17 @@ switch ($VULN_InsecureServer->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -425,17 +425,17 @@ switch ($VULN_DDOS->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -464,17 +464,17 @@ switch ($VULN_PathTraversal->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -503,17 +503,17 @@ switch ($VULN_SecurityMscfg->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -542,17 +542,17 @@ switch ($VULN_CSRF->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -581,17 +581,17 @@ switch ($VULN_SSRF->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -620,17 +620,17 @@ switch ($VULN_BrokenAccessCtl->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -659,17 +659,17 @@ switch ($VULN_CryptographicFlrs->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -698,17 +698,17 @@ switch ($VULN_XSS->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -737,17 +737,17 @@ switch ($VULN_SQLInjection->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -776,17 +776,17 @@ switch ($VULN_CMDInjection->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
@@ -815,17 +815,17 @@ switch ($VULN_IDAuth->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 –  LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 –  MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 –  HIGH";
         break;
 
     
