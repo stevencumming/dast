@@ -9,7 +9,7 @@ class TOOL_Commix extends TOOL {
             //
             
         Output (Object):
-            //
+            getOutput() returns the scan result string.
     */
     private string $output;
 
@@ -17,13 +17,9 @@ class TOOL_Commix extends TOOL {
         echo "Executing Commix...";
 
         // sqlmap command
-        $command = "python3 ~/commix/commix.py -h";
-        // -u " . $this->scan->getTarget() . " -crawl=5 --batch --level=3 --risk=3 -dbs";
-
-        // python3 ~/sqlmap-dev/sqlmap.py -u https://web.ctflearn.com/web4/ --crawl=2 --batch
-        // http://hackbox-1.duckdns.org:3000/#/
-
-        //python3 ~/sqlmap-dev/sqlmap.py -u http://hackbox-1.duckdns.org:3000/#/ --crawl=5 --batch --level=3 --risk=3 -dbs
+        $command = "python3 ./assets/commix/commix.py -u " . $this->scan->getTarget() . " --all --batch --crawl=2";
+        // python3 commix.py -u stevencumming.io --all --batch --crawl=2
+    
        
         // Initialise the output buffer (array of lines) and execute the tool
         $output = "";
@@ -31,18 +27,18 @@ class TOOL_Commix extends TOOL {
         exec($command, $CLI);
 
         // Regex patterns
-        
+        $pattern_noMatch = '/\[WARNING\] no usable links found \(with GET parameters\)/m';
       
         // Gor each line reformat and store in output array
         foreach ($CLI as $line) {
 
-            //$output .= $line . "\n";
+            //echo $line . "\n";
 
-            // preg_match_all($pattern_noMatch, $line, $result);
-            // if(isset($result[0][0])) {
-            //     // no useable links found
-            //     $output .= "SQL Vulnerability Checker: no usable links found (with GET parameters)";
-            // }
+            preg_match_all($pattern_noMatch, $line, $result);
+            if(isset($result[0][0])) {
+                // no useable links found
+                $output .= "SQL Vulnerability Checker: no usable links found (with GET parameters)";
+            }
             
         }
 

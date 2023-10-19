@@ -6,7 +6,7 @@ class VULN_SQLInjection extends VULN {
         OpenProject Phase #:    999
 
         Summary:
-            ... quick summary on the vulnerability and what tools are required
+            Returns the analyses conducted by sqlmap tool to detect any pages vulnerable to SQL injection attack
 
 
         Output (HTML):
@@ -17,7 +17,6 @@ class VULN_SQLInjection extends VULN {
         // Analyse your vulnerability
 
         // Local variables here for using when analysing the tools
-        // xxxx
         $output = "";
 
         // Start by reading the data from your tool(s)

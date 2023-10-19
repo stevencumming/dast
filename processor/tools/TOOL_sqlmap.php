@@ -9,7 +9,7 @@ class TOOL_sqlmap extends TOOL {
             //
             
         Output (Object):
-            getOutput()
+            getOutput() returns the scan result string.
 
     */
     private string $output;
@@ -18,7 +18,7 @@ class TOOL_sqlmap extends TOOL {
         echo "Executing sqlmap...";
 
         // sqlmap command
-        $command = "python3 ~/sqlmap-dev/sqlmap.py -u " . $this->scan->getTarget() . " -crawl=5 --batch --level=3 --risk=3 -dbs";
+        $command = "python3 ~/sqlmap-dev/sqlmap.py -u " . $this->scan->getTarget() . " --crawl=5 --batch --level=3 --risk=3 -dbs";
         // python3 ~/sqlmap-dev/sqlmap.py -u https://web.ctflearn.com/web4/ --crawl=2 --batch
         // http://hackbox-1.duckdns.org:3000/#/
 

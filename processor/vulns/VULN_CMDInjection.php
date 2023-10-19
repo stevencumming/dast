@@ -6,7 +6,7 @@ class VULN_CMDInjection extends VULN {
         OpenProject Phase #:    999
 
         Summary:
-            ... quick summary on the vulnerability and what tools are required
+            Returns the analyses conducted by commix tool to detect any pages vulnerable to CMD injection attack
 
 
         Output (HTML):
