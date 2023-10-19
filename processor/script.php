@@ -872,17 +872,17 @@ switch ($VULN_VulnOutComponents->getSeverity()) {
     
     case '1':           // LOW
         $html .= "<span class='severity_score sev_1'>";
-        $html .= "0 – LOW";
+        $html .= "1 – LOW";
         break;
 
     case '2':           // MEDIUM
         $html .= "<span class='severity_score sev_2'>";
-        $html .= "0 – MEDIUM";
+        $html .= "2 – MEDIUM";
         break;
 
     case '3':           // HIGH
         $html .= "<span class='severity_score sev_3'>";
-        $html .= "0 – HIGH";
+        $html .= "3 – HIGH";
         break;
 
     
