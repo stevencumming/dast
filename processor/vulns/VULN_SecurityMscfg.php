@@ -37,20 +37,23 @@ class VULN_SecurityMscfg extends VULN{
                     if (isset($tool->getCVEs()[0])) {
 			    // Just using the overall number of cves found since in my example there were 60+, don't want to clutter the html
                         $nmapOutput = "There were " . count($tool->getCVEs()) . " potential CVEs found during port scanning.";
+                        foreach($tool->GetCVEs() as $cve){
+                            $nmapOutput .= $cve . ", ";
+                        }
 		    }else{
 			    $nmapOutput = "There were no CVEs found during port scanning.";
 		    }
                     break;
-                case "Dirbuster":
+                case "Gobuster":
                     // I think we should implement an 'admin page found' boolean in the directory busting tool with its own getter so that other classes can just call that rather than sift through all entries
                     // then check if the getter returns a true value
-                    if ($tool->GetAdminPage()) {
+                    //TODO if ($tool->GetAdminPage()) {
                         // just let the user know there is an admin page 
-                        $dirbusterOutput = "An admin page was found amongst the target directories";
+                        //TODO $dirbusterOutput = "An admin page was found amongst the target directories";
                         // need to set the severity every time a tool is checked so even in case one doesn't return any results
-		    }else{
+		    //TODO }else{
 			    $dirbusterOutput = "No admin page was found in the target directories";
-		    }
+		    //TODO }
                     break;  // don't forget to break
                 // we don't really need a default case, the condition should never occur.
             }
@@ -61,7 +64,7 @@ class VULN_SecurityMscfg extends VULN{
         // remember to construct the HTML used within the report:
         //   (the final report generated, that includes ALL vulnerabilities, will consist of all of these html segments displayed together)
         //   (We'll standardise this later!)
-        $this->html = "<p>Security Misconfiguration results: " . $nmapOutput . " " . $dirbusterOutput . "</p>";
+        $this->html = "<p>Security Misconfiguration results: " . $nmapOutput . " \n " . $dirbusterOutput . "</p>";
 
     }
 }
