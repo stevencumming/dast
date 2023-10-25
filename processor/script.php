@@ -52,10 +52,10 @@ require_once('./vulns/VULN_PathTraversal.php');
 //                           GLOBAL VARS / CONSTANTS
 // ========================================================================
 // Database Connection constants
-define("DB_SERVERNAME", "170.187.240.98");
+define("DB_SERVERNAME", "127.0.0.1");
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "DAST34swin@");
-define("DB_DBNAME", "u428402158_dast");
+define("DB_DBNAME", "dast");
 
 // Script Update Interval (seconds)
 define("SCRIPT_INTERVAL", "10");
@@ -153,7 +153,7 @@ $conn->close();
 // ====================================
 if  (!$scanWaiting) {
     //  No scans waiting
-    echo "\nNo scans to process.";
+    echo "\nNo scans to process. ";
     echo "\nLast updated: " . date("Y-m-d H:i:s") . "\n\n";
     
     // Sleep for 10 seconds then go back to the start
@@ -190,7 +190,7 @@ if (!$permitted) {
     // Scan is permitted, update the status to in progress and begin scanning
 
     // SC TODO
-    updateScanStatus("in_progress", $SCAN);
+    //updateScanStatus("in_progress", $SCAN);
 
     echo "\nScan commencing for " . parse_url($SCAN->getTarget())["host"] . "\n\n";
 }
