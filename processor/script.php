@@ -52,7 +52,7 @@ require_once('./vulns/VULN_PathTraversal.php');
 //                           GLOBAL VARS / CONSTANTS
 // ========================================================================
 // Database Connection constants
-define("DB_SERVERNAME", "127.0.0.1");
+define("DB_SERVERNAME", "localhost");
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "DAST34swin@");
 define("DB_DBNAME", "dast");
@@ -152,8 +152,12 @@ $conn->close();
 
 // ====================================
 if  (!$scanWaiting) {
-    //  No scans waiting
-    echo "\nNo scans to process. ";
+    // No scans waiting
+    // Clear command (clean the screen)
+    system('clear');
+    
+    // Alert user
+    echo "No scans to process. ";
     echo "\nLast updated: " . date("Y-m-d H:i:s") . "\n\n";
     
     // Sleep for 10 seconds then go back to the start

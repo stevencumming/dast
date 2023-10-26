@@ -37,9 +37,11 @@ class VULN_SecurityMscfg extends VULN{
                     if (isset($tool->getCVEs()[0])) {
 			    // Just using the overall number of cves found since in my example there were 60+, don't want to clutter the html
                         $nmapOutput = "There were " . count($tool->getCVEs()) . " potential CVEs found during port scanning.";
+                        $nmapOutput .= "</p><ul>";
                         foreach($tool->GetCVEs() as $cve){
-                            $nmapOutput .= $cve . ", ";
+                            $nmapOutput .= "<li>" . $cve . "</li>";
                         }
+                        $nmapOutput .= "</ul><p>";
 		    }else{
 			    $nmapOutput = "There were no CVEs found during port scanning.";
 		    }
