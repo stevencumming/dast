@@ -76,6 +76,17 @@
 						</a>
 					</li>
 
+					<li class="nav-item">
+						<a class="nav-link text-white " href="{{ path('app_in_progress_scans') }}">
+
+							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="material-icons opacity-10">table_view</i>
+							</div>
+
+							<span class="nav-link-text ms-1">View In Progress Scans</span>
+						</a>
+					</li>
+
 
 					<li class="nav-item">
 						<a class="nav-link text-white " href="{{ path('app_past_scans') }}">
@@ -84,7 +95,7 @@
 								<i class="material-icons opacity-10">table_view</i>
 							</div>
 
-							<span class="nav-link-text ms-1">View Past Scans</span>
+							<span class="nav-link-text ms-1">View Completed Scans</span>
 						</a>
 					</li>
 
@@ -179,7 +190,7 @@
 								<div class="card  mb-2">
 									<div class="card-header p-3 pt-2">
 										<div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-xl mt-n4 position-absolute">
-											<i class="material-icons opacity-10">leaderboard</i>
+											<i class="material-icons opacity-10">radar</i>
 										</div>
 										<div class="text-end pt-1">
 											<p class="text-sm mb-0 text-capitalize">Total Targets Scanned</p>
@@ -193,8 +204,8 @@
 
 								<div class="card  mb-2">
 									<div class="card-header p-3 pt-2">
-										<div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary shadow text-center border-radius-xl mt-n4 position-absolute">
-											<i class="material-icons opacity-10">leaderboard</i>
+										<div class="icon icon-lg icon-shape bg-gradient-info shadow-primary shadow text-center border-radius-xl mt-n4 position-absolute">
+											<i class="material-icons opacity-10">sync</i>
 										</div>
 										<div class="text-end pt-1">
 											<p class="text-sm mb-0 text-capitalize">Scans In Progress</p>
@@ -217,7 +228,7 @@
 								<div class="card  mb-2">
 									<div class="card-header p-3 pt-2 bg-transparent">
 										<div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-											<i class="material-icons opacity-10">leaderboard</i>
+											<i class="material-icons opacity-10">done</i>
 										</div>
 										<div class="text-end pt-1">
 											<p class="text-sm mb-0 text-capitalize ">Scans Complete</p>
@@ -238,7 +249,7 @@
 								<div class="card ">
 									<div class="card-header p-3 pt-2 bg-transparent">
 										<div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-											<i class="material-icons opacity-10">leaderboard</i>
+											<i class="material-icons opacity-10">add_task</i>
 										</div>
 										<div class="text-end pt-1">
 											<p class="text-sm mb-0 text-capitalize ">Scans Queued</p>

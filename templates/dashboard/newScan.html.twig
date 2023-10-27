@@ -75,6 +75,17 @@
 						</a>
 					</li>
 
+					<li class="nav-item">
+						<a class="nav-link text-white " href="{{ path('app_in_progress_scans') }}">
+
+							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="material-icons opacity-10">table_view</i>
+							</div>
+
+							<span class="nav-link-text ms-1">View In Progress Scans</span>
+						</a>
+					</li>
+
 
 					<li class="nav-item">
 						<a class="nav-link text-white " href="{{ path('app_past_scans') }}">
@@ -83,7 +94,7 @@
 								<i class="material-icons opacity-10">table_view</i>
 							</div>
 
-							<span class="nav-link-text ms-1">View Past Scans</span>
+							<span class="nav-link-text ms-1">View Completed Scans</span>
 						</a>
 					</li>
 
@@ -167,7 +178,7 @@
 							<div class="col-lg-12 col-sm-12">
 								<div class="card z-index-0 fadeIn3 fadeInBottom">
 									<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-										<div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+										<div class="bg-gradient-dark shadow-primary border-radius-lg py-3 pe-1">
 											<h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Scan A Target</h4>
 										</div>
 									</div>
@@ -181,7 +192,7 @@
 																																			                    <label class="form-check-label mb-0 ms-3" for="rememberMe">Remember me</label>
 																																			                  </div>#}
 											<div class="text-center">
-												<button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Queue Target Scan</button>
+												<button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Queue Target Scan</button>
 											</div>
 										</form>
 									</div>
