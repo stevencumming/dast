@@ -223,7 +223,7 @@
 											<p class="text-sm mb-0 text-capitalize ">Scans Complete</p>
                       {% set i2 = 0 %}
                       {% for s in scans %}
-                        {% if s.status == 'complete' %}
+                        {% if s.status == 'completed' %}
                           {% set i2 = i2 + 1 %}
                         {% endif %}
                       {% endfor %}
