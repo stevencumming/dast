@@ -152,7 +152,7 @@ class DashboardController extends AbstractController
         }
     }
 
-    #[Route('/dashboard/past-scans/scan-report{scanId}', name: 'app_scan_report')]
+    #[Route('/dashboard/past-scans/scan-report/{scanId}', name: 'app_scan_report')]
     public function scanReport(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms, string $scanId): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -173,7 +173,7 @@ class DashboardController extends AbstractController
             return $this->render('dashboard/scanReport.html.twig', [
                 'controller_name' => 'DashboardController',
                 'scan' => $scan,
-                'userId' => $this-getUser()->getId(),
+                'userId' => $this->getUser()->getId(),
             ]);    
         }
     }
