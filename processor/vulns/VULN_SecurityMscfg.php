@@ -47,15 +47,34 @@ class VULN_SecurityMscfg extends VULN{
 		    }
                     break;
                 case "Gobuster":
-                    // I think we should implement an 'admin page found' boolean in the directory busting tool with its own getter so that other classes can just call that rather than sift through all entries
-                    // then check if the getter returns a true value
-                    //TODO if ($tool->GetAdminPage()) {
-                        // just let the user know there is an admin page 
-                        //TODO $dirbusterOutput = "An admin page was found amongst the target directories";
-                        // need to set the severity every time a tool is checked so even in case one doesn't return any results
-		    //TODO }else{
-			    $dirbusterOutput = "No admin page was found in the target directories";
-		    //TODO }
+
+                    // SC
+
+                    // admin directory located flag
+                    $admin_located = FALSE;
+                    $admin_url = "";
+
+                    // loop through each of the found files and directories
+                    foreach ($tool->getOutput() as $item) {
+                        // for each of the files and directories
+
+                        // $item["URL"] has the full URL
+                        // https://www.php.net/manual/en/function.parse-url.php
+                        // parse_url($item["URL"])["path"] would = "/admin" for example.org/admin
+
+                        // Searching for that exact string (either "/admin/" or "/admin") here should be sufficient to detect if a /admin/ page exists on the target host
+                        if ((parse_url($item["URL"])["path"] == "/admin/") || (parse_url($item["URL"])["path"] == "/admin")) {
+                            $admin_located = TRUE;
+                            $admin_url = $item["URL"];
+                        }
+                    }
+
+                    if ($admin_located) {
+                        $dirbusterOutput = "An Admin page was detected on the target host. The admin page URL was found: " . $admin_url;
+                    } else {
+                        $dirbusterOutput = "No admin page was found in the target directories";
+                    }
+
                     break;  // don't forget to break
                 // we don't really need a default case, the condition should never occur.
             }
