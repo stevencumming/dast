@@ -35,6 +35,9 @@ class Scan
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $time_completed = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $html = null;
+
     public function __construct()
     {
         $this->tools = new ArrayCollection();
@@ -114,6 +117,18 @@ class Scan
     public function setTimeCompleted(\DateTimeInterface $time_completed): static
     {
         $this->time_completed = $time_completed;
+
+        return $this;
+    }
+
+    public function getHtml(): ?string
+    {
+        return $this->html;
+    }
+
+    public function setHtml(string $html): static
+    {
+        $this->html = $html;
 
         return $this;
     }

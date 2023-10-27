@@ -80,7 +80,7 @@ class DashboardController extends AbstractController
         }
     }
 
-    #[Route('/dashboard/past-scans', name: 'app_past_scans')]
+    #[Route('/dashboard/completed-scans', name: 'app_past_scans')]
     public function pastScans(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -128,7 +128,31 @@ class DashboardController extends AbstractController
         }
     }
 
-    #[Route('/dashboard/past-scans/scan-report{scanId}', name: 'app_scan_report')]
+    #[Route('/dashboard/in-progress-scans', name: 'app_in_progress_scans')]
+    public function inProgressScans(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->getUser()->isVerified()) {
+            $logger->info('User {userId} has attempted to access their dashboard, but is not verified. They have been automatically logged out.  IP Address: {ip}', [
+                'userId' => $this->getUser()->getId(),
+                'ip' => $request->getClientIp(),
+            ]);
+            return $this->redirectToRoute('app_logout');
+        }
+        else {
+            $logger->info('User {userId} is viewing their in progress scans. IP Address: {ip}', [
+                'userId' => $this->getUser()->getId(),
+                'ip' => $request->getClientIp(),
+            ]);
+            $scans = $entityManager->getRepository(Scan::class);
+            return $this->render('dashboard/inProgressScans.html.twig', [
+                'controller_name' => 'DashboardController',
+                'scans' => $this->getUser()->getScans(),
+            ]);    
+        }
+    }
+
+    #[Route('/dashboard/past-scans/scan-report/{scanId}', name: 'app_scan_report')]
     public function scanReport(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms, string $scanId): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -149,7 +173,7 @@ class DashboardController extends AbstractController
             return $this->render('dashboard/scanReport.html.twig', [
                 'controller_name' => 'DashboardController',
                 'scan' => $scan,
-                'userId' => $this-getUser()->getId(),
+                'userId' => $this->getUser()->getId(),
             ]);    
         }
     }
