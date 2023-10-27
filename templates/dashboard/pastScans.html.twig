@@ -57,7 +57,7 @@
 						<a class="nav-link text-white " href="{{ path('app_new_scan') }}">
 
 							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="material-icons opacity-10">table_view</i>
+								<i class="material-icons opacity-10">add</i>
 							</div>
 
 							<span class="nav-link-text ms-1">Scan New Target</span>
@@ -69,7 +69,7 @@
 						<a class="nav-link text-white " href="{{ path('app_queued_scans') }}">
 
 							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="material-icons opacity-10">table_view</i>
+								<i class="material-icons opacity-10">add_task</i>
 							</div>
 
 							<span class="nav-link-text ms-1">View Queued Scans</span>
@@ -80,7 +80,7 @@
 						<a class="nav-link text-white " href="{{ path('app_in_progress_scans') }}">
 
 							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="material-icons opacity-10">table_view</i>
+								<i class="material-icons opacity-10">sync</i>
 							</div>
 
 							<span class="nav-link-text ms-1">View In Progress Scans</span>
@@ -92,10 +92,21 @@
 						<a class="nav-link text-white " href="{{ path('app_past_scans') }}">
 
 							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="material-icons opacity-10">table_view</i>
+								<i class="material-icons opacity-10">radar</i>
 							</div>
 
 							<span class="nav-link-text ms-1">View Completed Scans</span>
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link text-white " href="{{ path('app_allowed_domains') }}">
+
+							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="material-icons opacity-10">sort_by_alpha</i>
+							</div>
+
+							<span class="nav-link-text ms-1">View Allowed Domains</span>
 						</a>
 					</li>
 
@@ -117,7 +128,6 @@
 
 				</ul>
 			</div>
-
 
 		</aside>
 

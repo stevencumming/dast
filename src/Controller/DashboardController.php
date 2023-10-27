@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 use App\Service\TrafficMonitorService;
 use App\Repository\ScanRepository;
 use App\Entity\Scan;
+use App\Entity\AllowedDomains;
 use Symfony\Component\Clock\ClockInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -52,23 +53,33 @@ class DashboardController extends AbstractController
         }
         else {
             if ($request->getMethod() == 'POST') {
-                $logger->info('User {userId} has started a new target scan. IP Address: {ip}', [
+                $target = $request->request->get('target');
+                $domainsArr = $entityManager->getRepository(AllowedDomains::class)->findAll();
+                for($i = 0; $i < sizeof($domainsArr); $i++) {
+                    if($domainsArr[$i]->getDomain() == $target) {
+                        $logger->info('User {userId} has started a new target scan. IP Address: {ip}', [
+                            'userId' => $this->getUser()->getId(),
+                            'ip' => $request->getClientIp(),
+                        ]);
+                        // send scan off here
+                        $time = $clock->now();
+                        $scan = new Scan();
+                        $scan->setUser($this->getUser());
+                        $scan->setTimeRequested($time);
+                        $scan->setTarget($target);
+                        $scan->setStatus("waiting");
+                        $entityManager->persist($scan);
+                        $entityManager->flush();
+                        $request->getSession()->getFlashBag()->add('success', 'Scan has been queued!');
+                        return $this->redirectToRoute('app_dashboard');        
+                    }
+                }
+                $logger->info('User {userId} has attempted to scan an un-allowed domain. IP Address: {ip}', [
                     'userId' => $this->getUser()->getId(),
                     'ip' => $request->getClientIp(),
                 ]);
-                // send scan off here
-                $time = $clock->now();
-                $scan = new Scan();
-                $target = $request->request->get('target');
-                $scan->setUser($this->getUser());
-                $scan->setTimeRequested($time);
-                $scan->setTarget($target);
-                $scan->setStatus("waiting");
-                $entityManager->persist($scan);
-                $entityManager->flush();
-                $request->getSession()->getFlashBag()->add('success', 'Scan has been queued!');
+                $request->getSession()->getFlashBag()->add('success', 'You are not authorised to scan that target or you have entered an invalid URL! Please try again.');
                 return $this->redirectToRoute('app_dashboard');
-    
             }
             $logger->info('User {userId} is on the newScan page. IP Address: {ip}', [
                 'userId' => $this->getUser()->getId(),
@@ -156,6 +167,39 @@ class DashboardController extends AbstractController
     public function scanReport(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms, string $scanId): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $scan = $entityManager->getRepository(Scan::class)->find($scanId);
+        if (!$this->getUser()->isVerified()) {
+            $logger->info('User {userId} has attempted to access their dashboard, but is not verified. They have been automatically logged out.  IP Address: {ip}', [
+                'userId' => $this->getUser()->getId(),
+                'ip' => $request->getClientIp(),
+            ]);
+            return $this->redirectToRoute('app_logout');
+        }
+        elseif(($scan->getUser()->getId() == $this->getUser()->getId())) {
+            $logger->info('User {userId} is viewing a previous scan report. IP Address: {ip}', [
+                'userId' => $this->getUser()->getId(),
+                'ip' => $request->getClientIp(),
+            ]);
+            return $this->render('dashboard/scanReport.html.twig', [
+                'controller_name' => 'DashboardController',
+                'scan' => $scan,
+                'userId' => $this->getUser()->getId(),
+            ]);    
+        }
+        else {
+            $logger->info('User {userId} is attempting to access a scan report that they do not have access to. IP Address: {ip}', [
+                'userId' => $this->getUser()->getId(),
+                'ip' => $request->getClientIp(),
+            ]);
+            $request->getSession()->getFlashBag()->add('success', 'You are not authorised to perform this action!');
+            return $this->redirectToRoute('app_dashboard');
+        }
+    }
+
+    #[Route('/dashboard/allowed-domains', name: 'app_allowed_domains')]
+    public function allowedDomains(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms, ClockInterface $clock): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if (!$this->getUser()->isVerified()) {
             $logger->info('User {userId} has attempted to access their dashboard, but is not verified. They have been automatically logged out.  IP Address: {ip}', [
                 'userId' => $this->getUser()->getId(),
@@ -164,17 +208,15 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute('app_logout');
         }
         else {
-            $logger->info('User {userId} is viewing a previous scan report. IP Address: {ip}', [
+            $domainsArr = $entityManager->getRepository(AllowedDomains::class)->findAll();
+            $logger->info('User {userId} is on the allowed domains page. IP Address: {ip}', [
                 'userId' => $this->getUser()->getId(),
                 'ip' => $request->getClientIp(),
             ]);
-            $scan = $entityManager->getRepository(Scan::class)->find($scanId);
-            //$html?? get from scan?
-            return $this->render('dashboard/scanReport.html.twig', [
+            return $this->render('dashboard/allowedDomains.html.twig', [
                 'controller_name' => 'DashboardController',
-                'scan' => $scan,
-                'userId' => $this->getUser()->getId(),
-            ]);    
+                'domains' => $domainsArr
+            ]);
         }
     }
 }
