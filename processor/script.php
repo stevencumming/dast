@@ -344,7 +344,7 @@ $html = "<article>";
 // ====================================
 //  SUMMARY
 $html .= "<section>";
-$html .= "<h1>Summary</h1>";
+$html .= "<h2>Summary</h2>";
 $html .= "<p>TODO</p>";
 $html .= "</section>";
 
