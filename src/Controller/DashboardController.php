@@ -208,6 +208,17 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute('app_logout');
         }
         else {
+            if ($request->getMethod() == 'POST') {
+                $allowedDomain = new allowedDomains();
+                $domainUrl = $request->request->get('domain');
+                $allowedDomain->setDomain($domainUrl);
+                $entityManager->persist($allowedDomain);
+                $entityManager->flush();
+                $logger->info('User {userId} has attempted to add a domain. IP Address: {ip}', [
+                    'userId' => $this->getUser()->getId(),
+                    'ip' => $request->getClientIp(),
+                ]);
+            }
             $domainsArr = $entityManager->getRepository(AllowedDomains::class)->findAll();
             $logger->info('User {userId} is on the allowed domains page. IP Address: {ip}', [
                 'userId' => $this->getUser()->getId(),
@@ -217,6 +228,29 @@ class DashboardController extends AbstractController
                 'controller_name' => 'DashboardController',
                 'domains' => $domainsArr
             ]);
+        }
+    }
+
+    #[Route('/dashboard/domain-delete/{domainId}', name: 'app_domain_delete')]
+    public function domainDelete(LoggerInterface $logger, Request $request, EntityManagerInterface $entityManager, TrafficMonitorService $tms, ClockInterface $clock, string $domainId): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->getUser()->isVerified()) {
+            $logger->info('User {userId} has attempted to delete a domain, but is not verified. They have been automatically logged out.  IP Address: {ip}', [
+                'userId' => $this->getUser()->getId(),
+                'ip' => $request->getClientIp(),
+            ]);
+            return $this->redirectToRoute('app_logout');
+        }
+        else {
+            $domain = $entityManager->getRepository(allowedDomains::class)->find($domainId);
+            $logger->info('User {userId} is deleting a domain. IP Address: {ip}', [
+                'userId' => $this->getUser()->getId(),
+                'ip' => $request->getClientIp(),
+            ]);
+            $entityManager->remove($domain);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_allowed_domains');
         }
     }
 }

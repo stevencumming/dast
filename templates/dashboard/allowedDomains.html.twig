@@ -188,6 +188,28 @@
 								</div>
 							</div>
 						</div>
+						<div class="row" style="padding-bottom: 50px;">
+							<div class="col-lg-12 col-sm-12">
+								<div class="card z-index-0 fadeIn3 fadeInBottom">
+									<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+										<div class="bg-gradient-dark shadow-primary border-radius-lg py-3 pe-1">
+											<h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Add a Domain</h4>
+										</div>
+									</div>
+									<div class="card-body">
+										<form action="{{ path('app_allowed_domains') }}" method="post" class="text-start">
+											<div class="input-group input-group-outline my-3">
+												<input type="text" name="domain" placeholder="Domain URL" id="inputDomain" class="form-control" required autofocus>
+											</div>
+											<div class="text-center">
+												<button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Add Domain</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+
 
                         {% for d in domains %}
 								<div class="row">
@@ -200,6 +222,14 @@
 												<div class="text-end pt-1">
 													<p class="text-sm mb-0 text-capitalize">Domain URL</p>
 													<h4 class="mb-0">{{ d.domain }}</h4></br>
+													<script type="text/javascript">
+													function confirm_alert(node) {
+														return confirm("Are you sure you wish to delete the domain?");
+													}
+													</script>
+													<a href="{{ path('app_domain_delete', {domainId: d.id}) }}" onclick="return confirm_alert(this);" class="btn bg-gradient-dark btn-block btn-large" style="text-decoration:none">
+                                                            Delete Domain
+                                                    </a>
 												</div>
 											</div>
 
