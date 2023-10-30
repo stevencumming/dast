@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-PY_development',
+        'version' => 'dev-PY_development',
+        'reference' => 'b755674174d23ccc85c23d3e82275ab662480200',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-PY_development',
+            'version' => 'dev-PY_development',
+            'reference' => 'b755674174d23ccc85c23d3e82275ab662480200',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -756,9 +756,9 @@
             'dev_requirement' => false,
         ),
         'symfony/validator' => array(
-            'pretty_version' => 'v6.3.4',
-            'version' => '6.3.4.0',
-            'reference' => '0c8435154920b9bbe93bece675234c244cadf73b',
+            'pretty_version' => 'v6.3.7',
+            'version' => '6.3.7.0',
+            'reference' => '9cc736663fa5839b9710ac2c303bb0b951014fc1',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/validator',
             'aliases' => array(),
