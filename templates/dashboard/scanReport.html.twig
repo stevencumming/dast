@@ -71,7 +71,7 @@
 						<a class="nav-link text-white " href="{{ path('app_new_scan') }}">
 
 							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="material-icons opacity-10">table_view</i>
+								<i class="material-icons opacity-10">add</i>
 							</div>
 
 							<span class="nav-link-text ms-1">Scan New Target</span>
@@ -83,7 +83,7 @@
 						<a class="nav-link text-white " href="{{ path('app_queued_scans') }}">
 
 							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="material-icons opacity-10">table_view</i>
+								<i class="material-icons opacity-10">add_task</i>
 							</div>
 
 							<span class="nav-link-text ms-1">View Queued Scans</span>
@@ -94,7 +94,7 @@
 						<a class="nav-link text-white " href="{{ path('app_in_progress_scans') }}">
 
 							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="material-icons opacity-10">table_view</i>
+								<i class="material-icons opacity-10">sync</i>
 							</div>
 
 							<span class="nav-link-text ms-1">View In Progress Scans</span>
@@ -106,10 +106,21 @@
 						<a class="nav-link text-white " href="{{ path('app_past_scans') }}">
 
 							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-								<i class="material-icons opacity-10">table_view</i>
+								<i class="material-icons opacity-10">radar</i>
 							</div>
 
 							<span class="nav-link-text ms-1">View Completed Scans</span>
+						</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link text-white " href="{{ path('app_allowed_domains') }}">
+
+							<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="material-icons opacity-10">sort_by_alpha</i>
+							</div>
+
+							<span class="nav-link-text ms-1">View Allowed Domains</span>
 						</a>
 					</li>
 
@@ -131,7 +142,6 @@
 
 				</ul>
 			</div>
-
 
 		</aside>
 
@@ -185,7 +195,7 @@
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="d-flex flex-column h-100">
-											<h2 class="font-weight-bolder mb-0">Scan Report</h2>
+											<h2 class="font-weight-bolder mb-0" style="font-weight: 700 !important; font-size: 2.25rem; text-transform: none; padding-top: 0px; padding-bottom: 0px; line-height: normal; border-bottom: 0px;">Scan Report</h2>
 										</div>
 
 									</div>
@@ -214,6 +224,56 @@
                                                     <p class="text-sm mb-0 text-capitalize">Scan Time Completed</p>
 													<h4 class="mb-0">{{ scan.timeCompleted|date() }}</h4></br>
                                                     <div style="text-align:left;">
+													<style>
+													h1 {
+														font-size: 36px;
+													}
+													h2 {
+														font-size: 24px;
+														padding-top: 50px;
+														padding-bottom: 10px;
+														border-bottom:1px solid #000;
+														line-height:12px;
+														width:100%;
+														text-transform: uppercase;
+													}
+													h3 {
+														font-size: 20px;
+														font-weight: 450;
+													}
+													p {
+														font-size: 16px;
+														color: #333333;
+													}
+													.sev_0 {
+														color: #333333;
+														font-size: 18px;
+														font-weight: 500;
+														text-align: right;
+														display: block;
+													}
+													.sev_1 {
+														color: #228b22;
+														font-size: 18px;
+														font-weight: 500;
+														text-align: right;
+														display: block;
+													}
+													.sev_2 {
+														color: #f7be6d;
+														font-size: 18px;
+														font-weight: 500;
+														text-align: right;
+														display: block;
+													}
+													.sev_3 {
+														color: #ff0000;
+														font-size: 18px;
+														font-weight: 500;
+														text-align: right;
+														display: block;
+													}
+													</style>
                                                     {{ scan.html|raw }}
                                                     </div>
 												</div>
