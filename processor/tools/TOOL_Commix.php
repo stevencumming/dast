@@ -37,7 +37,7 @@ class TOOL_Commix extends TOOL {
             preg_match_all($pattern_noMatch, $line, $result);
             if(isset($result[0][0])) {
                 // no useable links found
-                $output .= "SQL Vulnerability Checker: no usable links found (with GET parameters)";
+                $output .= "Commix Command Injection: no usable links found (with GET parameters).";
             }
             
         }
