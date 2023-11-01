@@ -107,21 +107,21 @@
         }
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script>
+        {# <script>
             $(document).ready(function() {
             window.onload = function () {
             $('#spinner_wrapper').fadeOut(500, function(){ $('#spinner_wrapper').remove(); } );
             }
             });
-        </script>
+        </script> #}
         {% block stylesheets %}
         {% endblock %}
         {% block javascripts %}
         {% endblock %}
     </head>
-        <div id='spinner_wrapper'>
+        {# <div id='spinner_wrapper'>
             <div id='spinner'></div>
-        </div>
+        </div> #}
         
         {% block body %}{% endblock %}
 </html>
