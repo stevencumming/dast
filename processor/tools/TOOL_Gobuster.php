@@ -49,10 +49,6 @@ class TOOL_Gobuster extends TOOL {
             $command = "PATH=/usr/local/go/bin gobuster dir -q -e -x " . self::SEARCH_EXTENSIONS . " -u " . $this->scan->getTarget() . " -t 50 -w assets/wordlist.txt";
         }
 
-
-        // gobuster command
-        $command = "PATH=/usr/local/go/bin gobuster dir -q -e -x " . self::SEARCH_EXTENSIONS . " -u " . $this->scan->getTarget() . " -t 50 -w assets/wordlist.txt";
-
         // Initialise the output buffer (array of lines) and execute the tool
         $output = array();
         $CLI = array();
