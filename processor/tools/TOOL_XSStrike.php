@@ -20,6 +20,10 @@ class TOOL_XSStrike extends TOOL {
     private array $CLI;
     private array $components;
     private array $cves;
+
+    public function stripAnsiEscapeCodes($text) {
+        return preg_replace('/\e\[[\d;]+m/', '', $text);
+    }
     
 
     public function Execute() {
@@ -34,9 +38,7 @@ class TOOL_XSStrike extends TOOL {
         exec($command, $CLI);
         
         // Tool nativley outputs in colour. This gets formatted weirdly in HTML so gets stripped with regex here
-        function stripAnsiEscapeCodes($text) {
-            return preg_replace('/\e\[[\d;]+m/', '', $text);
-        }
+        
 
         // Regex patterns for vulnerable components and their associated CVE's
         $patternComponents = '#Vulnerable component:\s+([^\n]+)#';
@@ -44,7 +46,7 @@ class TOOL_XSStrike extends TOOL {
 
         // Calls function to strip the colour from the output
         foreach($CLI as $line){
-            $line = stripAnsiEscapeCodes($line);
+            $line = $this->stripAnsiEscapeCodes($line);
 
             // Checks to see if there were any vulnerable components found
             // Pushes to a multi dimensional array as only the second regex group should be matched, filtering out unnecessary text 
