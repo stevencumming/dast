@@ -930,7 +930,7 @@ echo "\nSaving Report...\n";
 // write the generated html for the report to the database against this scan
 
 // Create connection to database
-$conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, 8695);
+$conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

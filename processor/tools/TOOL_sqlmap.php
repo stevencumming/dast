@@ -23,6 +23,7 @@ class TOOL_sqlmap extends TOOL {
 
             echo "  !-- DEMO MODE --!  ";
             $this->output = "SQL Vulnerability Checker: no usable links found (with GET parameters)";
+            echo " Finished sqlmap.\n";
             return;
         }
         

@@ -21,6 +21,7 @@ class TOOL_Commix extends TOOL {
             // sqlmap takes hours to complete a proper scan.
             echo "  !-- DEMO MODE --!  ";
             $this->output = "Commix Command Injection: no usable links found (with GET parameters)";
+            echo " Finished Commix.\n";
             return;
         }
 
