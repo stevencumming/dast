@@ -70,7 +70,7 @@ class VULN_SecurityMscfg extends VULN{
                     }
 
                     if ($admin_located) {
-                        $dirbusterOutput = "An Admin page was detected on the target host. The admin page URL was found: " . $admin_url;
+                        $dirbusterOutput = "<br/><span style='color:darkred'>An Admin page was detected on the target host.</span><br/>The admin page URL was found: <span style='font-weight:bold'><ul><li>" . $admin_url . "</li></ul></span>";
                     } else {
                         $dirbusterOutput = "No admin page was found in the target directories";
                     }
