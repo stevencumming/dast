@@ -171,6 +171,11 @@ if  (!$scanWaiting) {
 // ====================================
 // There is a scan to process (continue execution with below code)
 
+if (self::DEMO) {
+    // Demo mode is on
+    echo "\Demo mode enabled. Verbose and slower tools adjusted or disabled.\n\n";
+}
+
 // ========================================================================
 //                                  DOMAIN RESTRICTION
 // ========================================================================
