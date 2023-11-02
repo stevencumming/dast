@@ -38,6 +38,18 @@ class TOOL_Gobuster extends TOOL {
     public function Execute() {
         echo "Executing Gobuster...";
 
+        $command = "";
+        if (self::DEMO) {
+            // if in demo mode, use shorter wordlist.
+            // gobuster command
+            $command = "PATH=/usr/local/go/bin gobuster dir -q -e -x " . self::SEARCH_EXTENSIONS . " -u " . $this->scan->getTarget() . " -t 50 -w assets/demo_wordlist.txt";
+            
+        } else {
+            // gobuster command
+            $command = "PATH=/usr/local/go/bin gobuster dir -q -e -x " . self::SEARCH_EXTENSIONS . " -u " . $this->scan->getTarget() . " -t 50 -w assets/wordlist.txt";
+        }
+
+
         // gobuster command
         $command = "PATH=/usr/local/go/bin gobuster dir -q -e -x " . self::SEARCH_EXTENSIONS . " -u " . $this->scan->getTarget() . " -t 50 -w assets/wordlist.txt";
 

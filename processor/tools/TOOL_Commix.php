@@ -16,6 +16,14 @@ class TOOL_Commix extends TOOL {
     public function Execute() {
         echo "Executing Commix...";
 
+        if (self::DEMO) {
+            // if in demo mode, skip over sql map.
+            // sqlmap takes hours to complete a proper scan.
+            echo "  !-- DEMO MODE --!  ";
+            $this->output = "Commix Command Injection: no usable links found (with GET parameters)";
+            return;
+        }
+
         // sqlmap command
         $command = "python3 ./assets/commix/commix.py -u " . $this->scan->getTarget() . " --all --batch --crawl=2";
         // python3 commix.py -u stevencumming.io --all --batch --crawl=2

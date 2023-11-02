@@ -63,6 +63,9 @@ define("SCRIPT_INTERVAL", "10");
 // Flags
 $FATAL = FALSE; // Fatal error encountered
 
+// DEMONSTRATION DEMO MODE
+define("DEMO", "true");
+
 
 // ========================================================================
 //                            HELPER FUNCTIONS
@@ -922,7 +925,7 @@ echo "\nSaving Report...\n";
 // write the generated html for the report to the database against this scan
 
 // Create connection to database
-$conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, DB_DBNAME);
+$conn = new mysqli(DB_SERVERNAME, DB_USERNAME, DB_PASSWORD, 8695);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

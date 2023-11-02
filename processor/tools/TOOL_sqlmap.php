@@ -17,8 +17,21 @@ class TOOL_sqlmap extends TOOL {
     public function Execute() {
         echo "Executing sqlmap...";
 
+        if (self::DEMO) {
+            // if in demo mode, skip over sql map.
+            // sqlmap takes hours to complete a proper scan.
+
+            echo "  !-- DEMO MODE --!  ";
+            $this->output = "SQL Vulnerability Checker: no usable links found (with GET parameters)";
+            return;
+        }
+        
+
         // sqlmap command
         $command = "python3 ~/dast/processor/assets/sqlmap-dev/sqlmap.py -u " . $this->scan->getTarget() . " --crawl=5 --batch --level=3 --risk=3 -dbs";
+        // sqlmap takes about an hour for a proper scan checking against all injectable URLs
+        // commenting this out for the demonstration
+
         // python3 ~/sqlmap-dev/sqlmap.py -u https://web.ctflearn.com/web4/ --crawl=2 --batch
         // http://hackbox-1.duckdns.org:3000/#/
 
