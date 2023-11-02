@@ -351,10 +351,10 @@ $html = "<article>";
 
 // ====================================
 //  SUMMARY
-$html .= "<section>";
-$html .= "<h2>Summary</h2>";
-$html .= "<p>TODO</p>";
-$html .= "</section>";
+// $html .= "<section>";
+// $html .= "<h2>Summary</h2>";
+// $html .= "<p>TODO</p>";
+// $html .= "</section>";
 
 
 // ====================================
@@ -428,7 +428,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_InsecureServer->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_InsecureServer->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -467,7 +467,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_DDOS->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_DDOS->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -506,7 +506,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_PathTraversal->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_PathTraversal->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -545,7 +545,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_SecurityMscfg->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_SecurityMscfg->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -584,7 +584,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_CSRF->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_CSRF->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -623,7 +623,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_SSRF->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_SSRF->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -662,7 +662,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_BrokenAccessCtl->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_BrokenAccessCtl->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -701,7 +701,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_CryptographicFlrs->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_CryptographicFlrs->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -740,7 +740,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_XSS->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_XSS->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -779,7 +779,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_SQLInjection->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_SQLInjection->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -818,7 +818,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_CMDInjection->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_CMDInjection->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -857,7 +857,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_IDAuth->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_IDAuth->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -875,7 +875,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_InsecDesign->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_InsecDesign->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 
@@ -914,7 +914,7 @@ $html .= "</span></p>";
 
 // Vulnerability Content:
 $html .= "<p>";
-$html .= $VULN_VulnOutComponents->getHTML();
+$html .= "<div style='text-align: left;'>" . $VULN_VulnOutComponents->getHTML() . "</div>";
 $html .= "</p>";
 $html .= "</section>";
 

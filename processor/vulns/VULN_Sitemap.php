@@ -16,7 +16,7 @@ class VULN_Sitemap extends VULN {
         // Analyse your vulnerability
 
         // Local variables here for using when analysing the tools
-        $output = "<div>";
+        $output = "<div style='text-align: left;'>";
 
         // Start by reading the data from your tool(s)
         foreach ($this->tools as $tool) {
