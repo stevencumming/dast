@@ -173,7 +173,7 @@ if  (!$scanWaiting) {
 
 if (DEMO) {
     // Demo mode is on
-    echo "\Demo mode enabled. Verbose and slower tools adjusted or disabled.\n\n";
+    echo "Demo mode enabled. Verbose and slower tools adjusted or disabled.\n\n";
 }
 
 // ========================================================================
