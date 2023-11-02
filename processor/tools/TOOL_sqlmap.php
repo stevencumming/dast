@@ -17,7 +17,7 @@ class TOOL_sqlmap extends TOOL {
     public function Execute() {
         echo "Executing sqlmap...";
 
-        if (self::DEMO) {
+        if (DEMO) {
             // if in demo mode, skip over sql map.
             // sqlmap takes hours to complete a proper scan.
 
