@@ -5,7 +5,7 @@ class TOOL_Nikto extends TOOL{
     /*
         Tool Name:              nikto
         Responsible:            SH (and whoever else wants to use)
-        OpenProject Phase #:    XXX
+        OpenProject Phase #:    
 
         Summary:
             nikto scans websites by analysing server responses to a series of HTTP requests, checking for outdated software and 

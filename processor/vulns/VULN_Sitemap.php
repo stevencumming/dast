@@ -3,7 +3,7 @@ class VULN_Sitemap extends VULN {
     /*
         Vulnerability:          Sitemap
         Responsible:            SC
-        OpenProject Phase #:    999
+        OpenProject Phase #:    459
 
         Summary:
             Discover the sitemap / directory structure of a target website.

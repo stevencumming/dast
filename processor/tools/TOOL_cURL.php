@@ -4,7 +4,7 @@ class TOOL_cURL extends TOOL {
     /*
         Tool Name:              cURL
         Responsible:            MG-LC (and whoever else wants to use)
-        OpenProject Phase #:    XXX
+        OpenProject Phase #:    
 
         Summary:
             ... quick summary of the tool's purpose. (Even if it's all written in PHP / Symfony, still describe it breifly)
@@ -19,7 +19,6 @@ class TOOL_cURL extends TOOL {
             but if anyone else is going to use cURL then that will change
             
     */
-    // private array $CLI; // SC: Don't think this is needed
     private bool $reply;
     private array $redirect; // SC: Added missing private member
 

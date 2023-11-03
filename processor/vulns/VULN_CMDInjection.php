@@ -3,7 +3,7 @@ class VULN_CMDInjection extends VULN {
     /*
         Vulnerability:          CMD Injection
         Responsible:            SC
-        OpenProject Phase #:    999
+        OpenProject Phase #:    440
 
         Summary:
             Returns the analyses conducted by commix tool to detect any pages vulnerable to CMD injection attack
@@ -28,16 +28,12 @@ class VULN_CMDInjection extends VULN {
                 case "commix":
                     // Pull the output of sqlmap straight in
 
-                    // TODO, it only shows when it is unsuccessful at the moment... TODO
-
                     $output .= $tool->getOutput();
-
                     break;
             }
         }
 
         // ++ All tools have been analysed at this point
-
         
         // calculate the severities and store
         $this->severity = 0;

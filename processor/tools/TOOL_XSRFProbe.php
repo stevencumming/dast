@@ -5,7 +5,7 @@ class TOOL_XSRFProbe extends TOOL {
     /*
         Tool Name:              XSRFProbe
         Responsible:            MG-LC (and whoever else wants to use)
-        OpenProject Phase #:    XXX
+        OpenProject Phase #:    
 
         Summary:
             ... quick summary of the tool's purpose. (Even if it's all written in PHP / Symfony, still describe it breifly)

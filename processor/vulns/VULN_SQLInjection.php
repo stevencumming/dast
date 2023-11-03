@@ -3,7 +3,7 @@ class VULN_SQLInjection extends VULN {
     /*
         Vulnerability:          SQL Injection
         Responsible:            SC
-        OpenProject Phase #:    999
+        OpenProject Phase #:    439
 
         Summary:
             Returns the analyses conducted by sqlmap tool to detect any pages vulnerable to SQL injection attack
@@ -26,9 +26,6 @@ class VULN_SQLInjection extends VULN {
             switch ($tool->getName()) {
                 case "sqlmap":
                     // Pull the output of sqlmap straight in
-
-                    // TODO, it only shows when it is unsuccessful at the moment... TODO
-
                     $output .= $tool->getOutput();
 
                     break;

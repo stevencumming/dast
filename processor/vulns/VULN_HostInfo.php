@@ -3,7 +3,7 @@ class VULN_HostInfo extends VULN {
     /*
         Vulnerability:          Host Information
         Responsible:            SC
-        OpenProject Phase #:    
+        OpenProject Phase #:    458
 
         Summary:
             Gather target host information:
