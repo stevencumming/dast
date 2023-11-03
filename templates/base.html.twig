@@ -1,16 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+        <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+        <title>
+            {% block title %}
+            {% endblock %}
+        </title>
+        
+        {% block links %}
+        <!--     Fonts and icons     -->
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+        <!-- Nucleo Icons -->
+        <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <!-- Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+        <!-- CSS Files -->
+        <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
         {% endblock %}
 
+        <style>
+        
+        #spinner_wrapper {
+        z-index: 9999;
+        position:absolute;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        background: #000000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        }
+
+        #spinner {
+        width: 8vmax;
+        height: 8vmax;
+        border-right: 4px solid #ffffff;
+        border-radius: 100%;
+        -webkit-animation: spinRight 800ms linear infinite;
+                animation: spinRight 800ms linear infinite;
+        }
+        #spinner:before, #spinner:after {
+        content: "";
+        width: 6vmax;
+        height: 6vmax;
+        display: block;
+        position: absolute;
+        top: calc(50% - 3vmax);
+        left: calc(50% - 3vmax);
+        border-left: 3px solid #ffffff;
+        border-radius: 100%;
+        -webkit-animation: spinLeft 800ms linear infinite;
+                animation: spinLeft 800ms linear infinite;
+        }
+        #spinner:after {
+        width: 4vmax;
+        height: 4vmax;
+        top: calc(50% - 2vmax);
+        left: calc(50% - 2vmax);
+        border: 0;
+        border-right: 2px solid #ffffff;
+        -webkit-animation: none;
+                animation: none;
+        }
+
+        @-webkit-keyframes spinLeft {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(720deg);
+        }
+        }
+
+        @keyframes spinLeft {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(720deg);
+        }
+        }
+        @-webkit-keyframes spinRight {
+        from {
+            transform: rotate(360deg);
+        }
+        to {
+            transform: rotate(0deg);
+        }
+        }
+        @keyframes spinRight {
+        from {
+            transform: rotate(360deg);
+        }
+        to {
+            transform: rotate(0deg);
+        }
+        }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        {# <script>
+            $(document).ready(function() {
+            window.onload = function () {
+            $('#spinner_wrapper').fadeOut(500, function(){ $('#spinner_wrapper').remove(); } );
+            }
+            });
+        </script> #}
+        {% block stylesheets %}
+        {% endblock %}
         {% block javascripts %}
         {% endblock %}
     </head>
-    <body>
+        {# <div id='spinner_wrapper'>
+            <div id='spinner'></div>
+        </div> #}
+        
         {% block body %}{% endblock %}
-    </body>
 </html>

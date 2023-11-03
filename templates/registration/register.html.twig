@@ -1,0 +1,190 @@
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="login">
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <h1>Register for DAST</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+        <div style="color: white">
+            {{ form_row(registrationForm.email, { 
+                'attr': { 'placeholder': 'Email' },
+                label: false
+            }) }}
+            {{ form_row(registrationForm.plainPassword, { 
+                'attr': { 'placeholder': 'Password' },
+                label: false
+            }) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">Agree to Terms and Register</button>
+        <a href="{{ path('app_login') }}" class="btn btn-primary btn-block btn-large" style="text-decoration:none">
+            Back to Login
+        </a>
+    {{ form_end(registrationForm) }}
+</div>
+{% endblock %} #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}DAST Registration{% endblock %}
+
+{% block body %}
+
+<!--
+=========================================================
+* Material Dashboard 2 - v3.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+
+<body class="bg-gray-200">
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+          <div class="container-fluid ps-2 pe-0">
+            <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="{{ path('app_login') }}">
+              Dynamic Application Security Scanning Tool
+            </a>
+            <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon mt-2">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navigation">
+              <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                  <a class="nav-link me-2" href="{{ path('app_register') }}">
+                    <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                    Sign Up
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link me-2" href="{{ path('app_login') }}">
+                    <i class="fas fa-key opacity-6 text-dark me-1"></i>
+                    Sign In
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <!-- End Navbar -->
+      </div>
+    </div>
+  </div>
+  <main class="main-content  mt-0">
+    <div class="page-header align-items-start min-vh-100" style="background-image: url('https://www.toptal.com/developers/css3maker/_next/image?url=%2Fdevelopers%2Fcss3maker%2Fimages%2Fspiral.png&w=3840&q=75');">
+      <span class="mask bg-gradient-dark opacity-6"></span>
+      <div class="container my-auto">
+        <div class="row">
+          <div class="col-lg-4 col-md-8 col-12 mx-auto">
+            <div class="card z-index-0 fadeIn3 fadeInBottom">
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-dark shadow-primary border-radius-lg py-3 pe-1">
+                  <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Register for DAST</h4>
+                </div>
+              </div>
+              <div class="card-body">
+                    {% for flash_error in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                    {% endfor %}
+                    {% if form_errors(registrationForm) %}
+                        <div class="alert alert-danger">{{ form_errors(registrationForm) }}</div>
+                    {% endif %}
+                    {{ form_start(registrationForm) }}
+                        <div class="input-group input-group-outline my-3">
+                            {{ form_row(registrationForm.email, { 
+                                'attr': { 'placeholder': 'Email' },
+                                label: false
+                            }) }}
+                        </div>
+                        <div class="input-group input-group-outline mb-3">
+                            {{ form_row(registrationForm.plainPassword, { 
+                                'attr': { 'placeholder': 'Password' },
+                                label: false
+                            }) }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Agree to Terms and Register</button>
+                        </div>
+                        <p class="mt-4 text-sm text-center">
+                        <a href="{{ path('app_login') }}" class="text-primary text-gradient font-weight-bold">
+                            Back to Login
+                        </a>
+                        </p>
+                    {{ form_end(registrationForm) }}
+                {# <form action="{{ path('app_login') }}" method="post" class="text-start">
+                <div class="alert alert-danger">{{ form_errors(registrationForm) }}</div>
+                  <div class="input-group input-group-outline my-3">
+                    <input type="email" value="{{ last_username }}" placeholder="Account Email" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                  </div>
+                  <div class="input-group input-group-outline mb-3">
+                    <input type="password" name="password" placeholder="Password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                  </div>
+                  <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                  <div class="text-center">
+                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign in</button>
+                  </div>
+                  <p class="mt-4 text-sm text-center">
+                    Don't have an account?
+                    <a href="{{ path('app_register') }}" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                  </p>
+                </form> #}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer position-absolute bottom-2 py-2 w-100">
+        <div class="container">
+          <div class="row align-items-center justify-content-lg-between">
+            <div class="col-12 col-md-6 my-auto">
+              <div class="copyright text-center text-sm text-white text-lg-start">
+                © 2023 Bad Security Inc.
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </main>
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
+</body>
+
+{% endblock %}
+

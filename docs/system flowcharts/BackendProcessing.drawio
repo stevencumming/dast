@@ -1,0 +1,274 @@
+<mxfile host="Electron" modified="2023-09-05T18:18:09.588Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.8 Chrome/114.0.5735.289 Electron/25.5.0 Safari/537.36" etag="bqBoTOlAncMlKO6IbcZa" version="21.6.8" type="device">
+  <diagram name="Page-1" id="T0mQgVqdZpx1ro5pUtji">
+    <mxGraphModel dx="1613" dy="1428" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-70" value="" style="rounded=0;whiteSpace=wrap;html=1;fillStyle=hatch;fillColor=none;dashed=1;dashPattern=12 12;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="841" y="2370" width="799" height="740" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-72" value="" style="rounded=0;whiteSpace=wrap;html=1;fillStyle=hatch;fillColor=none;dashed=1;dashPattern=12 12;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="841" y="3540" width="799" height="450" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-58" value="" style="rounded=0;whiteSpace=wrap;html=1;fillStyle=hatch;fillColor=none;dashed=1;dashPattern=12 12;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="841" y="459" width="799" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-56" value="" style="rounded=0;whiteSpace=wrap;html=1;fillStyle=hatch;fillColor=none;dashed=1;dashPattern=12 12;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="841" y="1190" width="799" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-1" value="0 returned" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-3" target="3zFSIWOdG15KdGqRfmG1-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-9" value="1 row returned" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-3" target="3zFSIWOdG15KdGqRfmG1-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1276.0000000000002" y="389" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-3" value="Check for queued scans" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1191" y="199" width="170" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-5" target="3zFSIWOdG15KdGqRfmG1-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1046" y="159" />
+              <mxPoint x="1276" y="159" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-5" value="Wait for XX update interval" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1001" y="231.5" width="90" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-6" value="SELECT * FROM scans WHERE status = `queued` ORDER BY requested ASC LIMIT 1&lt;br&gt;&lt;br&gt;(Select the oldest incomplete scan)" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="269" width="290" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-7" value="&lt;h1&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Backend Processing&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="841" y="10" width="290" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-12" target="3zFSIWOdG15KdGqRfmG1-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-12" value="Update data in scans:&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;status to `in_progress`&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;commenced_on to now" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1166" y="379" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-14" target="3zFSIWOdG15KdGqRfmG1-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-14" value="foreach &lt;b&gt;vulnerability&amp;nbsp;&lt;/b&gt;in vulnerabilities&amp;nbsp;table" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1140.5" y="479" width="271" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-17" target="3zFSIWOdG15KdGqRfmG1-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-17" value="foreach tool in the &lt;b&gt;vulnerability_tools&lt;/b&gt;&amp;nbsp;table against the current&amp;nbsp;&lt;b&gt;vulnerability&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1140.5" y="569" width="271" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-18" target="3zFSIWOdG15KdGqRfmG1-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-18" value="add tool to&amp;nbsp;&lt;b&gt;processes&lt;/b&gt;&amp;nbsp;table if not already there&lt;br&gt;status = `waiting`" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1141" y="639" width="271" height="51" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-23" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-19" target="3zFSIWOdG15KdGqRfmG1-17">
+          <mxGeometry x="-0.86" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1080" y="744" />
+              <mxPoint x="1080" y="589" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-26" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-19" target="3zFSIWOdG15KdGqRfmG1-25">
+          <mxGeometry x="-0.4286" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-19" value="done?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1236" y="719" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-27" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-25" target="3zFSIWOdG15KdGqRfmG1-14">
+          <mxGeometry x="-0.9248" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1010" y="864" />
+              <mxPoint x="1010" y="499" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-25" target="3zFSIWOdG15KdGqRfmG1-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-25" value="done?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1236" y="839" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-28" value="At this point &lt;b&gt;processes&lt;/b&gt;&amp;nbsp;has tools to execute against this scan. If multiple vulnerabilities use the same tool, the tool should only be scheduled once." style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1316" y="879" width="234" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-29" target="3zFSIWOdG15KdGqRfmG1-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-29" value="foreach tool in &lt;b&gt;processes&lt;/b&gt;&amp;nbsp;table (for this scan)" style="whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1184.31" y="1230" width="184.38" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-31" target="3zFSIWOdG15KdGqRfmG1-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-31" value="Execute process" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1216" y="1310" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-36" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-32" target="3zFSIWOdG15KdGqRfmG1-35">
+          <mxGeometry x="-0.47" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-43" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-32" target="3zFSIWOdG15KdGqRfmG1-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-32" value="Max execution&lt;br&gt;time reached?&lt;br&gt;(timeout)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1206.5" y="1500" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-35" target="3zFSIWOdG15KdGqRfmG1-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-35" value="Wait" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="1525" width="66.5" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-39" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-37" target="3zFSIWOdG15KdGqRfmG1-32">
+          <mxGeometry x="0.0123" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-45" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-37" target="3zFSIWOdG15KdGqRfmG1-47">
+          <mxGeometry x="-0.8955" relative="1" as="geometry">
+            <mxPoint x="1350" y="1420" as="sourcePoint" />
+            <mxPoint x="1430" y="1860" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1480" y="1420" />
+              <mxPoint x="1480" y="1815" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-37" value="Completed?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1206" y="1380" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-42" target="3zFSIWOdG15KdGqRfmG1-47">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1276.5" y="1770" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-42" value="Kill execution and log error" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1216" y="1630" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-47" target="3zFSIWOdG15KdGqRfmG1-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-47" value="Update processes database&lt;br&gt;status = `completed`, `error`&lt;br&gt;results = `file`, `output`&lt;br&gt;file = &amp;lt;path&amp;gt;&lt;br&gt;output = CLI / Symfony (JSON)" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1157.44" y="1770" width="238.13" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-51" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-49" target="3zFSIWOdG15KdGqRfmG1-29">
+          <mxGeometry x="-0.9385" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="1925" />
+              <mxPoint x="960" y="1255" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-61" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-49" target="3zFSIWOdG15KdGqRfmG1-63">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1275.9999999999998" y="2390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-49" value="done?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1236" y="1900" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-57" value="&lt;b&gt;Execute each tool&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="850" y="1190" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-59" value="&lt;b&gt;Determine what tools need to be executed&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="850" y="459" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-62" value="At this point, each of the required tools has been processed and the output of each has been recorded in the &lt;b&gt;processes&lt;/b&gt;&amp;nbsp;table against the &lt;b&gt;scan_id&lt;/b&gt;&amp;nbsp;and respective &lt;b&gt;tool_id&lt;/b&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1335" y="1950" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-63" target="3zFSIWOdG15KdGqRfmG1-64">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-63" value="foreach&amp;nbsp;&lt;b style=&quot;border-color: var(--border-color);&quot;&gt;vulnerability&amp;nbsp;&lt;/b&gt;in vulnerabilities&amp;nbsp;table" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1141" y="2400" width="271" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-64" target="3zFSIWOdG15KdGqRfmG1-65">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-64" value="Analyse results from the executed tools in &lt;b&gt;processes&lt;/b&gt;&amp;nbsp;against this &lt;b&gt;scan_id&lt;/b&gt;&amp;nbsp;and respective &lt;b&gt;tool_id&lt;/b&gt;.&lt;br&gt;&lt;br&gt;(foreach &lt;b&gt;tool_id&lt;/b&gt;&amp;nbsp;for this scan)&lt;br&gt;&lt;br&gt;Handle any errors where &lt;b&gt;processes&lt;/b&gt;&amp;nbsp;has returned an error (the tool errored, if there were multiple tools used can some results still be generated for the vulnerability?)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1116.25" y="2500" width="319.5" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-65" value="Log results to the &lt;b&gt;analysis&lt;/b&gt;&amp;nbsp;table:&lt;br&gt;scan_id&lt;br&gt;vulnerability_id&lt;br&gt;parapgraph_results = formatted results for the report&lt;br&gt;severity_score = TODO" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1143.25" y="2690" width="265.5" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-66" value="Each vulnerability can use more than one &lt;b&gt;tool&lt;/b&gt;." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=13;fillColor=#ffff88;strokeColor=#36393d;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="469" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-69" value="Severity Scores and Reporting are still to be decided" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=13;fillColor=#ffff88;strokeColor=#36393d;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="2400" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-71" value="&lt;b&gt;Analysis for each vulnerability&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="850" y="2380" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-73" value="&lt;b&gt;Generate Report&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="850" y="3550" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-74" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1216.5" y="3560" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-75" target="3zFSIWOdG15KdGqRfmG1-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-75" value="START" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cdeb8b;strokeColor=#36393d;" vertex="1" parent="1">
+          <mxGeometry x="1216" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-77" value="GOTO START" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcc99;strokeColor=#36393d;" vertex="1" parent="1">
+          <mxGeometry x="1215" y="4030" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-78" value="Update scans table for &lt;b&gt;scan_id&lt;/b&gt;&lt;br&gt;status = `complete`" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1166" y="3720" width="216.75" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-81" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-79" target="3zFSIWOdG15KdGqRfmG1-77">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-79" value="Email Report Notification to user" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1198" y="3910" width="154" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-87" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-85" target="3zFSIWOdG15KdGqRfmG1-74">
+          <mxGeometry x="-0.9231" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-88" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3zFSIWOdG15KdGqRfmG1-85" target="3zFSIWOdG15KdGqRfmG1-63">
+          <mxGeometry x="-0.9496" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="3015" />
+              <mxPoint x="960" y="2420" />
+            </Array>
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-85" value="done?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1236.5" y="2990" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-89" value="This could either be a &lt;b&gt;native symfony&lt;/b&gt;&amp;nbsp;execution, or an external utility that might return a CLI response or write to a temp path." style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1328.25" y="1320" width="273.5" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-90" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;https://symfony.com/doc/current/components/process.html#process-timeout&lt;/font&gt;" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1321.5" y="1510" width="273.5" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-91" value="Native Symfony responses and CLI outputs &lt;b&gt;must&lt;/b&gt; be processed to JSON here and stored in `output`. Where tools have written to a file (e.g. XML) save the path in `file`.&lt;br&gt;Update `results` with `file` or `output` (as enum) accordingly" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="850" y="1760" width="334.31" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="3zFSIWOdG15KdGqRfmG1-92" value="tools.max_timeout (in seconds)" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1328.25" y="1530" width="178.5" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

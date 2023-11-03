@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Service;
+
+use App\Entity\Process;
+
+// Generic skeleton code of basic tool check structure
+class GenericService
+{
+    public function __construct(private Process $process){
+        // setting an initial vulnerable flag as false, after checks of results this will be changed to true if anything is found
+        $vulnerable = false;
+        // create empty results array that will be set and reset depending on how many tools need to be checked
+        $result = array();
+    }
+   
+    // take in each relevant tool output as an argument for this method
+    // the idea behind this is that the scan controller, once all the tools have been run and the outputs for each have been saved as files or variables somewhere, can then call the service and its checkResults method 
+    public function checkResults($tool1Output, $tool2Output, $tool3Output)
+    {
+        //set a $result to the output after something has transformed it into an array (if necessary)
+        $result = doSomething($tool1Output);
+
+        // check every line of the tool output for something that will flag it as vulnerable
+        foreach ($result as $element) {
+            // if there is a string that flags the app as vulnerable
+            if (preg_match('Some text that means the application is vulnerable', $element) || preg_match('Some other text...', $element)) {
+                // set the vulnerable flag to true
+               
+                $vulnerable = true;
+            }
+        }
+
+        // could potentially have nested if statements after this since once the vulnerable flag is changed it can never go back to false so can probably move on 
+        // reset the result array to empty 
+        $result = array();
+        // now change the output of the second tool (if necessary)
+        $result = doSomethingElse($tool2Output);
+
+         foreach ($result as $element) {
+            // check tool 2 specific strings 
+            if (preg_match('Tool 2 specific text', $element) || preg_match('Some other text...', $element)) {
+               
+                $vulnerable = true;
+            }
+        }
+
+        // again this next part could be nested in a previous if statement
+
+        $result = array();
+        $result = doSomethingElse($tool3Output)
+
+         foreach ($result as $element) {
+            // check tool 3 specific strings
+            if (preg_match('Tool 3 specific text', $element) || preg_match('Some other text...', $element)) {
+
+                $vulnerable = true;
+            }
+        }
+
+        // return the  value of $vulnerable after all the tools have been checked 
+        return $vulnerable;
+        // the thinking behind this just returning a true or false value is that GenericProcess->SetResults will also be set to true, so when it comes time to generate the report
+        // all that will need to be done is taking in each process->GetResults and for each that are true adding an entry into the report
+        // obviously we can get more fancy with it if need be ie. having specific strings for specific aspects of vulnerabilities as is implemented in the DDoS controller but I think that will
+        // be more complex than it seems, since for most of the vulns we are checking there will be countless ways in which the application may be vulnerable
+        // if we just leave it as either true or false for now it will probably streamline the report generating and vuln checking processes
+    }
+}
