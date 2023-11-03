@@ -11,8 +11,8 @@ To install the DAST a .ovf file need to be downloaded and imported into VMWare. 
 and dependancies needed for the DAST to function.
 
 ## Documentation
-* [User Manual](https://docs.google.com/document/d/1slQt1afV-9569FhQ_NZDTvXNeN_BSuSnmost9d7YWV4)
-* [System Deployment Manual](https://docs.google.com/document/d/1y8vWfB6ekHx_gMrEfUFuYZ0voTGKeAE6x9h8ddFGWms)
+* [User Manual](https://drive.google.com/file/d/1cF1MpabMVZz-Mav5-jlHIXl96AHLphDR/view?usp=drive_link)
+* [System Deployment Manual](https://drive.google.com/file/d/1AoR2w1mE7h-Ed0FxMy0Glvi_ptQSuVfW/view?usp=drive_link)
 
 ## Main Features
 * Scanning for OWASP Top 10 vulnerabilities
